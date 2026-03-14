@@ -1,0 +1,194 @@
+id: java-backend
+title: Java Backend Developer
+description: Карта навыков Java backend-разработчика
+icon: "☕"
+grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
+
+includes:
+  - common/cs-fundamentals
+  - common/databases
+  - common/architecture
+  - common/messaging
+  - common/infra
+  - common/system-design
+
+categories:
+  - id: java-core
+    title: Java Core
+    skills:
+      - id: basics
+        title: Основы языка
+        description: Типы данных, операторы, управляющие конструкции, массивы, строки
+        min_grade: Intern
+        depends_on: []
+      - id: oop
+        title: ООП
+        description: Классы, наследование, полиморфизм, инкапсуляция, абстракция, интерфейсы
+        min_grade: Intern
+        depends_on: [basics]
+      - id: exceptions
+        title: Исключения
+        description: Иерархия исключений, checked/unchecked, try-with-resources, custom exceptions
+        min_grade: Intern
+        depends_on: [oop]
+      - id: collections
+        title: Collections Framework
+        description: >
+          Внутреннее устройство HashMap, ArrayList, LinkedList, TreeMap, HashSet.
+          Контракт equals/hashCode. Иерархия интерфейсов List, Set, Queue, Map
+        min_grade: Junior
+        depends_on: [oop]
+      - id: generics
+        title: Generics
+        description: Параметризованные типы, wildcards, type erasure, bounded types
+        min_grade: Junior
+        depends_on: [collections]
+      - id: stream-api
+        title: Stream API
+        description: Функциональные операции, ленивые вычисления, Collectors, parallelStream
+        min_grade: Junior+
+        depends_on: [collections, functional.lambda]
+      - id: memory-model
+        title: Java Memory Model
+        description: Heap/Stack, happens-before, volatile семантика, escape analysis
+        min_grade: Middle
+        depends_on: [concurrency.concurrency-basics]
+      - id: class-loading
+        title: Загрузка классов
+        description: ClassLoader, жизненный цикл класса, динамическая загрузка
+        min_grade: Middle+
+        depends_on: [memory-model]
+
+  - id: functional
+    title: Функциональное программирование
+    skills:
+      - id: lambda
+        title: Lambda и Functional Interfaces
+        description: Lambda-выражения, Function, Predicate, Consumer, Supplier, method references
+        min_grade: Junior
+        depends_on: [java-core.oop]
+      - id: optionals
+        title: Optional
+        description: Работа с Optional, антипаттерны, map/flatMap/orElse
+        min_grade: Junior+
+        depends_on: [lambda]
+
+  - id: concurrency
+    title: Многопоточность
+    skills:
+      - id: concurrency-basics
+        title: Threads и синхронизация
+        description: >
+          Thread, Runnable, synchronized, volatile, wait/notify,
+          deadlock, livelock, race condition
+        min_grade: Junior+
+        depends_on: [java-core.collections]
+      - id: juc
+        title: java.util.concurrent
+        description: >
+          ExecutorService, Future, CompletableFuture, CountDownLatch,
+          CyclicBarrier, Semaphore, ReentrantLock
+        min_grade: Middle-
+        depends_on: [concurrency-basics]
+      - id: concurrent-collections
+        title: Потокобезопасные коллекции
+        description: ConcurrentHashMap, CopyOnWriteArrayList, BlockingQueue, ConcurrentLinkedQueue
+        min_grade: Middle-
+        depends_on: [concurrency-basics, java-core.collections]
+      - id: virtual-threads
+        title: Virtual Threads (Project Loom)
+        description: Виртуальные потоки, structured concurrency, отличия от platform threads
+        min_grade: Middle+
+        depends_on: [juc]
+
+  - id: gc
+    title: Garbage Collection
+    skills:
+      - id: gc-basics
+        title: Основы GC
+        description: Поколения объектов, Young/Old Gen, GC roots, алгоритмы сборки
+        min_grade: Junior+
+        depends_on: [java-core.memory-model]
+      - id: gc-tuning
+        title: Тюнинг GC
+        description: >
+          G1, ZGC, Shenandoah. JVM-флаги, анализ GC-логов,
+          выбор сборщика под задачу
+        min_grade: Middle+
+        depends_on: [gc-basics]
+
+  - id: spring
+    title: Spring Framework
+    skills:
+      - id: spring-core
+        title: Spring Core (IoC, DI)
+        description: >
+          Inversion of Control, Dependency Injection, ApplicationContext,
+          жизненный цикл бинов, конфигурация (аннотации, Java Config)
+        min_grade: Junior
+        depends_on: [java-core.oop]
+      - id: spring-boot
+        title: Spring Boot
+        description: >
+          Автоконфигурация, стартеры, application.properties/yaml,
+          профили, actuator
+        min_grade: Junior
+        depends_on: [spring-core]
+      - id: spring-web
+        title: REST-контроллеры
+        description: >
+          @RestController, @RequestMapping, валидация, обработка ошибок,
+          ResponseEntity, content negotiation
+        min_grade: Junior
+        depends_on: [spring-boot]
+      - id: spring-data-jpa
+        title: Spring Data JPA
+        description: >
+          Repository, Query Methods, @Query, Specifications,
+          Projections, Pagination
+        min_grade: Junior+
+        depends_on: [spring-boot, common/databases.sql-basics]
+      - id: spring-security
+        title: Spring Security
+        description: >
+          Аутентификация, авторизация, фильтры, OAuth2/JWT,
+          CORS, CSRF
+        min_grade: Middle-
+        depends_on: [spring-boot]
+      - id: spring-testing
+        title: Тестирование Spring
+        description: >
+          @SpringBootTest, @MockBean, @DataJpaTest, TestContainers,
+          MockMvc, слайсы
+        min_grade: Middle-
+        depends_on: [spring-boot, testing.unit-testing]
+
+  - id: orm
+    title: ORM
+    skills:
+      - id: hibernate
+        title: Hibernate / JPA
+        description: >
+          Entity mapping, отношения, fetch strategies, N+1 problem,
+          кеши первого и второго уровня, dirty checking
+        min_grade: Middle-
+        depends_on: [spring.spring-data-jpa, common/databases.transactions]
+
+  - id: testing
+    title: Тестирование
+    skills:
+      - id: unit-testing
+        title: Unit-тесты
+        description: JUnit 5, параметризованные тесты, assertions, жизненный цикл
+        min_grade: Junior
+        depends_on: []
+      - id: mocking
+        title: Моки и стабы
+        description: Mockito, verify, argument captors, spy, when/thenReturn
+        min_grade: Junior+
+        depends_on: [unit-testing]
+      - id: integration-testing
+        title: Интеграционные тесты
+        description: TestContainers, @SpringBootTest, тестирование с реальной БД
+        min_grade: Middle-
+        depends_on: [mocking, spring.spring-testing]

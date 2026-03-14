@@ -1,0 +1,166 @@
+id: python-backend
+title: Python Backend Developer
+description: Карта навыков Python backend-разработчика
+icon: "🐍"
+grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
+
+includes:
+  - common/cs-fundamentals
+  - common/databases
+  - common/architecture
+  - common/messaging
+  - common/infra
+  - common/system-design
+
+categories:
+  - id: python-core
+    title: Python Core
+    skills:
+      - id: basics
+        title: Основы языка
+        description: Типы данных, операторы, управляющие конструкции, функции, модули
+        min_grade: Intern
+        depends_on: []
+      - id: oop
+        title: ООП в Python
+        description: >
+          Классы, наследование, множественное наследование, MRO,
+          dunder-методы, property, descriptors
+        min_grade: Intern
+        depends_on: [basics]
+      - id: data-structures
+        title: Структуры данных Python
+        description: >
+          Внутреннее устройство list, dict, set, tuple.
+          collections (defaultdict, Counter, OrderedDict, deque)
+        min_grade: Junior
+        depends_on: [basics]
+      - id: iterators-generators
+        title: Итераторы и генераторы
+        description: >
+          iter/next протокол, yield, yield from, генераторные выражения,
+          itertools
+        min_grade: Junior
+        depends_on: [data-structures]
+      - id: decorators
+        title: Декораторы
+        description: >
+          Функции-декораторы, декораторы классов, functools.wraps,
+          параметризованные декораторы
+        min_grade: Junior+
+        depends_on: [oop]
+      - id: type-hints
+        title: Type Hints и Typing
+        description: >
+          Аннотации типов, typing модуль, Protocol, TypeVar,
+          Generic, mypy/pyright
+        min_grade: Junior+
+        depends_on: [oop]
+      - id: memory-model
+        title: Управление памятью
+        description: >
+          Reference counting, GC (cyclic), аллокатор Python,
+          pymalloc, __slots__, weakref
+        min_grade: Middle
+        depends_on: [data-structures]
+      - id: metaclasses
+        title: Метаклассы и дескрипторы
+        description: >
+          type, __new__, __init_subclass__, __set_name__,
+          descriptor protocol (__get__/__set__/__delete__)
+        min_grade: Middle+
+        depends_on: [memory-model]
+
+  - id: async
+    title: Асинхронность
+    skills:
+      - id: gil
+        title: GIL
+        description: >
+          Что такое GIL, почему существует, влияние на многопоточность,
+          multiprocessing vs threading
+        min_grade: Junior+
+        depends_on: [python-core.data-structures]
+      - id: threading
+        title: Threading и Multiprocessing
+        description: >
+          threading модуль, Lock, RLock, Semaphore, Queue.
+          multiprocessing, Pool, shared memory
+        min_grade: Junior+
+        depends_on: [gil]
+      - id: asyncio-basics
+        title: asyncio основы
+        description: >
+          async/await, coroutines, tasks, Future,
+          event loop, gather, wait
+        min_grade: Middle-
+        depends_on: [gil]
+      - id: asyncio-advanced
+        title: asyncio продвинутый
+        description: >
+          Semaphore, Lock, Queue в asyncio. aiohttp, httpx.
+          Structured concurrency (TaskGroup)
+        min_grade: Middle
+        depends_on: [asyncio-basics]
+
+  - id: frameworks
+    title: Web-фреймворки
+    skills:
+      - id: fastapi
+        title: FastAPI
+        description: >
+          Роутинг, Pydantic модели, Depends (DI), middleware,
+          OpenAPI, background tasks
+        min_grade: Junior
+        depends_on: [python-core.type-hints]
+      - id: starlette
+        title: Starlette / ASGI
+        description: >
+          ASGI-протокол, Starlette internals, middleware stack,
+          lifespan events, WebSocket
+        min_grade: Middle-
+        depends_on: [fastapi, async.asyncio-basics]
+      - id: django
+        title: Django
+        description: >
+          ORM, views, templates, middleware, admin,
+          signals, management commands
+        min_grade: Junior+
+        depends_on: [python-core.oop]
+      - id: celery
+        title: Celery
+        description: >
+          Tasks, workers, beat, результаты, retry, chains/groups/chords,
+          мониторинг (Flower)
+        min_grade: Middle-
+        depends_on: [fastapi]
+
+  - id: orm
+    title: ORM
+    skills:
+      - id: sqlalchemy
+        title: SQLAlchemy
+        description: >
+          Declarative mapping, session, query API, migrations (Alembic),
+          N+1, eager/lazy loading
+        min_grade: Junior+
+        depends_on: [common/databases.sql-basics]
+
+  - id: testing
+    title: Тестирование
+    skills:
+      - id: unit-testing
+        title: Unit-тесты
+        description: pytest, fixtures, parametrize, conftest, markers
+        min_grade: Junior
+        depends_on: []
+      - id: mocking
+        title: Моки и стабы
+        description: unittest.mock, patch, MagicMock, side_effect, pytest-mock
+        min_grade: Junior+
+        depends_on: [unit-testing]
+      - id: integration-testing
+        title: Интеграционные тесты
+        description: TestContainers, docker-compose, factory_boy, httpx.AsyncClient
+        min_grade: Middle-
+        depends_on: [mocking]

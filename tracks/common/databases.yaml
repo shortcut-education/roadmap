@@ -1,0 +1,35 @@
+id: databases
+title: Базы данных
+description: SQL, транзакции, индексы, NoSQL, шардирование
+icon: "🗄️"
+
+skills:
+  - id: sql-basics
+    title: SQL
+    description: SELECT, JOIN, GROUP BY, подзапросы, CTE, оконные функции
+    min_grade: Junior
+    depends_on: []
+  - id: transactions
+    title: Транзакции
+    description: ACID, уровни изоляции, блокировки, MVCC, WAL
+    min_grade: Junior+
+    depends_on: [sql-basics]
+  - id: indexes
+    title: Индексы и оптимизация
+    description: >
+      B-tree, Hash, GIN, GiST. EXPLAIN ANALYZE, query plan,
+      профилирование запросов
+    min_grade: Middle-
+    depends_on: [sql-basics]
+  - id: nosql
+    title: NoSQL
+    description: Redis (кеш, pub/sub), MongoDB (документная модель), выбор БД под задачу
+    min_grade: Middle
+    depends_on: [sql-basics]
+  - id: sharding-replication
+    title: Шардирование и репликация
+    description: >
+      Горизонтальное/вертикальное шардирование, master-slave,
+      master-master, консистентное хеширование, решардинг
+    min_grade: Middle+
+    depends_on: [indexes, nosql]

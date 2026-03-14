@@ -1,0 +1,28 @@
+id: system-design
+title: System Design
+description: Проектирование высоконагруженных распределённых систем
+icon: "🏗️"
+
+skills:
+  - id: cap-theorem
+    title: CAP-теорема
+    description: Consistency, Availability, Partition Tolerance, компромиссы
+    min_grade: Middle
+    depends_on: [common/databases.sharding-replication]
+  - id: load-balancing
+    title: Балансировка нагрузки
+    description: Round Robin, Least Connections, Consistent Hashing, L4 vs L7
+    min_grade: Middle
+    depends_on: []
+  - id: caching-strategies
+    title: Стратегии кеширования
+    description: Cache-aside, Write-through, Write-behind, TTL, инвалидация, Redis
+    min_grade: Middle
+    depends_on: [common/databases.nosql]
+  - id: system-design-practice
+    title: Проектирование систем
+    description: >
+      Декомпозиция задачи, оценка нагрузки, выбор хранилища,
+      масштабирование, trade-offs
+    min_grade: Middle+
+    depends_on: [cap-theorem, load-balancing, caching-strategies]

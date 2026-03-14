@@ -1,0 +1,35 @@
+id: infra
+title: Инфраструктура и DevOps
+description: Git, Docker, CI/CD, Kubernetes, мониторинг
+icon: "⚙️"
+
+skills:
+  - id: git
+    title: Git
+    description: Branching strategies, rebase vs merge, cherry-pick, conventional commits
+    min_grade: Intern
+    depends_on: []
+  - id: docker
+    title: Docker
+    description: Dockerfile, multi-stage builds, docker-compose, volumes, networking
+    min_grade: Junior
+    depends_on: []
+  - id: ci-cd
+    title: CI/CD
+    description: GitHub Actions / GitLab CI, пайплайны, авто-деплой, blue-green / canary
+    min_grade: Junior+
+    depends_on: [docker, git]
+  - id: kubernetes
+    title: Kubernetes
+    description: >
+      Pod, Deployment, Service, Ingress, ConfigMap, Secrets,
+      HPA, архитектура кластера
+    min_grade: Middle+
+    depends_on: [docker]
+  - id: monitoring
+    title: Мониторинг и логирование
+    description: >
+      Structured logging, OpenTelemetry, Prometheus + Grafana,
+      distributed tracing, alerting
+    min_grade: Middle
+    depends_on: [docker]

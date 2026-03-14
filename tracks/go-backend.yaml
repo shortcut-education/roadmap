@@ -1,0 +1,177 @@
+id: go-backend
+title: Go Backend Developer
+description: Карта навыков Go backend-разработчика
+icon: "🐹"
+grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
+
+includes:
+  - common/cs-fundamentals
+  - common/databases
+  - common/architecture
+  - common/messaging
+  - common/infra
+  - common/system-design
+
+categories:
+  - id: go-core
+    title: Go Core
+    skills:
+      - id: basics
+        title: Основы языка
+        description: Типы данных, переменные, функции, управляющие конструкции, пакеты
+        min_grade: Intern
+        depends_on: []
+      - id: structs-interfaces
+        title: Структуры и интерфейсы
+        description: Структуры, методы, встраивание, интерфейсы, утиная типизация, пустой интерфейс
+        min_grade: Intern
+        depends_on: [basics]
+      - id: error-handling
+        title: Обработка ошибок
+        description: error interface, sentinel errors, wrapping (fmt.Errorf %w), errors.Is/As, panic/recover
+        min_grade: Junior
+        depends_on: [structs-interfaces]
+      - id: slices-maps
+        title: Слайсы и мапы
+        description: >
+          Внутреннее устройство слайсов (len, cap, backing array),
+          копирование, append, nil vs empty. Устройство map, hash collision
+        min_grade: Junior
+        depends_on: [basics]
+      - id: strings
+        title: Строки
+        description: UTF-8, rune vs byte, strings.Builder, конвертация, иммутабельность
+        min_grade: Junior
+        depends_on: [slices-maps]
+      - id: generics
+        title: Generics
+        description: Параметры типов, constraints, type sets, comparable
+        min_grade: Junior+
+        depends_on: [structs-interfaces]
+      - id: reflection
+        title: Reflection
+        description: reflect пакет, Type/Value, тегирование структур, use cases и антипаттерны
+        min_grade: Middle+
+        depends_on: [structs-interfaces]
+
+  - id: concurrency
+    title: Конкурентность
+    skills:
+      - id: goroutines
+        title: Горутины и каналы
+        description: >
+          go keyword, каналы (buffered/unbuffered), select,
+          fan-in/fan-out, pipeline pattern
+        min_grade: Junior
+        depends_on: [go-core.basics]
+      - id: sync-primitives
+        title: Примитивы синхронизации
+        description: >
+          sync.Mutex, RWMutex, WaitGroup, Once, Pool, Map.
+          atomic операции
+        min_grade: Junior+
+        depends_on: [goroutines]
+      - id: scheduler
+        title: Планировщик Go (GMP)
+        description: >
+          Goroutine, Machine (OS thread), Processor. GOMAXPROCS,
+          work stealing, preemptive scheduling, syscalls
+        min_grade: Middle-
+        depends_on: [goroutines]
+      - id: concurrency-patterns
+        title: Паттерны конкурентности
+        description: >
+          Context (cancel, timeout, values), errgroup, semaphore,
+          rate limiting, circuit breaker
+        min_grade: Middle
+        depends_on: [sync-primitives, scheduler]
+      - id: data-races
+        title: Data Races и отладка
+        description: >
+          Race detector (-race), happens-before в Go,
+          deadlock detection, pprof для горутин
+        min_grade: Middle
+        depends_on: [sync-primitives]
+
+  - id: gc
+    title: Garbage Collection
+    skills:
+      - id: gc-basics
+        title: Основы GC в Go
+        description: Tri-color mark-and-sweep, write barrier, STW паузы, GOGC
+        min_grade: Junior+
+        depends_on: [go-core.slices-maps]
+      - id: gc-tuning
+        title: Тюнинг GC и памяти
+        description: >
+          GOMEMLIMIT, ballast, escape analysis, stack vs heap allocation,
+          sync.Pool, memory profiling
+        min_grade: Middle+
+        depends_on: [gc-basics]
+
+  - id: stdlib
+    title: Стандартная библиотека
+    skills:
+      - id: net-http
+        title: net/http
+        description: >
+          HTTP-сервер, Handler/HandlerFunc, middleware, ServeMux,
+          клиент (Transport, timeout, connection pooling)
+        min_grade: Junior
+        depends_on: [go-core.structs-interfaces]
+      - id: io
+        title: io и работа с данными
+        description: >
+          io.Reader/Writer, bufio, encoding/json, encoding/xml,
+          os (файлы), io.Pipe
+        min_grade: Junior
+        depends_on: [go-core.basics]
+      - id: testing-stdlib
+        title: Пакет testing
+        description: >
+          *testing.T, *testing.B, table-driven tests, subtests,
+          testdata, -race, -cover
+        min_grade: Junior
+        depends_on: [go-core.basics]
+
+  - id: frameworks
+    title: Фреймворки и библиотеки
+    skills:
+      - id: web-framework
+        title: Web-фреймворк
+        description: Gin / Echo / Chi / Fiber — роутинг, middleware, валидация, binding
+        min_grade: Junior
+        depends_on: [stdlib.net-http]
+      - id: grpc-go
+        title: gRPC
+        description: >
+          Protocol Buffers, proto-файлы, генерация кода,
+          unary/streaming RPC, interceptors
+        min_grade: Middle-
+        depends_on: [web-framework]
+      - id: orm
+        title: ORM / Query Builder
+        description: GORM, sqlx, pgx — миграции, raw queries, транзакции
+        min_grade: Junior+
+        depends_on: [common/databases.sql-basics]
+
+  - id: testing
+    title: Тестирование
+    skills:
+      - id: unit-testing
+        title: Unit-тесты
+        description: Table-driven tests, testify, assert/require, моки (gomock, mockery)
+        min_grade: Junior
+        depends_on: [stdlib.testing-stdlib]
+      - id: integration-testing
+        title: Интеграционные тесты
+        description: TestContainers, docker-compose для тестов, тестирование с реальной БД
+        min_grade: Middle-
+        depends_on: [unit-testing]
+      - id: benchmarks
+        title: Бенчмарки и профилирование
+        description: >
+          testing.B, pprof (CPU, memory, goroutine, block),
+          trace, flame graphs
+        min_grade: Middle
+        depends_on: [unit-testing]

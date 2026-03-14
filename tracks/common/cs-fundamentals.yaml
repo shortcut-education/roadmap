@@ -1,0 +1,28 @@
+id: cs-fundamentals
+title: Computer Science
+description: Фундаментальные знания — структуры данных, алгоритмы, сети, ОС
+icon: "🎓"
+
+skills:
+  - id: data-structures
+    title: Структуры данных
+    description: Array, LinkedList, Stack, Queue, Tree, Graph, HashTable — сложность операций
+    min_grade: Intern
+    depends_on: []
+  - id: algorithms
+    title: Алгоритмы
+    description: Сортировки, поиск, BFS/DFS, динамическое программирование, Big-O
+    min_grade: Junior
+    depends_on: [data-structures]
+  - id: networking
+    title: Сети
+    description: TCP/IP, HTTP/HTTPS, DNS, WebSocket, TLS, модель OSI
+    min_grade: Junior
+    depends_on: []
+  - id: os-basics
+    title: Операционные системы
+    description: >
+      Процессы, потоки, планировщик, виртуальная память,
+      файловые дескрипторы, IPC, context switch
+    min_grade: Middle-
+    depends_on: []

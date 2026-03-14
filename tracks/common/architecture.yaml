@@ -1,0 +1,42 @@
+id: architecture
+title: Архитектура и паттерны
+description: SOLID, паттерны проектирования, REST, микросервисы, DDD
+icon: "🧩"
+
+skills:
+  - id: solid
+    title: SOLID
+    description: Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion
+    min_grade: Junior
+    depends_on: []
+  - id: design-patterns
+    title: Паттерны проектирования
+    description: GoF-паттерны — Strategy, Observer, Factory, Builder, Decorator, Proxy, Template Method
+    min_grade: Junior+
+    depends_on: [solid]
+  - id: rest-api
+    title: REST API Design
+    description: >
+      Принципы REST, версионирование, статус-коды, HATEOAS,
+      документирование (OpenAPI/Swagger)
+    min_grade: Junior
+    depends_on: []
+  - id: microservices
+    title: Микросервисы
+    description: >
+      Монолит vs микросервисы, API Gateway, Service Discovery,
+      Circuit Breaker, Saga pattern
+    min_grade: Middle
+    depends_on: [rest-api, common/messaging.kafka]
+  - id: grpc
+    title: gRPC
+    description: Protocol Buffers, streaming, сравнение с REST, генерация кода
+    min_grade: Middle+
+    depends_on: [rest-api]
+  - id: ddd
+    title: Domain-Driven Design
+    description: >
+      Bounded Context, Aggregate, Entity, Value Object,
+      Repository, Domain Events
+    min_grade: Senior
+    depends_on: [microservices, design-patterns]

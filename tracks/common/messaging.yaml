@@ -1,0 +1,25 @@
+id: messaging
+title: Message Brokers
+description: Брокеры сообщений и асинхронные паттерны интеграции
+icon: "📨"
+
+skills:
+  - id: kafka
+    title: Apache Kafka
+    description: >
+      Topics, partitions, consumer groups, offsets,
+      exactly-once semantics, Kafka Connect
+    min_grade: Middle-
+    depends_on: []
+  - id: rabbitmq
+    title: RabbitMQ
+    description: Exchanges, queues, routing, acknowledgements, dead letter queue
+    min_grade: Middle
+    depends_on: []
+  - id: async-patterns
+    title: Асинхронные паттерны
+    description: >
+      Transactional Outbox, CDC, Event Sourcing, CQRS,
+      Saga (оркестрация vs хореография)
+    min_grade: Middle+
+    depends_on: [kafka]
