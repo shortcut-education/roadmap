@@ -2,27 +2,60 @@ id: system-design
 title: System Design
 description: Проектирование высоконагруженных распределённых систем
 icon: "🏗️"
+link_to: system-design
 
 skills:
   - id: cap-theorem
     title: CAP-теорема
     description: Consistency, Availability, Partition Tolerance, компромиссы
+    interview: "Объясните CAP-теорему. Почему нельзя обеспечить все три свойства одновременно? Приведите примеры CP и AP систем."
+    in_practice: "CAP-теорема определяет фундаментальные ограничения распределённых систем. Понимание этих trade-offs необходимо при выборе архитектуры и базы данных."
     min_grade: Middle
     depends_on: [common/databases.sharding-replication]
+    resources:
+      - title: "CAP FAQ"
+        url: "https://github.com/henryr/cap-faq"
+        type: opensource
+      - title: "CAP theorem revisited"
+        url: "http://robertgreiner.com/2014/08/cap-theorem-revisited/"
+        type: article
+      - title: "A plain english introduction to CAP theorem"
+        url: "http://ksat.me/a-plain-english-introduction-to-cap-theorem"
+        type: article
   - id: load-balancing
     title: Балансировка нагрузки
     description: Round Robin, Least Connections, Consistent Hashing, L4 vs L7
+    interview: "Чем L4 балансировка отличается от L7? Когда Round Robin не подходит? Зачем нужен Consistent Hashing?"
+    in_practice: "Балансировка нагрузки — первый шаг к масштабированию любого веб-приложения. Без неё один сервер становится единой точкой отказа и узким местом."
     min_grade: Middle
     depends_on: []
+    resources:
+      - title: "Scalability"
+        url: "https://cs.fyi/guide/scalability-for-dummies"
+        type: article
+      - title: "NGINX Architecture"
+        url: "https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/"
+        type: article
+      - title: "HAProxy Architecture Guide"
+        url: "http://www.haproxy.org/download/1.2/doc/architecture.txt"
+        type: article
   - id: caching-strategies
     title: Стратегии кеширования
     description: Cache-aside, Write-through, Write-behind, TTL, инвалидация, Redis
+    interview: "Чем Cache-aside отличается от Write-through? Как решить проблему инвалидации кеша? Какие подводные камни есть у кеширования?"
+    in_practice: "Кеширование — самый эффективный способ ускорить приложение. Правильная стратегия кеширования может снизить нагрузку на БД на порядки."
     min_grade: Middle
     depends_on: [common/databases.nosql]
+    resources:
+      - title: "Caching Strategies"
+        url: "https://medium.com/@mmoshikoo/cache-strategies-996e91c80303"
+        type: article
   - id: system-design-practice
     title: Проектирование систем
     description: >
       Декомпозиция задачи, оценка нагрузки, выбор хранилища,
       масштабирование, trade-offs
+    interview: "Спроектируйте URL shortener / чат / ленту новостей. Как вы оцените нагрузку? Какие компоненты выберете и почему?"
+    in_practice: "System design — ключевой навык для senior-инженеров. Умение декомпозировать задачу и выбирать правильные компоненты определяет успех или провал проекта."
     min_grade: Middle+
     depends_on: [cap-theorem, load-balancing, caching-strategies]

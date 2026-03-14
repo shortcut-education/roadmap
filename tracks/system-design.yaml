@@ -1,0 +1,617 @@
+id: system-design
+title: System Design
+description: Проектирование высоконагруженных распределённых систем
+icon: "🏗️"
+grades: [Junior+, Middle-, Middle, Middle+, Senior]
+
+categories:
+  - id: fundamentals
+    title: Основы
+    skills:
+      - id: what-is-sd
+        title: Что такое System Design
+        description: Создание архитектуры системы — компоненты, модули, интерфейсы, потоки данных
+        interview: "Расскажите, из каких этапов состоит проектирование системы? Как бы вы начали проектировать сервис бронирования отелей?"
+        in_practice: "На реальных проектах архитектуру обсуждают до написания кода — без понимания компонентов и их взаимодействия невозможно построить масштабируемый продукт."
+        min_grade: Junior+
+        depends_on: []
+      - id: how-to-approach
+        title: Подход к проектированию
+        description: Уточнение требований, оценка нагрузки, high-level design, deep dive, bottlenecks
+        interview: "Вам дали задачу спроектировать систему — с чего начнёте? Какие вопросы зададите интервьюеру прежде чем рисовать схему?"
+        in_practice: "Структурированный подход к проектированию экономит недели разработки — правильные вопросы на старте предотвращают дорогие переделки архитектуры."
+        min_grade: Junior+
+        depends_on: [what-is-sd]
+
+  - id: tradeoffs
+    title: Компромиссы
+    skills:
+      - id: perf-vs-scalability
+        title: Performance vs Scalability
+        description: Разница между производительностью и масштабируемостью, вертикальное vs горизонтальное масштабирование
+        interview: "В чём разница между производительностью и масштабируемостью? Когда стоит масштабировать вертикально, а когда горизонтально?"
+        in_practice: "При росте нагрузки нужно понимать, что именно является узким местом — один медленный сервер или невозможность добавить новые инстансы."
+        min_grade: Junior+
+        depends_on: [fundamentals.what-is-sd]
+      - id: latency-vs-throughput
+        title: Latency vs Throughput
+        description: Задержка vs пропускная способность, как одно влияет на другое
+        interview: "Как связаны latency и throughput? Может ли увеличение throughput ухудшить latency, и почему?"
+        in_practice: "При оптимизации API важно понимать, что нужнее — низкая задержка для пользовательских запросов или высокая пропускная способность для batch-обработки."
+        min_grade: Middle-
+        depends_on: [perf-vs-scalability]
+        resources:
+          - title: "System Design: Latency vs Throughput"
+            url: "https://cs.fyi/guide/latency-vs-throughput/"
+            type: article
+          - title: "Understanding Latency versus Throughput"
+            url: "https://community.cadence.com/cadence_blogs_8/b/fv/posts/understanding-latency-vs-throughput"
+            type: article
+      - id: availability-vs-consistency
+        title: Availability vs Consistency
+        description: Доступность vs согласованность данных, когда что важнее
+        interview: "Приведите пример системы, где важнее доступность, и системы, где важнее консистентность. Почему?"
+        in_practice: "При проектировании платёжных систем нужна строгая консистентность, а для ленты соцсети допустима eventual consistency — этот выбор определяет всю архитектуру."
+        min_grade: Middle-
+        depends_on: [latency-vs-throughput]
+
+  - id: distributed-systems
+    title: Распределённые системы
+    skills:
+      - id: cap-theorem
+        title: CAP-теорема
+        description: Consistency, Availability, Partition Tolerance — можно выбрать только два из трёх
+        interview: "Объясните CAP-теорему. Почему нельзя достичь всех трёх гарантий одновременно? Какую гарантию жертвует MongoDB? А PostgreSQL?"
+        in_practice: "При выборе базы данных для распределённой системы CAP-теорема определяет, какие компромиссы вы принимаете — например, Cassandra жертвует консистентностью ради доступности."
+        min_grade: Middle-
+        depends_on: [tradeoffs.availability-vs-consistency]
+        resources:
+          - title: "CAP FAQ"
+            url: "https://github.com/henryr/cap-faq"
+            type: opensource
+          - title: "CAP theorem revisited"
+            url: "http://robertgreiner.com/2014/08/cap-theorem-revisited/"
+            type: article
+          - title: "A plain english introduction to CAP theorem"
+            url: "http://ksat.me/a-plain-english-introduction-to-cap-theorem"
+            type: article
+      - id: consistency-patterns
+        title: Паттерны консистентности
+        description: Weak, Eventual, Strong consistency — когда какой применять
+        interview: "Чем отличается eventual consistency от strong consistency? В каких случаях eventual consistency допустима, а в каких нет?"
+        in_practice: "В микросервисной архитектуре strong consistency между сервисами слишком дорога — нужно уметь проектировать с eventual consistency и обрабатывать конфликты."
+        min_grade: Middle
+        depends_on: [cap-theorem]
+        resources:
+          - title: "Consistency Patterns in Distributed Systems"
+            url: "https://cs.fyi/guide/consistency-patterns-week-strong-eventual/"
+            type: article
+      - id: availability-patterns
+        title: Паттерны доступности
+        description: Failover (active-active, active-passive), репликация (master-slave, master-master)
+        interview: "Чем отличается active-active от active-passive failover? Какие проблемы возникают при master-master репликации?"
+        in_practice: "Для обеспечения SLA 99.99% необходимо настроить автоматический failover — без понимания паттернов доступности невозможно построить отказоустойчивую систему."
+        min_grade: Middle
+        depends_on: [cap-theorem]
+        resources:
+          - title: "High Availability in System Design – 15 Strategies for Always-On Systems"
+            url: "https://www.designgurus.io/blog/high-availability-system-design-basics"
+            type: article
+          - title: "System Design: Availability Patterns"
+            url: "https://dev.to/decoders_lord/system-design-availability-patterns-104i"
+            type: article
+      - id: availability-numbers
+        title: Расчёт доступности
+        description: "99.9% vs 99.99%, SLA/SLO, availability in parallel vs sequence"
+        interview: "Сколько минут простоя допускает SLA 99.99%? Как рассчитать доступность системы из двух последовательных компонентов с доступностью 99.9% каждый?"
+        in_practice: "При согласовании SLA с заказчиком нужно понимать, что каждая «девятка» кратно увеличивает стоимость инфраструктуры и сложность архитектуры."
+        min_grade: Middle-
+        depends_on: [cap-theorem]
+
+  - id: networking
+    title: Сеть и инфраструктура
+    skills:
+      - id: dns
+        title: DNS
+        description: Как работает DNS, записи (A, CNAME, MX), TTL, DNS-балансировка
+        interview: "Что происходит, когда вы вводите URL в браузер? Чем отличается запись A от CNAME? Как DNS используется для балансировки нагрузки?"
+        in_practice: "При настройке домена, переключении трафика между дата-центрами или настройке почты — везде нужно понимание DNS-записей и влияния TTL на время переключения."
+        min_grade: Junior+
+        depends_on: [fundamentals.what-is-sd]
+        resources:
+          - title: "Getting started with Domain Name System"
+            url: "https://github.com/donnemartin/system-design-primer#domain-name-system"
+            type: opensource
+          - title: "What is DNS?"
+            url: "https://www.cloudflare.com/learning/dns/what-is-dns/"
+            type: article
+          - title: "Latency Based"
+            url: "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-latency"
+            type: article
+          - title: "Geolocation Based"
+            url: "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-geo"
+            type: article
+          - title: "Weighted Round Robin"
+            url: "https://www.jscape.com/blog/load-balancing-algorithms"
+            type: article
+      - id: cdn
+        title: CDN
+        description: Push vs Pull CDN, edge-серверы, кеширование статики, Cloudflare/CloudFront
+        interview: "Чем Push CDN отличается от Pull CDN? Когда лучше использовать каждый подход? Как инвалидировать кеш на CDN?"
+        in_practice: "CDN критичен для производительности фронтенда — статика, изображения и видео раздаются с ближайшего edge-сервера, снижая latency для пользователей по всему миру."
+        min_grade: Middle-
+        depends_on: [dns]
+        resources:
+          - title: "Introduction to CDNs"
+            url: "https://github.com/donnemartin/system-design-primer#content-delivery-network"
+            type: opensource
+          - title: "The Differences Between Push And Pull CDNs"
+            url: "http://www.travelblogadvice.com/technical/the-differences-between-push-and-pull-cdns/"
+            type: article
+          - title: "Brief about Content delivery network"
+            url: "https://en.wikipedia.org/wiki/Content_delivery_network"
+            type: article
+      - id: load-balancers
+        title: Балансировщики нагрузки
+        description: Round Robin, Least Connections, Consistent Hashing, L4 vs L7, Nginx, HAProxy
+        interview: "Чем отличается L4 от L7 балансировки? Когда использовать Round Robin, а когда Least Connections? Что произойдёт, если балансировщик упадёт?"
+        in_practice: "Любой продакшен-сервис стоит за балансировщиком — нужно уметь выбрать алгоритм, настроить health checks и обеспечить отсутствие single point of failure."
+        min_grade: Middle-
+        depends_on: [dns]
+      - id: lb-algorithms
+        title: Алгоритмы балансировки
+        description: Weighted Round Robin, IP Hash, Least Response Time, Random
+        interview: "Когда IP Hash предпочтительнее Round Robin? Как Weighted Round Robin помогает при неоднородных серверах?"
+        in_practice: "Выбор алгоритма балансировки влияет на равномерность нагрузки — например, IP Hash нужен для sticky sessions, а Least Connections лучше при разной длительности запросов."
+        min_grade: Middle
+        depends_on: [load-balancers]
+      - id: reverse-proxy
+        title: Reverse Proxy
+        description: Отличие от LB, TLS termination, сжатие, кеширование, Nginx, Envoy
+        interview: "Чем reverse proxy отличается от load balancer? Какие задачи решает reverse proxy помимо проксирования?"
+        in_practice: "Nginx как reverse proxy обрабатывает TLS, сжимает ответы, кеширует статику и защищает бэкенд от прямого доступа — это стандарт в продакшен-деплое."
+        min_grade: Middle
+        depends_on: [load-balancers]
+      - id: horizontal-scaling
+        title: Горизонтальное масштабирование
+        description: Stateless-сервисы, shared-nothing, auto-scaling, контейнеризация
+        interview: "Как сделать сервис stateless для горизонтального масштабирования? Куда вынести сессии, если не хранить их в памяти процесса?"
+        in_practice: "Для auto-scaling в Kubernetes сервисы должны быть stateless — состояние хранится в Redis/БД, а новые поды поднимаются и убиваются по метрикам нагрузки."
+        min_grade: Middle
+        depends_on: [load-balancers]
+
+  - id: databases
+    title: Базы данных
+    skills:
+      - id: sql-vs-nosql
+        title: SQL vs NoSQL
+        description: Реляционные vs нереляционные БД, когда что выбирать, CAP в контексте БД
+        interview: "Когда вы выберете MongoDB вместо PostgreSQL? Какие ограничения есть у NoSQL баз? Что такое schemaless и так ли это на практике?"
+        in_practice: "Выбор БД — одно из ключевых архитектурных решений. Неправильный выбор приводит к костылям: например, эмуляция джойнов в MongoDB или JSON-поля вместо нормализации в SQL."
+        min_grade: Junior+
+        depends_on: [fundamentals.what-is-sd]
+      - id: rdbms
+        title: RDBMS
+        description: ACID, нормализация, транзакции, индексы, PostgreSQL/MySQL
+        interview: "Объясните каждую букву в ACID. Что произойдёт при concurrent-обновлении одной строки? Какие уровни изоляции транзакций знаете?"
+        in_practice: "PostgreSQL используется в большинстве бэкенд-проектов — нужно понимать транзакции, индексы и нормализацию для проектирования надёжной схемы данных."
+        min_grade: Middle-
+        depends_on: [sql-vs-nosql]
+      - id: nosql-types
+        title: Типы NoSQL
+        description: Key-Value (Redis), Document (MongoDB), Wide Column (Cassandra), Graph (Neo4j)
+        interview: "Для каких задач подходит каждый тип NoSQL? Почему для графа друзей лучше Neo4j, а не MongoDB? Когда Redis не подходит как основная БД?"
+        in_practice: "Разные задачи требуют разных БД — Redis для кеша и сессий, MongoDB для гибких документов, Cassandra для time-series данных с огромным write-throughput."
+        min_grade: Middle-
+        depends_on: [sql-vs-nosql]
+      - id: sharding
+        title: Шардирование
+        description: Hash-based, range-based, directory-based sharding, resharding, hotspots
+        interview: "Как бы вы шардировали таблицу пользователей? Что такое hotspot и как его избежать? Как выполнять JOIN между шардами?"
+        in_practice: "Когда одна БД перестаёт справляться с нагрузкой, данные распределяют по шардам — но resharding и cross-shard queries становятся серьёзной инженерной проблемой."
+        min_grade: Middle+
+        depends_on: [rdbms]
+        resources:
+          - title: "Sharding pattern"
+            url: "https://learn.microsoft.com/en-us/azure/architecture/patterns/sharding"
+            type: article
+          - title: "Explore top posts about Backend Development"
+            url: "https://app.daily.dev/tags/backend?ref=roadmapsh"
+            type: feed
+      - id: federation
+        title: Федерация
+        description: Разделение БД по функциональности, плюсы и минусы
+        interview: "Чем федерация отличается от шардирования? Какие проблемы возникают при запросах, затрагивающих несколько функциональных БД?"
+        in_practice: "Федерация применяется, когда разные домены (пользователи, заказы, платежи) выносятся в отдельные БД — это уменьшает нагрузку и упрощает масштабирование каждой части."
+        min_grade: Middle+
+        depends_on: [rdbms]
+      - id: denormalization
+        title: Денормализация
+        description: Когда нарушать нормальные формы, materialized views, read-оптимизация
+        interview: "Когда денормализация оправдана? Как materialized views помогают ускорить чтение? Какие проблемы создаёт денормализация при записи?"
+        in_practice: "В высоконагруженных read-heavy системах денормализация и materialized views сокращают количество JOIN-ов, ускоряя отклик в десятки раз."
+        min_grade: Middle+
+        depends_on: [rdbms]
+        resources:
+          - title: "Denormalization"
+            url: "https://en.wikipedia.org/wiki/Denormalization"
+            type: article
+      - id: sql-tuning
+        title: SQL Tuning
+        description: EXPLAIN, индексы (B-tree, hash, GIN), партиционирование, query optimization
+        interview: "Как читать вывод EXPLAIN ANALYZE? Когда B-tree индекс не поможет? Чем партиционирование отличается от шардирования?"
+        in_practice: "Медленные запросы — одна из главных причин деградации продакшена. Умение читать EXPLAIN и правильно создавать индексы — ежедневный навык бэкенд-разработчика."
+        min_grade: Senior
+        depends_on: [sharding, denormalization]
+      - id: replication
+        title: Репликация
+        description: Синхронная vs асинхронная, master-slave, master-master, conflict resolution
+        interview: "Чем синхронная репликация отличается от асинхронной? Какие проблемы возникают при чтении с реплики сразу после записи в мастер?"
+        in_practice: "Репликация используется для отказоустойчивости и распределения read-нагрузки — реплики обслуживают аналитические запросы, не нагружая основную БД."
+        min_grade: Middle
+        depends_on: [rdbms]
+        resources:
+          - title: "Replication: Availability Pattern"
+            url: "https://github.com/donnemartin/system-design-primer#replication"
+            type: opensource
+          - title: "Database Replication Introduction: Types and Advantages"
+            url: "https://www.enjoyalgorithms.com/blog/introduction-to-database-replication-system-design"
+            type: article
+
+  - id: caching
+    title: Кеширование
+    skills:
+      - id: caching-basics
+        title: Основы кеширования
+        description: Зачем кешировать, TTL, инвалидация, cache stampede, thundering herd
+        interview: "Что такое cache stampede и как его предотвратить? Как выбрать правильный TTL? Какие стратегии инвалидации кеша знаете?"
+        in_practice: "Кеширование — первый инструмент для ускорения API. Но неправильная инвалидация — источник багов с устаревшими данными, которые сложно воспроизвести."
+        min_grade: Middle-
+        depends_on: [databases.sql-vs-nosql]
+        resources:
+          - title: "Caching Strategies"
+            url: "https://medium.com/@mmoshikoo/cache-strategies-996e91c80303"
+            type: article
+      - id: cache-strategies
+        title: Стратегии кеширования
+        description: Cache-aside, Write-through, Write-behind, Refresh-ahead — когда какую применять
+        interview: "Чем Cache-aside отличается от Write-through? Когда Write-behind опасен? В каких случаях Refresh-ahead оправдан?"
+        in_practice: "Выбор стратегии зависит от паттерна нагрузки — write-heavy системы требуют Write-behind, а read-heavy с редкими обновлениями хорошо работают с Cache-aside."
+        min_grade: Middle
+        depends_on: [caching-basics]
+      - id: cache-levels
+        title: Уровни кеширования
+        description: Client, CDN, Web Server, Application, Database caching — полная картина
+        interview: "Перечислите уровни кеширования от клиента до базы данных. На каком уровне кешируете в своих проектах и почему?"
+        in_practice: "Эффективное кеширование работает на нескольких уровнях — HTTP-заголовки для браузера, CDN для статики, Redis для данных, query cache в БД."
+        min_grade: Middle
+        depends_on: [caching-basics]
+      - id: distributed-cache
+        title: Распределённый кеш
+        description: Redis Cluster, Memcached, consistent hashing, cache eviction policies (LRU, LFU)
+        interview: "Чем Redis Cluster отличается от standalone Redis? Как consistent hashing помогает при добавлении нод? Когда LFU лучше LRU?"
+        in_practice: "При масштабировании одного Redis не хватает — нужен кластер с правильным шардированием ключей и политикой вытеснения, чтобы кеш оставался эффективным."
+        min_grade: Middle+
+        depends_on: [cache-strategies, cache-levels]
+
+  - id: async
+    title: Асинхронная обработка
+    skills:
+      - id: message-queues
+        title: Очереди сообщений
+        description: RabbitMQ, SQS — producer/consumer, acknowledgment, dead letter queue
+        interview: "Что произойдёт, если consumer упадёт, не отправив ack? Зачем нужна dead letter queue? Чем RabbitMQ отличается от Kafka?"
+        in_practice: "Очереди развязывают сервисы — API отвечает мгновенно, а тяжёлая работа (отправка email, генерация отчётов) выполняется асинхронно воркерами."
+        min_grade: Middle-
+        depends_on: [fundamentals.what-is-sd]
+        resources:
+          - title: "What is Redis?"
+            url: "https://redis.io/"
+            type: article
+          - title: "RabbitMQ in Message Queues"
+            url: "https://www.rabbitmq.com/"
+            type: article
+          - title: "Overview of Amazon SQS"
+            url: "https://aws.amazon.com/sqs/"
+            type: article
+          - title: "Apache Kafka"
+            url: "https://kafka.apache.org/"
+            type: article
+          - title: "RabbitMQ for beginners"
+            url: "https://www.cloudamqp.com/blog/part1-rabbitmq-for-beginners-what-is-rabbitmq.html"
+            type: article
+      - id: task-queues
+        title: Очереди задач
+        description: Celery, Sidekiq — фоновые задачи, retry, priority, scheduling
+        interview: "Как обработать ситуацию, когда Celery-задача упала на полпути? Как настроить retry с exponential backoff? Как приоритизировать задачи?"
+        in_practice: "Celery используется почти в каждом Django-проекте для фоновых задач — рассылки, генерация PDF, синхронизация с внешними API, периодические задачи через Beat."
+        min_grade: Middle-
+        depends_on: [message-queues]
+        resources:
+          - title: "Celery - Distributed Task Queue"
+            url: "https://docs.celeryq.dev/en/stable/"
+            type: article
+      - id: event-streaming
+        title: Event Streaming
+        description: Kafka, Pulsar — партиции, consumer groups, exactly-once, event sourcing
+        interview: "Зачем в Kafka партиции? Как consumer group обеспечивает параллельную обработку? Возможен ли exactly-once delivery и как?"
+        in_practice: "Kafka используется для потоковой обработки событий — логирование действий пользователей, синхронизация данных между сервисами, построение real-time аналитики."
+        min_grade: Middle
+        depends_on: [message-queues]
+      - id: back-pressure
+        title: Back Pressure
+        description: Защита от перегрузки, rate limiting, circuit breaker, bulkhead
+        interview: "Что такое back pressure и как его реализовать? Чем bulkhead паттерн отличается от circuit breaker? Как предотвратить каскадный отказ?"
+        in_practice: "Без back pressure один медленный downstream-сервис может положить всю систему — нужны механизмы ограничения нагрузки и изоляции отказов."
+        min_grade: Middle+
+        depends_on: [event-streaming]
+      - id: idempotency
+        title: Идемпотентность
+        description: Идемпотентные операции, idempotency key, exactly-once delivery
+        interview: "Как сделать платёжный API идемпотентным? Что такое idempotency key и где его хранить? Какие HTTP-методы идемпотентны по спецификации?"
+        in_practice: "При retry запросов из-за сетевых ошибок идемпотентность предотвращает двойные списания, дублирование заказов и другие критичные баги."
+        min_grade: Middle+
+        depends_on: [message-queues]
+        resources:
+          - title: "What is an idempotent operation?"
+            url: "https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation"
+            type: article
+          - title: "Overview of Idempotent Operation"
+            url: "https://www.baeldung.com/cs/idempotent-operations"
+            type: article
+
+  - id: communication
+    title: Протоколы коммуникации
+    skills:
+      - id: http
+        title: HTTP / HTTPS
+        description: HTTP/1.1, HTTP/2, HTTP/3 (QUIC), методы, статусы, заголовки, keep-alive
+        interview: "Чем HTTP/2 отличается от HTTP/1.1? Что такое multiplexing? Как работает HTTPS и зачем нужен TLS handshake?"
+        in_practice: "Понимание HTTP необходимо для отладки API — заголовки кеширования, CORS, коды ответов, keep-alive влияют на производительность и корректность работы сервиса."
+        min_grade: Junior+
+        depends_on: [fundamentals.what-is-sd]
+      - id: rest
+        title: REST API
+        description: Принципы REST, ресурсы, HATEOAS, версионирование, pagination
+        interview: "Какие уровни зрелости REST API по Ричардсону знаете? Как версионировать API? Чем cursor-based pagination лучше offset-based?"
+        in_practice: "REST — стандарт для публичных API. Правильное проектирование ресурсов, статусов и pagination экономит время при интеграции и поддержке."
+        min_grade: Junior+
+        depends_on: [http]
+        resources:
+          - title: "What Is REST?"
+            url: "https://github.com/donnemartin/system-design-primer#representational-state-transfer-rest"
+            type: opensource
+          - title: "What are the drawbacks of using RESTful APIs?"
+            url: "https://www.quora.com/What-are-the-drawbacks-of-using-RESTful-APIs"
+            type: article
+          - title: "Explore top posts about REST API"
+            url: "https://app.daily.dev/tags/rest-api?ref=roadmapsh"
+            type: feed
+      - id: tcp-udp
+        title: TCP / UDP
+        description: Reliable vs unreliable, handshake, flow control, когда что использовать
+        interview: "Почему для видеозвонков используют UDP, а не TCP? Как TCP гарантирует доставку? Что такое TCP handshake и сколько он занимает?"
+        in_practice: "Понимание TCP/UDP нужно при выборе протокола — для real-time аудио/видео используют UDP, а для передачи файлов и API-вызовов — TCP."
+        min_grade: Middle-
+        depends_on: [http]
+        resources:
+          - title: "What Is TCP?"
+            url: "https://github.com/donnemartin/system-design-primer#transmission-control-protocol-tcp"
+            type: opensource
+          - title: "What is the difference between HTTP protocol and TCP protocol?"
+            url: "https://www.quora.com/What-is-the-difference-between-HTTP-protocol-and-TCP-protocol"
+            type: article
+          - title: "Networking for game programming"
+            url: "http://gafferongames.com/networking-for-game-programmers/udp-vs-tcp/"
+            type: article
+          - title: "Key differences between TCP and UDP protocols"
+            url: "http://www.cyberciti.biz/faq/key-differences-between-tcp-and-udp-protocols/"
+            type: article
+          - title: "Difference between TCP and UDP"
+            url: "http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp"
+            type: article
+      - id: grpc
+        title: gRPC
+        description: Protocol Buffers, streaming, bidirectional, service mesh, когда выбирать gRPC
+        interview: "Когда gRPC лучше REST? Какие типы streaming поддерживает gRPC? Чем Protocol Buffers лучше JSON для межсервисного взаимодействия?"
+        in_practice: "gRPC используется для межсервисного общения в микросервисах — бинарный протокол быстрее JSON, а кодогенерация из proto-файлов гарантирует совместимость контрактов."
+        min_grade: Middle
+        depends_on: [tcp-udp]
+        resources:
+          - title: "What Is gRPC?"
+            url: "https://www.wallarm.com/what/the-concept-of-grpc"
+            type: article
+          - title: "Explore top posts about gRPC"
+            url: "https://app.daily.dev/tags/grpc?ref=roadmapsh"
+            type: feed
+      - id: graphql
+        title: GraphQL
+        description: Schema, queries, mutations, subscriptions, N+1 проблема, когда использовать
+        interview: "Как решить N+1 проблему в GraphQL? Чем GraphQL лучше REST для фронтенда? Какие минусы GraphQL при кешировании?"
+        in_practice: "GraphQL популярен в продуктах с богатым фронтендом — клиент запрашивает только нужные поля, уменьшая трафик и количество запросов."
+        min_grade: Middle
+        depends_on: [rest]
+        resources:
+          - title: "GraphQL Server"
+            url: "https://www.howtographql.com/basics/3-big-picture/"
+            type: article
+          - title: "What is GraphQL?"
+            url: "https://www.redhat.com/en/topics/api/what-is-graphql"
+            type: article
+          - title: "Explore top posts about GraphQL"
+            url: "https://app.daily.dev/tags/graphql?ref=roadmapsh"
+            type: feed
+      - id: websockets
+        title: WebSockets
+        description: Full-duplex, real-time, long polling vs SSE vs WebSocket
+        interview: "Чем WebSocket отличается от HTTP long polling и SSE? Когда SSE достаточно вместо WebSocket? Как масштабировать WebSocket-сервер?"
+        in_practice: "WebSocket используется для чатов, real-time уведомлений и live-обновлений — без него невозможен мгновенный двусторонний обмен данными между клиентом и сервером."
+        min_grade: Middle
+        depends_on: [tcp-udp]
+
+  - id: architecture
+    title: Архитектурные паттерны
+    skills:
+      - id: microservices
+        title: Микросервисы
+        description: Декомпозиция, bounded context, inter-service communication, data ownership
+        interview: "Как определить границы микросервиса? Что такое bounded context? Как обеспечить консистентность данных между сервисами без распределённых транзакций?"
+        in_practice: "Микросервисы позволяют командам независимо разрабатывать и деплоить свои части системы, но требуют зрелой инфраструктуры — мониторинг, трейсинг, service mesh."
+        min_grade: Middle
+        depends_on: [networking.horizontal-scaling, async.message-queues]
+      - id: service-discovery
+        title: Service Discovery
+        description: Client-side vs server-side, Consul, etcd, DNS-based discovery
+        interview: "Как сервис находит другие сервисы в микросервисной архитектуре? Чем client-side discovery отличается от server-side? Какую роль играет Consul?"
+        in_practice: "В динамичных средах (Kubernetes, облака) IP-адреса сервисов постоянно меняются — service discovery автоматически находит актуальные инстансы для маршрутизации запросов."
+        min_grade: Middle+
+        depends_on: [microservices]
+      - id: api-gateway
+        title: API Gateway
+        description: Маршрутизация, rate limiting, auth, aggregation, Kong, AWS API Gateway
+        interview: "Зачем нужен API Gateway, если есть load balancer? Какие функции выполняет gateway помимо маршрутизации? Чем Kong отличается от AWS API Gateway?"
+        in_practice: "API Gateway — единая точка входа для клиентов: авторизация, rate limiting, логирование и агрегация ответов от нескольких микросервисов в одном месте."
+        min_grade: Middle
+        depends_on: [microservices]
+      - id: cqrs
+        title: CQRS
+        description: Command Query Responsibility Segregation — разделение чтения и записи
+        interview: "Когда CQRS оправдан, а когда это overengineering? Как синхронизировать read и write модели? Какие проблемы создаёт eventual consistency между ними?"
+        in_practice: "CQRS применяется в системах с сильно различающимися паттернами чтения и записи — например, в e-commerce каталог оптимизирован для чтения, а обработка заказов — для записи."
+        min_grade: Middle+
+        depends_on: [microservices, async.event-streaming]
+        resources:
+          - title: "CQRS pattern"
+            url: "https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs"
+            type: article
+      - id: event-sourcing
+        title: Event Sourcing
+        description: Хранение событий вместо состояния, replay, snapshots, проекции
+        interview: "Чем event sourcing отличается от обычного CRUD? Как восстановить текущее состояние из событий? Зачем нужны snapshots?"
+        in_practice: "Event sourcing используется в финансовых системах и аудите — полная история изменений позволяет восстановить состояние на любой момент времени и понять, что произошло."
+        min_grade: Senior
+        depends_on: [cqrs]
+        resources:
+          - title: "Event Sourcing pattern"
+            url: "https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing"
+            type: article
+          - title: "Explore top posts about Architecture"
+            url: "https://app.daily.dev/tags/architecture?ref=roadmapsh"
+            type: feed
+      - id: strangler-fig
+        title: Strangler Fig
+        description: Постепенная миграция монолита в микросервисы
+        interview: "Как работает паттерн Strangler Fig? Как перенаправлять трафик между монолитом и новым сервисом? Как убедиться, что новый сервис работает корректно?"
+        in_practice: "На практике редко пишут систему с нуля — чаще нужно постепенно вынести части монолита в отдельные сервисы, не останавливая продакшен."
+        min_grade: Senior
+        depends_on: [microservices]
+
+  - id: monitoring
+    title: Мониторинг и наблюдаемость
+    skills:
+      - id: monitoring-basics
+        title: Основы мониторинга
+        description: Метрики, логи, трейсы — три столпа observability
+        interview: "Чем метрики отличаются от логов? Зачем нужны трейсы, если есть логи? Что такое structured logging и зачем он нужен?"
+        in_practice: "Без мониторинга невозможно понять, что происходит в продакшене — метрики показывают тренды, логи помогают отлаживать, трейсы связывают запрос через все сервисы."
+        min_grade: Middle-
+        depends_on: [fundamentals.what-is-sd]
+      - id: health-checks
+        title: Health Checks
+        description: Liveness vs readiness, health endpoints, self-healing
+        interview: "Чем liveness probe отличается от readiness probe в Kubernetes? Что должен проверять health endpoint — только процесс или зависимости тоже?"
+        in_practice: "Health checks позволяют оркестратору автоматически перезапускать зависшие контейнеры и не направлять трафик на инстансы, которые ещё не готовы."
+        min_grade: Middle
+        depends_on: [monitoring-basics]
+      - id: alerting
+        title: Алертинг
+        description: Prometheus, Grafana, PagerDuty, SLI/SLO/SLA-based alerting
+        interview: "Как настроить алертинг, чтобы не было alert fatigue? Чем SLI отличается от SLO и SLA? На какие метрики ставить алерты в первую очередь?"
+        in_practice: "Правильно настроенные алерты будят дежурного только при реальных проблемах — SLO-based alerting снижает шум и фокусирует на том, что влияет на пользователей."
+        min_grade: Middle
+        depends_on: [monitoring-basics]
+      - id: distributed-tracing
+        title: Распределённый трейсинг
+        description: Jaeger, Zipkin, OpenTelemetry, correlation ID, span/trace
+        interview: "Как работает distributed tracing? Что такое span и trace? Как correlation ID помогает связать логи разных сервисов?"
+        in_practice: "В микросервисной архитектуре один запрос проходит через десятки сервисов — без распределённого трейсинга невозможно найти, где именно возникла задержка."
+        min_grade: Middle+
+        depends_on: [health-checks, alerting]
+
+  - id: reliability
+    title: Надёжность
+    skills:
+      - id: circuit-breaker
+        title: Circuit Breaker
+        description: Open/closed/half-open, Hystrix, resilience4j, graceful degradation
+        interview: "Опишите три состояния circuit breaker. Когда он переходит из closed в open? Что такое graceful degradation и как его реализовать?"
+        in_practice: "Circuit breaker предотвращает каскадные отказы — если платёжный сервис недоступен, лучше показать пользователю сообщение, чем повесить весь сайт."
+        min_grade: Middle
+        depends_on: [architecture.microservices]
+        resources:
+          - title: "Circuit breaker design pattern"
+            url: "https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern"
+            type: article
+          - title: "Overview of Circuit Breaker"
+            url: "https://medium.com/geekculture/design-patterns-for-microservices-circuit-breaker-pattern-276249ffab33"
+            type: article
+      - id: rate-limiting
+        title: Rate Limiting
+        description: Token bucket, leaky bucket, sliding window, distributed rate limiting
+        interview: "Чем token bucket отличается от leaky bucket? Как реализовать distributed rate limiting на Redis? Как ограничить по IP и по user одновременно?"
+        in_practice: "Rate limiting защищает API от злоупотреблений и DDoS — без него один клиент может исчерпать ресурсы сервера и повлиять на всех остальных пользователей."
+        min_grade: Middle
+        depends_on: [networking.load-balancers]
+      - id: retry-strategies
+        title: Стратегии Retry
+        description: Exponential backoff, jitter, retry budget, retry storm prevention
+        interview: "Зачем добавлять jitter к exponential backoff? Что такое retry storm и как его предотвратить? Что такое retry budget?"
+        in_practice: "Без jitter все клиенты после сбоя ретраят одновременно и кладут сервис снова — правильная стратегия retry критична для устойчивости распределённых систем."
+        min_grade: Middle+
+        depends_on: [circuit-breaker]
+      - id: chaos-engineering
+        title: Chaos Engineering
+        description: Chaos Monkey, fault injection, game days, steady state hypothesis
+        interview: "Что такое Chaos Engineering и зачем он нужен? Как сформулировать steady state hypothesis? Что такое game day и как его проводить?"
+        in_practice: "Netflix использует Chaos Monkey, чтобы случайно убивать сервисы в продакшене — это выявляет слабые места до того, как они приведут к реальным инцидентам."
+        min_grade: Senior
+        depends_on: [circuit-breaker, monitoring.distributed-tracing]
+
+  - id: practice
+    title: Практика проектирования
+    skills:
+      - id: url-shortener
+        title: URL Shortener
+        description: "Классическая задача: хеширование, хранилище, редиректы, аналитика"
+        interview: "Спроектируйте URL Shortener для 100M URL. Как генерировать короткий ключ? Как обеспечить уникальность? Как хранить и считать аналитику кликов?"
+        in_practice: "Это базовая задача на system design, которая затрагивает хеширование, БД, кеширование и масштабирование — навыки, применимые в любом проекте."
+        min_grade: Middle-
+        depends_on: [databases.sql-vs-nosql, caching.caching-basics]
+      - id: chat-system
+        title: Мессенджер
+        description: Real-time доставка, хранение сообщений, presence, группы, push-уведомления
+        interview: "Как обеспечить доставку сообщений в реальном времени? Как хранить историю сообщений? Как реализовать статус «онлайн» для миллиона пользователей?"
+        in_practice: "Проектирование мессенджера покрывает WebSocket, очереди, шардирование и push-уведомления — эти компоненты встречаются в большинстве современных приложений."
+        min_grade: Middle
+        depends_on: [communication.websockets, async.message-queues]
+      - id: newsfeed
+        title: News Feed
+        description: Fan-out on write vs fan-out on read, ranking, кеширование, pagination
+        interview: "Чем fan-out on write отличается от fan-out on read? Какой подход использует Twitter и почему? Как ранжировать посты в ленте?"
+        in_practice: "Ленты активности есть не только в соцсетях — уведомления, логи действий, дашборды используют те же принципы fan-out и ранжирования."
+        min_grade: Middle+
+        depends_on: [caching.distributed-cache, databases.sharding]
+      - id: rate-limiter-design
+        title: Rate Limiter
+        description: Проектирование распределённого rate limiter, алгоритмы, Redis-based
+        interview: "Спроектируйте распределённый rate limiter. Как синхронизировать счётчики между нодами? Какой алгоритм выбрать для API gateway?"
+        in_practice: "Распределённый rate limiter на Redis — типичная задача при построении API gateway или защиты от DDoS в микросервисной архитектуре."
+        min_grade: Middle
+        depends_on: [reliability.rate-limiting]
+      - id: distributed-kv
+        title: Key-Value Store
+        description: Проектирование распределённого KV store, consistent hashing, replication, vector clocks
+        interview: "Как бы вы спроектировали распределённый KV store типа DynamoDB? Зачем нужны vector clocks? Как consistent hashing помогает при добавлении нод?"
+        in_practice: "Проектирование KV store объединяет все ключевые концепции — консистентность, репликация, шардирование, обнаружение отказов — это финальный босс system design."
+        min_grade: Senior
+        depends_on: [distributed-systems.consistency-patterns, databases.sharding]

@@ -7,29 +7,77 @@ skills:
   - id: sql-basics
     title: SQL
     description: SELECT, JOIN, GROUP BY, подзапросы, CTE, оконные функции
+    interview: "Чем INNER JOIN отличается от LEFT JOIN? Как работают оконные функции? Напишите запрос с GROUP BY и HAVING."
+    in_practice: "SQL используется ежедневно — от простых выборок до сложной аналитики. Умение писать оптимальные запросы напрямую влияет на производительность приложения."
     min_grade: Junior
     depends_on: []
+    resources:
+      - title: "SQLBolt — интерактивные уроки"
+        url: "https://sqlbolt.com/"
+        type: article
+      - title: "PostgreSQL Tutorial"
+        url: "https://www.postgresqltutorial.com/"
+        type: official
+      - title: "Use The Index, Luke — оптимизация SQL"
+        url: "https://use-the-index-luke.com/"
+        type: article
   - id: transactions
     title: Транзакции
     description: ACID, уровни изоляции, блокировки, MVCC, WAL
+    interview: "Перечислите уровни изоляции транзакций и какие аномалии они предотвращают. Что такое MVCC и зачем он нужен? Что произойдёт при concurrent update одной строки?"
+    in_practice: "Без понимания транзакций легко получить race condition, потерю данных или дедлоки в продакшене. Правильный выбор уровня изоляции критичен для финансовых операций."
     min_grade: Junior+
     depends_on: [sql-basics]
+    resources:
+      - title: "PostgreSQL — Transaction Isolation"
+        url: "https://www.postgresql.org/docs/current/transaction-iso.html"
+        type: official
+      - title: "ACID Properties — GeeksforGeeks"
+        url: "https://www.geeksforgeeks.org/acid-properties-in-dbms/"
+        type: article
   - id: indexes
     title: Индексы и оптимизация
     description: >
       B-tree, Hash, GIN, GiST. EXPLAIN ANALYZE, query plan,
       профилирование запросов
+    interview: "Как работает B-tree индекс? Когда индекс не поможет? Прочитайте EXPLAIN ANALYZE и скажите, где узкое место."
+    in_practice: "Один правильно добавленный индекс может ускорить запрос в тысячи раз. Умение читать EXPLAIN — ключевой навык для диагностики медленных страниц и API."
     min_grade: Middle-
     depends_on: [sql-basics]
+    resources:
+      - title: "Use The Index, Luke"
+        url: "https://use-the-index-luke.com/"
+        type: official
+      - title: "PostgreSQL — EXPLAIN"
+        url: "https://www.postgresql.org/docs/current/using-explain.html"
+        type: official
   - id: nosql
     title: NoSQL
     description: Redis (кеш, pub/sub), MongoDB (документная модель), выбор БД под задачу
+    interview: "Когда стоит использовать Redis вместо PostgreSQL? Какие структуры данных поддерживает Redis? В чём плюсы и минусы документной модели MongoDB?"
+    in_practice: "Redis повсеместно используется для кеширования, сессий, очередей и rate limiting. Понимание, когда NoSQL лучше SQL, помогает проектировать эффективные системы."
     min_grade: Middle
     depends_on: [sql-basics]
+    resources:
+      - title: "Redis Documentation"
+        url: "https://redis.io/docs/"
+        type: official
+      - title: "MongoDB University — бесплатные курсы"
+        url: "https://learn.mongodb.com/"
+        type: official
   - id: sharding-replication
     title: Шардирование и репликация
     description: >
       Горизонтальное/вертикальное шардирование, master-slave,
       master-master, консистентное хеширование, решардинг
+    interview: "Чем горизонтальное шардирование отличается от вертикального? Как выбрать ключ шардирования? Какие проблемы возникают при master-master репликации?"
+    in_practice: "При росте нагрузки одного сервера БД перестаёт хватать. Шардирование и репликация — основные инструменты масштабирования данных в highload-системах."
     min_grade: Middle+
     depends_on: [indexes, nosql]
+    resources:
+      - title: "Database Sharding — DigitalOcean"
+        url: "https://www.digitalocean.com/community/tutorials/understanding-database-sharding"
+        type: article
+      - title: "PostgreSQL Replication"
+        url: "https://www.postgresql.org/docs/current/high-availability.html"
+        type: official

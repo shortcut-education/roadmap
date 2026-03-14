@@ -9,17 +9,47 @@ skills:
     description: >
       Topics, partitions, consumer groups, offsets,
       exactly-once semantics, Kafka Connect
+    interview: "Как Kafka обеспечивает порядок сообщений? Что произойдёт, если consumer упадёт посреди обработки? Чем Kafka отличается от RabbitMQ?"
+    in_practice: "Kafka — стандарт для потоковой обработки данных и событийной архитектуры. Используется для логирования, аналитики в реальном времени, интеграции между сервисами."
     min_grade: Middle-
     depends_on: []
+    resources:
+      - title: "Apache Kafka Documentation"
+        url: "https://kafka.apache.org/documentation/"
+        type: official
+      - title: "Kafka: The Definitive Guide (Confluent)"
+        url: "https://www.confluent.io/resources/kafka-the-definitive-guide-v2/"
+        type: article
   - id: rabbitmq
     title: RabbitMQ
     description: Exchanges, queues, routing, acknowledgements, dead letter queue
+    interview: "Какие типы exchange существуют в RabbitMQ? Что такое dead letter queue и зачем она нужна? Как работает механизм acknowledgements?"
+    in_practice: "RabbitMQ отлично подходит для задач с маршрутизацией сообщений и фоновой обработки. Часто используется с Celery для асинхронных задач в Django/Flask-проектах."
     min_grade: Middle
     depends_on: []
+    resources:
+      - title: "RabbitMQ Tutorials"
+        url: "https://www.rabbitmq.com/tutorials"
+        type: official
+      - title: "CloudAMQP — RabbitMQ for Beginners"
+        url: "https://www.cloudamqp.com/blog/part1-rabbitmq-for-beginners-what-is-rabbitmq.html"
+        type: article
   - id: async-patterns
     title: Асинхронные паттерны
     description: >
       Transactional Outbox, CDC, Event Sourcing, CQRS,
       Saga (оркестрация vs хореография)
+    interview: "Зачем нужен Transactional Outbox? Чем оркестрация Saga отличается от хореографии? Когда CQRS оправдан, а когда это оверинжиниринг?"
+    in_practice: "Эти паттерны решают главную проблему распределённых систем — согласованность данных между сервисами без распределённых транзакций."
     min_grade: Middle+
     depends_on: [kafka]
+    resources:
+      - title: "Microservices.io — Saga pattern"
+        url: "https://microservices.io/patterns/data/saga.html"
+        type: article
+      - title: "Event Sourcing — Martin Fowler"
+        url: "https://martinfowler.com/eaaDev/EventSourcing.html"
+        type: article
+      - title: "CQRS — Martin Fowler"
+        url: "https://martinfowler.com/bliki/CQRS.html"
+        type: article

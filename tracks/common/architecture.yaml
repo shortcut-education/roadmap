@@ -7,36 +7,87 @@ skills:
   - id: solid
     title: SOLID
     description: Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion
+    interview: "Объясните каждый принцип SOLID на примере. Какой принцип нарушен в данном коде? Как Dependency Inversion помогает в тестировании?"
+    in_practice: "SOLID — основа поддерживаемого кода. Без этих принципов проект быстро превращается в спагетти-код, где любое изменение ломает несвязанные части системы."
     min_grade: Junior
     depends_on: []
+    resources:
+      - title: "SOLID Principles — DigitalOcean"
+        url: "https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design"
+        type: article
   - id: design-patterns
     title: Паттерны проектирования
     description: GoF-паттерны — Strategy, Observer, Factory, Builder, Decorator, Proxy, Template Method
+    interview: "Чем отличается Strategy от Template Method? Приведите пример использования Observer в реальном проекте. Когда Factory лучше прямого создания объекта?"
+    in_practice: "Паттерны — это готовые решения типовых задач проектирования. Знание паттернов ускоряет разработку и делает код понятным для других разработчиков в команде."
     min_grade: Junior+
     depends_on: [solid]
+    resources:
+      - title: "Refactoring.Guru — паттерны с примерами"
+        url: "https://refactoring.guru/design-patterns"
+        type: article
+      - title: "Head First Design Patterns (книга)"
+        url: "https://www.oreilly.com/library/view/head-first-design/9781492077992/"
+        type: article
   - id: rest-api
     title: REST API Design
     description: >
       Принципы REST, версионирование, статус-коды, HATEOAS,
       документирование (OpenAPI/Swagger)
+    interview: "Какие HTTP-методы идемпотентны и почему? Как версионировать API? Какой статус-код вернуть при валидационной ошибке?"
+    in_practice: "REST API — основной способ взаимодействия между сервисами и с фронтендом. Грамотный дизайн API снижает количество багов и упрощает интеграцию."
     min_grade: Junior
     depends_on: []
+    resources:
+      - title: "RESTful API Design — Best Practices"
+        url: "https://restfulapi.net/"
+        type: article
+      - title: "OpenAPI Specification"
+        url: "https://swagger.io/specification/"
+        type: official
   - id: microservices
     title: Микросервисы
     description: >
       Монолит vs микросервисы, API Gateway, Service Discovery,
       Circuit Breaker, Saga pattern
+    interview: "Когда стоит переходить с монолита на микросервисы? Как обеспечить консистентность данных между сервисами? Что такое Circuit Breaker и зачем он нужен?"
+    in_practice: "Большинство крупных проектов используют микросервисную архитектуру. Понимание паттернов необходимо для проектирования отказоустойчивых распределённых систем."
     min_grade: Middle
     depends_on: [rest-api, common/messaging.kafka]
+    resources:
+      - title: "Microservices.io — паттерны"
+        url: "https://microservices.io/patterns/index.html"
+        type: article
+      - title: "Building Microservices — Sam Newman"
+        url: "https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/"
+        type: article
   - id: grpc
     title: gRPC
     description: Protocol Buffers, streaming, сравнение с REST, генерация кода
+    interview: "Чем gRPC отличается от REST? Когда лучше использовать gRPC? Какие типы streaming поддерживает gRPC?"
+    in_practice: "gRPC используется для межсервисного взаимодействия, где важна скорость и строгая типизация. Protobuf-контракты устраняют рассинхронизацию между сервисами."
     min_grade: Middle+
     depends_on: [rest-api]
+    resources:
+      - title: "gRPC Documentation"
+        url: "https://grpc.io/docs/"
+        type: official
+      - title: "Protocol Buffers Documentation"
+        url: "https://protobuf.dev/overview/"
+        type: official
   - id: ddd
     title: Domain-Driven Design
     description: >
       Bounded Context, Aggregate, Entity, Value Object,
       Repository, Domain Events
+    interview: "Что такое Bounded Context и как определить его границы? Чем Entity отличается от Value Object? Как Aggregate Root обеспечивает консистентность?"
+    in_practice: "DDD помогает структурировать сложную бизнес-логику и общаться с бизнесом на одном языке. Незаменим в проектах с нетривиальной доменной моделью."
     min_grade: Senior
     depends_on: [microservices, design-patterns]
+    resources:
+      - title: "Domain-Driven Design — Eric Evans (книга)"
+        url: "https://www.domainlanguage.com/ddd/"
+        type: article
+      - title: "DDD Reference — Eric Evans"
+        url: "https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf"
+        type: official

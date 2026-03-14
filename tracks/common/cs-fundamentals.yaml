@@ -7,22 +7,67 @@ skills:
   - id: data-structures
     title: Структуры данных
     description: Array, LinkedList, Stack, Queue, Tree, Graph, HashTable — сложность операций
+    interview: "Какая сложность поиска в HashTable и почему? Чем ArrayList отличается от LinkedList по производительности? Когда использовать дерево вместо хеш-таблицы?"
+    in_practice: "Выбор правильной структуры данных определяет производительность приложения. Например, неправильный выбор между списком и словарём может замедлить обработку данных в сотни раз."
     min_grade: Intern
     depends_on: []
+    resources:
+      - title: "Data Structures Easy to Advanced — freeCodeCamp"
+        url: "https://www.youtube.com/watch?v=RBSGKlAvoiM"
+        type: article
+      - title: "Big-O Cheat Sheet"
+        url: "https://www.bigocheatsheet.com/"
+        type: official
+      - title: "Visualgo — визуализация алгоритмов"
+        url: "https://visualgo.net/"
+        type: article
   - id: algorithms
     title: Алгоритмы
     description: Сортировки, поиск, BFS/DFS, динамическое программирование, Big-O
+    interview: "Оцените сложность алгоритма по Big-O. Решите задачу на BFS/DFS или динамическое программирование. Чем быстрая сортировка отличается от сортировки слиянием?"
+    in_practice: "Понимание алгоритмов помогает писать эффективный код и распознавать узкие места. BFS/DFS используются в обходе графов зависимостей, маршрутизации, рекомендательных системах."
     min_grade: Junior
     depends_on: [data-structures]
+    resources:
+      - title: "Neetcode — разбор задач по паттернам"
+        url: "https://neetcode.io/roadmap"
+        type: article
+      - title: "Grokking Algorithms (книга)"
+        url: "https://www.manning.com/books/grokking-algorithms"
+        type: article
+      - title: "LeetCode Patterns"
+        url: "https://seanprashad.com/leetcode-patterns/"
+        type: article
   - id: networking
     title: Сети
     description: TCP/IP, HTTP/HTTPS, DNS, WebSocket, TLS, модель OSI
+    interview: "Что происходит, когда вы вводите URL в браузер? Чем TCP отличается от UDP? Как работает TLS handshake?"
+    in_practice: "Понимание сетей необходимо для отладки проблем с подключением, настройки HTTPS, оптимизации API-вызовов и работы с WebSocket-соединениями в реальном времени."
     min_grade: Junior
     depends_on: []
+    resources:
+      - title: "Computer Networking — Kurose & Ross (учебник)"
+        url: "https://gaia.cs.umass.edu/kurose_ross/online_lectures.htm"
+        type: article
+      - title: "How DNS works (комикс)"
+        url: "https://howdns.works/"
+        type: article
+      - title: "High Performance Browser Networking"
+        url: "https://hpbn.co/"
+        type: official
   - id: os-basics
     title: Операционные системы
     description: >
       Процессы, потоки, планировщик, виртуальная память,
       файловые дескрипторы, IPC, context switch
+    interview: "Чем процесс отличается от потока? Что такое deadlock и как его избежать? Как работает виртуальная память и что такое page fault?"
+    in_practice: "Знание ОС помогает понимать, почему приложение потребляет много памяти, как работают контейнеры под капотом и почему многопоточный код может вести себя непредсказуемо."
     min_grade: Middle-
     depends_on: []
+    resources:
+      - title: "Operating Systems: Three Easy Pieces"
+        url: "https://pages.cs.wisc.edu/~remzi/OSTEP/"
+        type: official
+      - title: "Linux Insides"
+        url: "https://0xax.gitbooks.io/linux-insides/"
+        type: article

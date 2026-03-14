@@ -7,29 +7,77 @@ skills:
   - id: git
     title: Git
     description: Branching strategies, rebase vs merge, cherry-pick, conventional commits
+    interview: "Чем rebase отличается от merge? Как отменить последний коммит? Что такое Git Flow и Trunk-Based Development?"
+    in_practice: "Git — основной инструмент командной разработки. Умение разрешать конфликты, делать чистую историю и работать с ветками экономит часы работы ежедневно."
     min_grade: Intern
     depends_on: []
+    resources:
+      - title: "Pro Git Book"
+        url: "https://git-scm.com/book/en/v2"
+        type: official
+      - title: "Learn Git Branching — интерактив"
+        url: "https://learngitbranching.js.org/"
+        type: article
   - id: docker
     title: Docker
     description: Dockerfile, multi-stage builds, docker-compose, volumes, networking
+    interview: "Чем контейнер отличается от виртуальной машины? Зачем нужен multi-stage build? Как уменьшить размер Docker-образа?"
+    in_practice: "Docker — стандарт доставки приложений. Все современные проекты используют контейнеры для локальной разработки, тестирования и деплоя в продакшен."
     min_grade: Junior
     depends_on: []
+    resources:
+      - title: "Docker Documentation"
+        url: "https://docs.docker.com/get-started/"
+        type: official
+      - title: "Docker Best Practices"
+        url: "https://docs.docker.com/build/building/best-practices/"
+        type: official
   - id: ci-cd
     title: CI/CD
     description: GitHub Actions / GitLab CI, пайплайны, авто-деплой, blue-green / canary
+    interview: "Чем blue-green деплой отличается от canary? Как организовать пайплайн для запуска тестов и деплоя? Что должно быть в CI для pull request?"
+    in_practice: "CI/CD автоматизирует тестирование и деплой, снижая количество багов в продакшене. Без CI каждый релиз становится рискованным ручным процессом."
     min_grade: Junior+
     depends_on: [docker, git]
+    resources:
+      - title: "GitHub Actions Documentation"
+        url: "https://docs.github.com/en/actions"
+        type: official
+      - title: "GitLab CI/CD Documentation"
+        url: "https://docs.gitlab.com/ee/ci/"
+        type: official
   - id: kubernetes
     title: Kubernetes
     description: >
       Pod, Deployment, Service, Ingress, ConfigMap, Secrets,
       HPA, архитектура кластера
+    interview: "Чем Pod отличается от контейнера? Как Kubernetes обеспечивает self-healing? Что такое Ingress и зачем он нужен, если есть Service?"
+    in_practice: "Kubernetes — стандарт оркестрации контейнеров в продакшене. Автоматическое масштабирование, rolling updates и self-healing критичны для production-систем."
     min_grade: Middle+
     depends_on: [docker]
+    resources:
+      - title: "Kubernetes Documentation"
+        url: "https://kubernetes.io/docs/home/"
+        type: official
+      - title: "Kubernetes The Hard Way"
+        url: "https://github.com/kelseyhightower/kubernetes-the-hard-way"
+        type: article
   - id: monitoring
     title: Мониторинг и логирование
     description: >
       Structured logging, OpenTelemetry, Prometheus + Grafana,
       distributed tracing, alerting
+    interview: "Чем structured logging лучше обычного? Какие метрики вы бы мониторили для REST API? Как distributed tracing помогает в микросервисах?"
+    in_practice: "Без мониторинга вы узнаёте о проблемах от пользователей. Prometheus + Grafana и distributed tracing позволяют находить и устранять проблемы до того, как они затронут клиентов."
     min_grade: Middle
     depends_on: [docker]
+    resources:
+      - title: "Prometheus Documentation"
+        url: "https://prometheus.io/docs/introduction/overview/"
+        type: official
+      - title: "OpenTelemetry Documentation"
+        url: "https://opentelemetry.io/docs/"
+        type: official
+      - title: "Grafana Tutorials"
+        url: "https://grafana.com/tutorials/"
+        type: official

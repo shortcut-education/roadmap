@@ -13,85 +13,406 @@ includes:
   - common/system-design
 
 categories:
-  - id: go-core
-    title: Go Core
+  - id: basics
+    title: Основы языка
     skills:
-      - id: basics
-        title: Основы языка
-        description: Типы данных, переменные, функции, управляющие конструкции, пакеты
+      - id: syntax
+        title: Базовый синтаксис
+        description: Переменные, константы, var vs :=, zero values, iota, scope и shadowing
+        interview: Чем var отличается от :=, что такое zero values для разных типов, как работает shadowing переменных во вложенных блоках.
+        in_practice: Фундамент ежедневной работы — без этого невозможно писать и читать Go-код.
         min_grade: Intern
         depends_on: []
-      - id: structs-interfaces
-        title: Структуры и интерфейсы
-        description: Структуры, методы, встраивание, интерфейсы, утиная типизация, пустой интерфейс
+      - id: data-types
+        title: Типы данных
+        description: Boolean, числовые типы (int, float, complex), rune, string (raw и interpreted literals)
+        interview: Какой размер у int на разных платформах, чем rune отличается от byte, что будет при переполнении целочисленного типа.
+        in_practice: Выбор правильного типа влияет на потребление памяти и корректность — например, int32 vs int64 при работе с API или протоколами.
         min_grade: Intern
-        depends_on: [basics]
-      - id: error-handling
-        title: Обработка ошибок
-        description: error interface, sentinel errors, wrapping (fmt.Errorf %w), errors.Is/As, panic/recover
-        min_grade: Junior
-        depends_on: [structs-interfaces]
-      - id: slices-maps
-        title: Слайсы и мапы
+        depends_on: [syntax]
+        resources:
+          - title: "Go Basics"
+            url: "https://go.dev/tour/basics/11"
+            type: official
+          - title: "Basic Data Types in Go"
+            url: "https://golangbot.com/types/"
+            type: article
+          - title: "Understanding Data Types in Go"
+            url: "https://www.digitalocean.com/community/tutorials/understanding-data-types-in-go"
+            type: article
+      - id: conditionals
+        title: Условия
+        description: if/else, switch (включая type switch), fallthrough
+        interview: Чем switch в Go отличается от switch в C/Java, что делает fallthrough, можно ли объявить переменную в if.
+        in_practice: Используется повсеместно для ветвления логики; type switch незаменим при работе с интерфейсами и обработке разных типов ошибок.
+        min_grade: Intern
+        depends_on: [data-types]
+        resources:
+          - title: "Flow Control"
+            url: "https://go.dev/tour/flowcontrol/6"
+            type: official
+          - title: "How To Write Conditional Statements in Go"
+            url: "https://www.digitalocean.com/community/tutorials/how-to-write-conditional-statements-in-go"
+            type: article
+          - title: "How to handle conditional logic in Go"
+            url: "https://labex.io/tutorials/go-how-to-handle-conditional-logic-in-go-418319"
+            type: article
+      - id: loops
+        title: Циклы
+        description: for, for range, итерация по map/string/slice, break/continue, goto
+        interview: Почему в Go только for, как работает for range по map (порядок итерации), что произойдёт при модификации слайса во время итерации.
+        in_practice: Единственная конструкция цикла в Go — используется для обхода коллекций, ожидания событий в каналах и реализации retry-логики.
+        min_grade: Intern
+        depends_on: [conditionals]
+        resources:
+          - title: "Loops"
+            url: "https://go.dev/tour/flowcontrol/1"
+            type: official
+          - title: "Loops in GoLang. GoLang Loops, For Loop, While loop"
+            url: "https://nitish08.medium.com/loops-in-golang-d44fb39b08e"
+            type: article
+          - title: "Everything You Need to Know About for Loops in Go"
+            url: "https://www.bytesizego.com/blog/golang-for-loop"
+            type: article
+          - title: "Learn for loops in Go with Examples"
+            url: "https://golangbot.com/loops/"
+            type: article
+      - id: functions
+        title: Функции
         description: >
-          Внутреннее устройство слайсов (len, cap, backing array),
-          копирование, append, nil vs empty. Устройство map, hash collision
+          Объявление функций, variadic функции, multiple return values,
+          named return values, anonymous функции, замыкания, call by value
+        interview: Как работают замыкания в Go, чем опасны замыкания в горутинах внутри цикла, что такое named return values и когда их стоит использовать.
+        in_practice: Функции — основной строительный блок; variadic функции используются в логировании и форматировании, замыкания — в middleware и обработчиках.
+        min_grade: Intern
+        depends_on: [loops]
+        resources:
+          - title: "Functions"
+            url: "https://go.dev/tour/basics/4"
+            type: official
+          - title: "Functions in Golang: Complete Guide with Examples"
+            url: "https://medium.com/backend-forge/functions-in-golang-complete-guide-with-examples-2025-e07db0f98fd3"
+            type: article
+          - title: "Learn Go Functions"
+            url: "https://www.learn-golang.org/en/Functions"
+            type: article
+      - id: type-conversion
+        title: Приведение типов
+        description: Type conversion, type assertion, strconv, fmt.Sprintf
+        interview: Чем type conversion отличается от type assertion, что произойдёт при неудачном type assertion без comma-ok, как конвертировать строку в число и обратно.
+        in_practice: Постоянно нужно при парсинге входных данных (HTTP-параметры, конфиги, JSON) и при взаимодействии между пакетами с разными типами.
         min_grade: Junior
-        depends_on: [basics]
+        depends_on: [data-types]
+        resources:
+          - title: "Type Conversion"
+            url: "https://go.dev/tour/basics/13"
+            type: official
+          - title: "A Comprehensive Guide to Type Casting and Conversions in Go"
+            url: "https://dev.to/zakariachahboun/a-comprehensive-guide-to-type-casting-and-conversions-in-go-26di"
+            type: article
+          - title: "Safe Go Type Conversions: Comprehensive Guide"
+            url: "https://medium.com/lyonas/go-type-casting-starter-guide-a9c1811670c5"
+            type: article
+
+  - id: composite-types
+    title: Составные типы
+    skills:
+      - id: arrays
+        title: Массивы
+        description: Фиксированный размер, значимый тип, когда использовать вместо слайсов
+        interview: Чем массив отличается от слайса, почему массив — значимый тип, когда массив предпочтительнее слайса.
+        in_practice: Массивы редко используются напрямую, но понимание их природы критично для работы со слайсами, так как слайс — это обёртка над массивом.
+        min_grade: Intern
+        depends_on: [basics.data-types]
+        resources:
+          - title: "Arrays"
+            url: "https://go.dev/tour/moretypes/6"
+            type: official
+          - title: "A Complete Guide to Arrays in Golang"
+            url: "https://www.kelche.co/blog/go/golang-arrays/"
+            type: article
+      - id: slices
+        title: Слайсы
+        description: >
+          len/cap, backing array, append, copy, make(),
+          nil vs empty slice, slice to array conversion, grow strategy
+        interview: Что произойдёт при append, если cap исчерпан, чем nil slice отличается от пустого, как слайсы делят underlying array и к каким багам это приводит.
+        in_practice: Основная коллекция в Go — используется повсюду для списков данных, буферов, результатов запросов к БД и формирования ответов API.
+        min_grade: Junior
+        depends_on: [arrays]
+        resources:
+          - title: "make"
+            url: "https://go.dev/tour/moretypes/13"
+            type: official
+          - title: "The new() vs make() Functions in Go"
+            url: "https://www.freecodecamp.org/news/new-vs-make-functions-in-go/"
+            type: article
+          - title: "Slice Arrays Correctly"
+            url: "https://labex.io/tutorials/go-how-to-slice-arrays-correctly-418936"
+            type: article
+      - id: maps
+        title: Карты (map)
+        description: Создание, comma-ok idiom, delete, итерация, concurrent access проблемы
+        interview: Можно ли читать из nil map, а записывать, почему конкурентный доступ к map вызывает panic, а не data race, как получить стабильный порядок ключей.
+        in_practice: Незаменимы для кеширования, индексации данных, подсчёта уникальных значений и маппинга конфигураций в любом бэкенд-сервисе.
+        min_grade: Junior
+        depends_on: [slices]
+        resources:
+          - title: "Maps"
+            url: "https://go.dev/blog/maps"
+            type: official
+          - title: "Mastering Go Maps: Best Practices & Pro Tips"
+            url: "https://blog.stackademic.com/golang-use-maps-like-pro-the-proper-way-to-use-maps-in-golang-7a20c805540c"
+            type: article
+          - title: "Understanding HashMaps in DSA"
+            url: "https://medium.com/@nikhil.cse16/understanding-hashmaps-in-dsa-5450c6ec2e75"
+            type: article
+      - id: structs
+        title: Структуры
+        description: Объявление, struct tags (JSON), embedding, анонимные структуры
+        interview: Как работает embedding (встраивание) и чем оно отличается от наследования, какие struct tags бывают и как написать свой, что такое анонимная структура.
+        in_practice: Структуры — основной способ моделирования данных в Go; struct tags управляют сериализацией в JSON, валидацией и маппингом полей из БД.
+        min_grade: Junior
+        depends_on: [slices]
+        resources:
+          - title: "Structs"
+            url: "https://go.dev/tour/moretypes/2"
+            type: official
+          - title: "Go Struct: A Deep Dive"
+            url: "https://leapcell.medium.com/deep-dive-into-go-struct-103961431c64"
+            type: article
       - id: strings
         title: Строки
-        description: UTF-8, rune vs byte, strings.Builder, конвертация, иммутабельность
+        description: UTF-8, rune vs byte, strings.Builder, strings/bytes пакеты, иммутабельность
+        interview: Почему len("привет") возвращает не 6, как эффективно конкатенировать строки в цикле, чем strings.Builder лучше конкатенации через +.
+        in_practice: Корректная работа со строками критична для обработки пользовательского ввода, логирования, формирования SQL-запросов и работы с UTF-8 текстами.
         min_grade: Junior
-        depends_on: [slices-maps]
+        depends_on: [slices]
+
+  - id: pointers
+    title: Указатели и память
+    skills:
+      - id: pointer-basics
+        title: Указатели
+        description: "Оператор &/*, nil pointer, указатели на структуры, указатели и слайсы/карты"
+        interview: Когда передавать по указателю, а когда по значению, что произойдёт при разыменовании nil-указателя, почему слайсы и карты уже являются ссылочными типами.
+        in_practice: Указатели позволяют избежать копирования больших структур и изменять данные в вызываемых функциях — ключевой механизм для эффективной работы с памятью.
+        min_grade: Junior
+        depends_on: [composite-types.structs]
+        resources:
+          - title: "Pointers"
+            url: "https://go.dev/tour/moretypes/1"
+            type: official
+          - title: "Understanding Value and Pointer Receivers in Golang"
+            url: "https://medium.com/the-bug-shots/understanding-value-and-pointer-receivers-in-golang-82dd73a3eef9"
+            type: article
+      - id: memory-management
+        title: Управление памятью
+        description: Stack vs heap, escape analysis, когда аллоцируется на heap, sync.Pool
+        interview: Как определить, попадёт ли переменная на heap, что покажет go build -gcflags="-m", когда и зачем использовать sync.Pool.
+        in_practice: Понимание escape analysis помогает писать код с минимальным давлением на GC, что критично для высоконагруженных сервисов с жёсткими требованиями по latency.
+        min_grade: Middle
+        depends_on: [pointer-basics]
+        resources:
+          - title: "The Go Memory Model"
+            url: "https://go.dev/ref/mem"
+            type: official
+          - title: "An overview of memory management in Go"
+            url: "https://medium.com/safetycultureengineering/an-overview-of-memory-management-in-go-9a72ec7c76a8"
+            type: article
+          - title: "How Go Manages Memory and Why It's So Efficient"
+            url: "https://medium.com/@siddharthnarayan/how-go-manages-memory-and-why-its-so-efficient-68c13133ba1c"
+            type: article
+
+  - id: methods-interfaces
+    title: Методы и интерфейсы
+    skills:
+      - id: methods
+        title: Методы
+        description: Value receivers vs pointer receivers, методы vs функции, method sets
+        interview: Когда использовать value receiver, а когда pointer receiver, может ли метод с value receiver изменить поля структуры, что такое method set и как он влияет на реализацию интерфейсов.
+        in_practice: Методы — основа объектно-ориентированного подхода в Go; правильный выбор receiver определяет семантику мутабельности и совместимость с интерфейсами.
+        min_grade: Junior
+        depends_on: [pointers.pointer-basics]
+      - id: interfaces
+        title: Интерфейсы
+        description: Неявная реализация, empty interface, embedding, type assertion, type switch
+        interview: Почему интерфейсы в Go реализуются неявно, чем interface{} отличается от any, как интерфейс устроен внутри (iface/eface), когда интерфейс равен nil.
+        in_practice: Интерфейсы — основа полиморфизма и dependency injection в Go; используются для абстракции хранилищ, HTTP-клиентов, логгеров и подмены зависимостей в тестах.
+        min_grade: Junior
+        depends_on: [methods]
+        resources:
+          - title: "Interfaces - Go by Example"
+            url: "https://gobyexample.com/interfaces"
+            type: article
+          - title: "Mastering Go Interfaces: From Basics to Best Practices"
+            url: "https://abubakardev0.medium.com/mastering-go-interfaces-from-basics-to-best-practices-36912b65aa3d"
+            type: article
       - id: generics
         title: Generics
-        description: Параметры типов, constraints, type sets, comparable
+        description: Generic функции, generic типы, type constraints, type inference, comparable
+        interview: Зачем добавили generics в Go, что такое type constraint, чем comparable отличается от any, можно ли использовать generics с методами.
+        in_practice: Generics позволяют писать переиспользуемые утилиты (Map, Filter, Contains) и типобезопасные контейнеры без дублирования кода и приведения типов.
         min_grade: Junior+
-        depends_on: [structs-interfaces]
-      - id: reflection
-        title: Reflection
-        description: reflect пакет, Type/Value, тегирование структур, use cases и антипаттерны
-        min_grade: Middle+
-        depends_on: [structs-interfaces]
+        depends_on: [interfaces]
+        resources:
+          - title: "Generic Functions"
+            url: "https://go.dev/doc/tutorial/generics"
+            type: official
+          - title: "Understanding Generics"
+            url: "https://blog.logrocket.com/understanding-generics-go-1-18/"
+            type: article
+
+  - id: error-handling
+    title: Обработка ошибок
+    skills:
+      - id: errors-basics
+        title: Основы обработки ошибок
+        description: error interface, errors.New, fmt.Errorf, comma-ok pattern
+        interview: Почему в Go ошибки — это значения, а не исключения, как устроен интерфейс error, почему принято возвращать ошибку последним значением.
+        in_practice: Каждая функция, работающая с I/O, сетью или БД, возвращает error — умение правильно обрабатывать и пробрасывать ошибки критично для надёжного бэкенда.
+        min_grade: Junior
+        depends_on: [methods-interfaces.interfaces]
+      - id: error-wrapping
+        title: Wrapping и Sentinel errors
+        description: "fmt.Errorf с %w, errors.Is/As, sentinel errors, custom error types"
+        interview: "Чем errors.Is отличается от ==, когда использовать errors.As, как работает цепочка %w, зачем нужны sentinel errors типа sql.ErrNoRows."
+        in_practice: Wrapping ошибок позволяет сохранять контекст при проброске через слои приложения, а errors.Is/As — корректно обрабатывать конкретные типы ошибок в вызывающем коде.
+        min_grade: Junior+
+        depends_on: [errors-basics]
+      - id: panic-recover
+        title: panic и recover
+        description: Когда использовать panic, recover в defer, stack traces, отладка
+        interview: Когда допустимо использовать panic в production-коде, как recover перехватывает panic, почему recover работает только внутри defer.
+        in_practice: Panic/recover используется в middleware для HTTP-серверов, чтобы один упавший запрос не уронил весь сервис, а также при инициализации обязательных зависимостей.
+        min_grade: Middle-
+        depends_on: [error-wrapping]
+
+  - id: code-organization
+    title: Организация кода
+    skills:
+      - id: packages
+        title: Пакеты
+        description: Правила импорта, exported/unexported, internal пакеты, стандартная структура проекта
+        interview: Как работает видимость через заглавную букву, зачем нужна папка internal, какова рекомендуемая структура Go-проекта (cmd, pkg, internal).
+        in_practice: Правильная организация пакетов предотвращает циклические зависимости и делает кодовую базу понятной для команды, особенно в крупных микросервисах.
+        min_grade: Junior
+        depends_on: [basics.functions]
+        resources:
+          - title: "os package"
+            url: "https://pkg.go.dev/os"
+            type: official
+          - title: "Importing Packages in Go"
+            url: "https://www.digitalocean.com/community/tutorials/importing-packages-in-go"
+            type: article
+          - title: "A Comprehensive Guide to Importing and Using Packages"
+            url: "https://learnscripting.org/a-comprehensive-guide-to-importing-and-using-packages-in-go/"
+            type: article
+      - id: modules
+        title: Модули и зависимости
+        description: go mod init/tidy/vendor, go.sum, версионирование, приватные модули
+        interview: Зачем нужен go.sum и чем он отличается от go.mod, как подключить приватный модуль из корпоративного репозитория, что делает go mod tidy.
+        in_practice: Управление зависимостями — ежедневная задача; go mod vendor используют для воспроизводимых сборок в CI, а приватные модули нужны в корпоративной разработке.
+        min_grade: Junior
+        depends_on: [packages]
+      - id: publishing
+        title: Публикация модулей
+        description: Семантическое версионирование, pkg.go.dev, retract директива
+        interview: Как работает semver в Go-модулях, зачем нужен суффикс /v2 в пути модуля, что такое retract и когда его применять.
+        in_practice: Нужно при разработке внутренних библиотек компании и open-source пакетов — правильное версионирование предотвращает поломку зависимых проектов.
+        min_grade: Middle
+        depends_on: [modules]
 
   - id: concurrency
     title: Конкурентность
     skills:
       - id: goroutines
-        title: Горутины и каналы
-        description: >
-          go keyword, каналы (buffered/unbuffered), select,
-          fan-in/fan-out, pipeline pattern
-        min_grade: Junior
-        depends_on: [go-core.basics]
-      - id: sync-primitives
-        title: Примитивы синхронизации
-        description: >
-          sync.Mutex, RWMutex, WaitGroup, Once, Pool, Map.
-          atomic операции
+        title: Горутины
+        description: go keyword, лёгкие потоки, планировщик Go (GMP), GOMAXPROCS
+        interview: Чем горутина отличается от OS-потока, сколько памяти занимает горутина, что произойдёт с утечкой горутины и как её обнаружить.
+        in_practice: Горутины — основа конкурентной модели Go; используются для параллельной обработки HTTP-запросов, фоновых задач, работы с очередями сообщений.
+        min_grade: Junior+
+        depends_on: [basics.functions]
+        resources:
+          - title: "Goroutines"
+            url: "https://go.dev/tour/concurrency/1"
+            type: official
+          - title: "Goroutines - Concurrency in Golang"
+            url: "https://golangbot.com/goroutines/"
+            type: article
+          - title: "Goroutines in Golang: Understanding and Implementing"
+            url: "https://medium.com/@jamal.kaksouri/goroutines-in-golang-understanding-and-implementing-concurrent-programming-in-go-600187bcfaa2"
+            type: article
+      - id: channels
+        title: Каналы
+        description: Buffered vs unbuffered, send/receive, close, select statement, deadlock
+        interview: Чем buffered канал отличается от unbuffered, что произойдёт при записи в закрытый канал, как select помогает работать с несколькими каналами, как возникает deadlock.
+        in_practice: Каналы используются для безопасной передачи данных между горутинами — в pipeline обработки данных, graceful shutdown и ограничении конкурентности.
         min_grade: Junior+
         depends_on: [goroutines]
+        resources:
+          - title: "Channels in Golang"
+            url: "https://golangdocs.com/channels-in-golang"
+            type: official
+          - title: "Concurrency in Go: Channels and WaitGroups"
+            url: "https://medium.com/goturkiye/concurrency-in-go-channels-and-waitgroups-25dd43064d1"
+            type: article
+          - title: "Go Channels Explained: More than Just a Beginner's Guide"
+            url: "https://blog.devtrovert.com/p/go-channels-explained-more-than-just"
+            type: article
+      - id: sync-package
+        title: Пакет sync
+        description: Mutex, RWMutex, WaitGroup, Once, Pool, Map, atomic операции
+        interview: Чем Mutex отличается от RWMutex, когда использовать sync.Map вместо обычной map с мьютексом, как sync.Once гарантирует однократное выполнение, зачем нужен atomic.
+        in_practice: Примитивы sync нужны для защиты общих данных в конкурентном коде — кешей, счётчиков, пулов соединений и инициализации синглтонов.
+        min_grade: Middle-
+        depends_on: [channels]
+      - id: context
+        title: Пакет context
+        description: context.Background/TODO, WithCancel/WithTimeout/WithDeadline/WithValue, propagation
+        interview: Зачем нужен context, чем WithTimeout отличается от WithDeadline, почему нельзя хранить context в структуре, что передавать через WithValue.
+        in_practice: Context пробрасывается через всю цепочку вызовов для управления таймаутами запросов к БД, внешним API и для отмены операций при shutdown сервиса.
+        min_grade: Middle-
+        depends_on: [channels]
+      - id: patterns
+        title: Паттерны конкурентности
+        description: fan-in, fan-out, pipeline, worker pool, semaphore, errgroup, rate limiting
+        interview: Реализуйте worker pool на горутинах и каналах, чем errgroup лучше WaitGroup, как ограничить конкурентность с помощью семафора на канале.
+        in_practice: Паттерны конкурентности применяются для параллельной обработки задач — массовая рассылка уведомлений, обработка событий из очереди, batch-запросы к внешним сервисам.
+        min_grade: Middle
+        depends_on: [sync-package, context]
+        resources:
+          - title: "Goroutines"
+            url: "https://go.dev/tour/concurrency/1"
+            type: official
+          - title: "Goroutines - Concurrency in Golang"
+            url: "https://golangbot.com/goroutines/"
+            type: article
+          - title: "Goroutines in Golang: Understanding and Implementing"
+            url: "https://medium.com/@jamal.kaksouri/goroutines-in-golang-understanding-and-implementing-concurrent-programming-in-go-600187bcfaa2"
+            type: article
+          - title: "Channels in Golang"
+            url: "https://golangdocs.com/channels-in-golang"
+            type: official
+          - title: "Concurrency in Go: Channels and WaitGroups"
+            url: "https://medium.com/goturkiye/concurrency-in-go-channels-and-waitgroups-25dd43064d1"
+            type: article
+      - id: race-detection
+        title: Data Races и отладка
+        description: Race detector (-race), happens-before, deadlock detection, pprof goroutines
+        interview: Что такое data race и чем она отличается от race condition, как работает флаг -race, как обнаружить утечку горутин через pprof.
+        in_practice: Race detector включают в CI для автоматического обнаружения конкурентных багов; pprof goroutines помогает диагностировать утечки и deadlock-и на продакшене.
+        min_grade: Middle
+        depends_on: [sync-package]
       - id: scheduler
         title: Планировщик Go (GMP)
         description: >
-          Goroutine, Machine (OS thread), Processor. GOMAXPROCS,
-          work stealing, preemptive scheduling, syscalls
-        min_grade: Middle-
-        depends_on: [goroutines]
-      - id: concurrency-patterns
-        title: Паттерны конкурентности
-        description: >
-          Context (cancel, timeout, values), errgroup, semaphore,
-          rate limiting, circuit breaker
-        min_grade: Middle
-        depends_on: [sync-primitives, scheduler]
-      - id: data-races
-        title: Data Races и отладка
-        description: >
-          Race detector (-race), happens-before в Go,
-          deadlock detection, pprof для горутин
-        min_grade: Middle
-        depends_on: [sync-primitives]
+          Goroutine, Machine (OS thread), Processor. Work stealing,
+          preemptive scheduling, syscalls, network poller
+        interview: Опишите модель GMP, как работает work stealing, что происходит с горутиной при блокирующем syscall, как Go стал preemptive с 1.14.
+        in_practice: Глубокое понимание планировщика помогает диагностировать проблемы производительности — например, почему CPU-bound горутины могут голодать при неправильном дизайне.
+        min_grade: Middle+
+        depends_on: [patterns]
 
   - id: gc
     title: Garbage Collection
@@ -99,79 +420,281 @@ categories:
       - id: gc-basics
         title: Основы GC в Go
         description: Tri-color mark-and-sweep, write barrier, STW паузы, GOGC
-        min_grade: Junior+
-        depends_on: [go-core.slices-maps]
+        interview: Как работает tri-color алгоритм, зачем нужен write barrier, что такое STW-паузы и как GOGC влияет на частоту сборки мусора.
+        in_practice: Понимание GC необходимо для оптимизации latency-критичных сервисов — например, уменьшения пауз в real-time системах и снижения потребления памяти.
+        min_grade: Middle-
+        depends_on: [pointers.memory-management]
+        resources:
+          - title: "Garbage Collections"
+            url: "https://tip.golang.org/doc/gc-guide"
+            type: official
+          - title: "Garbage Collection In Go"
+            url: "https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html"
+            type: article
+          - title: "Understanding Go's Garbage Collection"
+            url: "https://bwoff.medium.com/understanding-gos-garbage-collection-415a19cc485c"
+            type: article
       - id: gc-tuning
         title: Тюнинг GC и памяти
         description: >
-          GOMEMLIMIT, ballast, escape analysis, stack vs heap allocation,
-          sync.Pool, memory profiling
+          GOMEMLIMIT, ballast, escape analysis, stack vs heap,
+          sync.Pool, memory profiling, pprof
+        interview: Чем GOMEMLIMIT отличается от GOGC, зачем раньше использовали ballast и почему GOMEMLIMIT его заменил, как найти утечку памяти через pprof.
+        in_practice: Тюнинг GC и профилирование памяти применяются при оптимизации production-сервисов под высокую нагрузку, когда дефолтные настройки дают неприемлемый latency или OOM.
         min_grade: Middle+
         depends_on: [gc-basics]
+        resources:
+          - title: "Garbage Collections"
+            url: "https://tip.golang.org/doc/gc-guide"
+            type: official
+          - title: "Garbage Collection In Go"
+            url: "https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html"
+            type: article
+          - title: "Understanding Go's Garbage Collection"
+            url: "https://bwoff.medium.com/understanding-gos-garbage-collection-415a19cc485c"
+            type: article
 
   - id: stdlib
     title: Стандартная библиотека
     skills:
+      - id: io
+        title: io и работа с данными
+        description: io.Reader/Writer, bufio, encoding/json, encoding/xml, os (файлы), io.Pipe
+        interview: Чем io.Reader отличается от bufio.Reader, как правильно закрывать файлы (defer), как сериализовать/десериализовать JSON с вложенными структурами.
+        in_practice: Интерфейсы io.Reader/Writer пронизывают всю стандартную библиотеку — чтение файлов, HTTP-тел, работа с JSON-ответами API и потоковая обработка данных.
+        min_grade: Junior
+        depends_on: [basics.functions]
+        resources:
+          - title: "Empty Interface"
+            url: "https://go.dev/tour/methods/14"
+            type: official
+          - title: "Understanding the empty interface in Go"
+            url: "https://dev.to/flrnd/understanding-the-empty-interface-in-go-4652"
+            type: article
       - id: net-http
         title: net/http
         description: >
-          HTTP-сервер, Handler/HandlerFunc, middleware, ServeMux,
+          HTTP-сервер, Handler/HandlerFunc, middleware, ServeMux (1.22+),
           клиент (Transport, timeout, connection pooling)
+        interview: Как реализовать middleware-цепочку через http.Handler, зачем настраивать таймауты у HTTP-клиента, что нового в ServeMux в Go 1.22.
+        in_practice: net/http — основа любого Go-бэкенда; даже при использовании фреймворков важно понимать базовый пакет для настройки клиентов, таймаутов и connection pooling.
         min_grade: Junior
-        depends_on: [go-core.structs-interfaces]
-      - id: io
-        title: io и работа с данными
-        description: >
-          io.Reader/Writer, bufio, encoding/json, encoding/xml,
-          os (файлы), io.Pipe
+        depends_on: [methods-interfaces.interfaces]
+      - id: time
+        title: Пакет time
+        description: Time, Duration, Timer, Ticker, time.After, time zones, форматирование
+        interview: Почему Go использует формат "2006-01-02 15:04:05" для парсинга дат, чем Timer отличается от Ticker, как корректно сравнивать время в разных часовых поясах.
+        in_practice: Работа со временем необходима для таймаутов, расписаний, TTL кешей, логирования и корректного хранения дат в БД с учётом часовых поясов.
         min_grade: Junior
-        depends_on: [go-core.basics]
-      - id: testing-stdlib
-        title: Пакет testing
-        description: >
-          *testing.T, *testing.B, table-driven tests, subtests,
-          testdata, -race, -cover
+        depends_on: [basics.functions]
+        resources:
+          - title: "time package"
+            url: "https://pkg.go.dev/time"
+            type: official
+          - title: "How To Use Dates and Times in Go"
+            url: "https://www.digitalocean.com/community/tutorials/how-to-use-dates-and-times-in-go"
+            type: article
+          - title: "Time in Go: Overview with Examples"
+            url: "https://medium.com/@rakeshmirji/time-in-go-overview-with-examples-ebb9e30cdb45"
+            type: article
+      - id: flag-os
+        title: flag и os
+        description: Парсинг аргументов, переменные окружения, os.Exit, сигналы
+        interview: Как обрабатывать SIGTERM/SIGINT для graceful shutdown, чем os.Exit отличается от return в main, как читать переменные окружения.
+        in_practice: Обработка сигналов ОС нужна для graceful shutdown сервисов в Kubernetes, а переменные окружения — основной способ конфигурации в контейнерах.
         min_grade: Junior
-        depends_on: [go-core.basics]
+        depends_on: [basics.functions]
+        resources:
+          - title: "os package"
+            url: "https://pkg.go.dev/os"
+            type: official
+          - title: "An Overview of Go's os and io Packages"
+            url: "https://reintech.io/blog/an-overview-of-gos-os-and-io-packages"
+            type: article
+          - title: "Flag"
+            url: "https://go-language.org/go-docs/flag/"
+            type: official
+          - title: "How To Use the Flag Package"
+            url: "https://www.digitalocean.com/community/tutorials/how-to-use-the-flag-package-in-go"
+            type: article
+          - title: "Advanced Golang Flag Techniques"
+            url: "https://www.golinuxcloud.com/golang-flags-examples/"
+            type: article
+      - id: slog
+        title: slog (логирование)
+        description: Structured logging (Go 1.21+), Handler, Attr, groups, JSON/Text output
+        interview: Чем structured logging лучше fmt.Println, как написать кастомный Handler для slog, как группировать атрибуты логов.
+        in_practice: Структурированные логи в JSON-формате необходимы для интеграции с ELK/Grafana Loki, поиска по полям и агрегации метрик из логов в production.
+        min_grade: Junior+
+        depends_on: [net-http]
+        resources:
+          - title: "Structured Logging with slog"
+            url: "https://go.dev/blog/slog"
+            type: official
+          - title: "Logging in Go with Slog: The Ultimate Guide"
+            url: "https://betterstack.com/community/guides/logging/logging-in-go/"
+            type: article
+          - title: "Effective Logging in Go: Best Practices and Implementation"
+            url: "https://dev.to/fazal_mansuri_/effective-logging-in-go-best-practices-and-implementation-guide-23hp"
+            type: article
+      - id: regexp
+        title: regexp
+        description: RE2 синтаксис, Compile, FindString, ReplaceAll, named groups
+        interview: Почему Go использует RE2 вместо PCRE, чем MustCompile отличается от Compile, как избежать повторной компиляции регулярки в hot path.
+        in_practice: Регулярные выражения используются для валидации пользовательского ввода, парсинга логов, извлечения данных из неструктурированного текста.
+        min_grade: Junior+
+        depends_on: [basics.functions]
+        resources:
+          - title: "regexp package"
+            url: "https://pkg.go.dev/regexp"
+            type: official
+          - title: "Mastering Regular Expressions in Golang"
+            url: "https://labex.io/tutorials/go-golang-regular-expression-tutorial-15502"
+            type: article
+          - title: "A deep dive into regular expressions with Golang"
+            url: "https://blog.logrocket.com/deep-dive-regular-expressions-golang/"
+            type: article
+      - id: embed
+        title: go:embed
+        description: "Встраивание файлов в бинарник, //go:embed, embed.FS"
+        interview: "Какие типы переменных поддерживает //go:embed, можно ли встроить целую директорию, чем embed.FS отличается от обычного []byte."
+        in_practice: go:embed используется для встраивания SQL-миграций, HTML-шаблонов, конфигов и статических файлов прямо в бинарник — упрощает деплой и устраняет зависимость от файловой системы.
+        min_grade: Middle-
+        depends_on: [io]
 
   - id: frameworks
     title: Фреймворки и библиотеки
     skills:
       - id: web-framework
         title: Web-фреймворк
-        description: Gin / Echo / Chi / Fiber — роутинг, middleware, валидация, binding
+        description: Gin / Echo / Chi / Fiber — роутинг, middleware, валидация, binding, swagger
+        interview: Чем Gin/Echo отличаются от стандартного net/http, как работает middleware-цепочка во фреймворке, как реализовать валидацию входных данных.
+        in_practice: Фреймворки ускоряют разработку REST API за счёт готового роутинга, binding-а JSON в структуры, генерации Swagger-документации и обработки ошибок.
         min_grade: Junior
         depends_on: [stdlib.net-http]
+        resources:
+          - title: "Gin Web Framework"
+            url: "https://gin-gonic.com/"
+            type: official
+          - title: "Building a RESTful API in Go Using the Gin Framework"
+            url: "https://medium.com/@godusan/building-a-restful-api-in-go-using-the-gin-framework-a-step-by-step-tutorial-part-1-2-70372ebfa988"
+            type: article
+          - title: "Developing a RESTful API with Go and Gin"
+            url: "https://go.dev/doc/tutorial/web-service-gin"
+            type: article
+          - title: "High Performance, Extensible, Minimalist Go Web framework"
+            url: "https://echo.labstack.com/"
+            type: official
+          - title: "Echo Documentation"
+            url: "https://echo.labstack.com/docs"
+            type: official
       - id: grpc-go
         title: gRPC
         description: >
-          Protocol Buffers, proto-файлы, генерация кода,
-          unary/streaming RPC, interceptors
+          Protocol Buffers, proto-файлы, генерация кода (protoc),
+          unary/streaming RPC, interceptors, reflection
+        interview: Чем gRPC отличается от REST, когда использовать streaming RPC, как работают interceptors (аналог middleware), как версионировать proto-файлы.
+        in_practice: gRPC — стандарт для межсервисного взаимодействия в микросервисной архитектуре благодаря типобезопасности, кодогенерации и эффективной бинарной сериализации.
         min_grade: Middle-
         depends_on: [web-framework]
       - id: orm
         title: ORM / Query Builder
-        description: GORM, sqlx, pgx — миграции, raw queries, транзакции
+        description: GORM, sqlx, pgx — миграции, raw queries, транзакции, prepared statements
+        interview: Чем sqlx/pgx отличаются от GORM, когда ORM вредит производительности, как правильно работать с транзакциями и prepared statements.
+        in_practice: Работа с БД — core-задача бэкенда; выбор между ORM и query builder влияет на контроль над запросами, производительность и простоту поддержки кода.
         min_grade: Junior+
         depends_on: [common/databases.sql-basics]
+        resources:
+          - title: "GORM - The fantastic ORM library for Golang"
+            url: "https://gorm.io/"
+            type: official
+          - title: "gorm package"
+            url: "https://pkg.go.dev/gorm.io/gorm"
+            type: official
+          - title: "Getting Started on Golang Gorm"
+            url: "https://medium.com/@itskenzylimon/getting-started-on-golang-gorm-af49381caf3f"
+            type: article
 
   - id: testing
     title: Тестирование
     skills:
-      - id: unit-testing
-        title: Unit-тесты
-        description: Table-driven tests, testify, assert/require, моки (gomock, mockery)
+      - id: testing-basics
+        title: Пакет testing
+        description: >
+          *testing.T, table-driven tests, subtests, testdata,
+          -race, -cover, test helpers
+        interview: Как организовать table-driven тесты, зачем нужны subtests и t.Run, что показывает go test -cover, как использовать testdata.
+        in_practice: Тесты — обязательная часть Go-разработки; table-driven подход позволяет компактно покрывать множество кейсов, а -race в CI ловит конкурентные баги.
         min_grade: Junior
-        depends_on: [stdlib.testing-stdlib]
+        depends_on: [basics.functions]
+        resources:
+          - title: "go test"
+            url: "https://go.dev/doc/tutorial/add-a-test"
+            type: official
+          - title: "How To Write Unit Tests in Go"
+            url: "https://www.digitalocean.com/community/tutorials/how-to-write-unit-tests-in-go-using-go-test-and-the-testing-package"
+            type: article
+          - title: "Testing and Benchmarking in Go"
+            url: "https://medium.com/hyperskill/testing-and-benchmarking-in-go-e33a54b413e"
+            type: article
+      - id: testify
+        title: testify и моки
+        description: assert/require, suite, testify/mock, gomock, mockery, генерация моков
+        interview: Чем assert отличается от require в testify, как сгенерировать мок с помощью mockery, когда использовать gomock вместо testify/mock.
+        in_practice: Моки позволяют тестировать бизнес-логику изолированно от БД и внешних сервисов, а testify упрощает написание читаемых assertions.
+        min_grade: Junior+
+        depends_on: [testing-basics]
       - id: integration-testing
         title: Интеграционные тесты
-        description: TestContainers, docker-compose для тестов, тестирование с реальной БД
+        description: TestContainers, docker-compose, httptest, тестирование с реальной БД
+        interview: Как организовать интеграционные тесты с реальной БД, чем TestContainers лучше фикстур, как тестировать HTTP-эндпоинты через httptest.
+        in_practice: Интеграционные тесты ловят баги на стыке слоёв (SQL-запросы, сериализация, миграции), которые unit-тесты с моками пропускают.
         min_grade: Middle-
-        depends_on: [unit-testing]
+        depends_on: [testify]
       - id: benchmarks
         title: Бенчмарки и профилирование
         description: >
-          testing.B, pprof (CPU, memory, goroutine, block),
-          trace, flame graphs
+          testing.B, pprof (CPU, memory, goroutine, block, mutex),
+          trace, flame graphs, benchstat
+        interview: Как написать бенчмарк и интерпретировать результаты, как использовать pprof для поиска горячих точек, что показывает flame graph.
+        in_practice: Бенчмарки и профилирование применяются для оптимизации критичных путей — обработки запросов, сериализации данных, работы с БД — и доказательства эффективности оптимизаций.
         min_grade: Middle
-        depends_on: [unit-testing]
+        depends_on: [testing-basics]
+        resources:
+          - title: "Add a Test"
+            url: "https://go.dev/doc/tutorial/add-a-test"
+            type: official
+          - title: "Benchmarking in Go: A Comprehensive Handbook"
+            url: "https://betterstack.com/community/guides/scaling-go/golang-benchmarking/"
+            type: article
+          - title: "Benchmarking in Golang: Improving Function Performance"
+            url: "https://blog.logrocket.com/benchmarking-golang-improve-function-performance/"
+            type: article
+
+  - id: build
+    title: Сборка и деплой
+    skills:
+      - id: go-build
+        title: go build и кросс-компиляция
+        description: "GOOS/GOARCH, CGO, static binary, -ldflags, build tags, //go:build"
+        interview: "Как собрать бинарник для Linux на macOS, зачем отключать CGO, как внедрить версию и хеш коммита через -ldflags, для чего нужны build tags."
+        in_practice: Кросс-компиляция и статические бинарники — ключевое преимущество Go для деплоя в контейнерах; -ldflags используют для встраивания версии сборки.
+        min_grade: Junior+
+        depends_on: [code-organization.modules]
+        resources:
+          - title: "Compile and Install the Application"
+            url: "https://go.dev/doc/tutorial/compile-install"
+            type: official
+          - title: "How to Build and Run Go Programs"
+            url: "https://go-tutorial.com/build-and-run"
+            type: article
+          - title: "How To Build and Install Go Programs"
+            url: "https://www.digitalocean.com/community/tutorials/how-to-build-and-install-go-programs"
+            type: article
+      - id: docker
+        title: Docker и multi-stage
+        description: Multi-stage builds, distroless/scratch, кеширование слоёв, health checks
+        interview: Зачем нужен multi-stage build для Go, чем scratch отличается от distroless, как оптимизировать кеширование слоёв при go mod download.
+        in_practice: Multi-stage сборка Go-бинарника в scratch/distroless — стандартная практика, дающая минимальный и безопасный образ размером в несколько мегабайт.
+        min_grade: Middle-
+        depends_on: [go-build]

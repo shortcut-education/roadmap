@@ -13,107 +13,517 @@ includes:
   - common/system-design
 
 categories:
-  - id: java-core
-    title: Java Core
+  - id: basics
+    title: Основы языка
     skills:
-      - id: basics
-        title: Основы языка
-        description: Типы данных, операторы, управляющие конструкции, массивы, строки
+      - id: syntax
+        title: Базовый синтаксис
+        description: Типы данных, переменные, области видимости, операторы, приведение типов
+        interview: Разница между примитивами и обёртками, автобоксинг, что такое var (Java 10+), области видимости переменных.
+        in_practice: Ежедневная база — без знания синтаксиса невозможно читать и писать код. Ошибки в приведении типов приводят к багам в проде.
         min_grade: Intern
         depends_on: []
-      - id: oop
-        title: ООП
-        description: Классы, наследование, полиморфизм, инкапсуляция, абстракция, интерфейсы
+        resources:
+          - title: "Java Language Basics"
+            url: "https://dev.java/learn/language-basics"
+            type: official
+      - id: conditionals
+        title: Условия и циклы
+        description: if/else, switch, for, while, do-while, break/continue
+        interview: "Чем switch expression (Java 14+) отличается от switch statement? Когда предпочтительнее for-each, а когда обычный for?"
+        in_practice: Управляющие конструкции — каркас любой бизнес-логики. Неправильное условие или бесконечный цикл — частая причина инцидентов.
         min_grade: Intern
-        depends_on: [basics]
-      - id: exceptions
-        title: Исключения
-        description: Иерархия исключений, checked/unchecked, try-with-resources, custom exceptions
+        depends_on: [syntax]
+        resources:
+          - title: "What are Conditional statements?"
+            url: "https://www.educative.io/answers/what-are-conditional-statements-in-programming"
+            type: article
+      - id: arrays
+        title: Массивы
+        description: Одномерные и многомерные массивы, Arrays utility class
+        interview: Чем массив отличается от ArrayList? Можно ли изменить размер массива после создания? Как работает Arrays.sort под капотом?
+        in_practice: Массивы используются в низкоуровневых структурах данных и API (byte[] для I/O, args в main). В прикладном коде чаще заменяются коллекциями.
         min_grade: Intern
-        depends_on: [oop]
-      - id: collections
-        title: Collections Framework
-        description: >
-          Внутреннее устройство HashMap, ArrayList, LinkedList, TreeMap, HashSet.
-          Контракт equals/hashCode. Иерархия интерфейсов List, Set, Queue, Map
+        depends_on: [syntax]
+        resources:
+          - title: "Java Arrays"
+            url: "https://jenkov.com/tutorials/java/arrays.html"
+            type: article
+      - id: strings
+        title: Строки и методы
+        description: String, StringBuilder, StringBuffer, иммутабельность, pool строк
+        interview: "Почему String иммутабелен и как работает String Pool? Когда использовать StringBuilder vs StringBuffer? Что делает intern()?"
+        in_practice: Строки — самый частый тип данных в бэкенде (запросы, JSON, логи). Неправильная конкатенация в цикле через + убивает производительность.
+        min_grade: Intern
+        depends_on: [syntax]
+      - id: math-ops
+        title: Математические операции
+        description: Math class, BigDecimal, BigInteger, работа с числами с плавающей точкой
+        interview: "Почему нельзя использовать double для денежных расчётов? Как правильно сравнивать BigDecimal? Что такое RoundingMode?"
+        in_practice: BigDecimal обязателен для финансовых расчётов — ошибки округления double приводят к расхождениям в платежах и отчётах.
+        min_grade: Intern
+        depends_on: [syntax]
+        resources:
+          - title: "Java Data Types"
+            url: "https://jenkov.com/tutorials/java/variables.html"
+            type: article
+          - title: "What are Data Types & Variables?"
+            url: "https://jenkov.com/tutorials/java/data-types.html"
+            type: article
+      - id: io-operations
+        title: I/O операции
+        description: InputStream/OutputStream, Reader/Writer, BufferedReader, try-with-resources
+        interview: "Чем байтовые потоки отличаются от символьных? Зачем нужен try-with-resources и что такое AutoCloseable? Как работает буферизация?"
+        in_practice: Чтение конфигов, загрузка файлов, работа с HTTP-телом запроса — всё это I/O. Незакрытые потоки приводят к утечкам ресурсов в проде.
         min_grade: Junior
-        depends_on: [oop]
+        depends_on: [syntax]
+      - id: file-operations
+        title: Работа с файлами
+        description: java.nio.file, Path, Files, WatchService, сериализация
+        interview: "Чем java.nio отличается от java.io? Как прочитать файл одной строкой через Files? Что такое сериализация и зачем serialVersionUID?"
+        in_practice: Генерация отчётов, обработка загруженных файлов, работа с временными файлами — типичные задачи бэкенда. NIO даёт производительный неблокирующий доступ.
+        min_grade: Junior
+        depends_on: [io-operations]
+      - id: date-time
+        title: Date и Time API
+        description: java.time (LocalDate, LocalDateTime, ZonedDateTime, Duration, Period, DateTimeFormatter)
+        interview: "Чем LocalDateTime отличается от ZonedDateTime? Почему java.util.Date считается устаревшим? Как правильно хранить даты в БД с учётом часовых поясов?"
+        in_practice: Расписания, дедлайны, TTL токенов — даты повсюду. Ошибки с часовыми поясами приводят к тому, что уведомления приходят не вовремя.
+        min_grade: Junior
+        depends_on: [syntax]
+        resources:
+          - title: "Date and Time API in Java"
+            url: "https://chamalwr.medium.com/datetime-api-in-java-2aef5df1c39b"
+            type: article
+          - title: "Introduction to Date and Time in Java"
+            url: "https://www.baeldung.com/java-8-date-time-intro"
+            type: article
+          - title: "Java SE 8 Date and Time"
+            url: "https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html"
+            type: article
+      - id: regex
+        title: Регулярные выражения
+        description: Pattern, Matcher, группы, lookahead/lookbehind
+        interview: "Как избежать ReDoS (catastrophic backtracking)? Чем find() отличается от matches()? Как работают группы захвата?"
+        in_practice: Валидация email, парсинг логов, извлечение данных из текста. Регулярки часто встречаются в конфигурациях Spring Security и маршрутизации.
+        min_grade: Junior+
+        depends_on: [strings]
+
+  - id: oop
+    title: Объектно-ориентированное программирование
+    skills:
+      - id: classes-objects
+        title: Классы и объекты
+        description: Конструкторы, атрибуты, методы, this, static, final
+        interview: "Чем static метод отличается от нестатического? Зачем нужен final на классе/методе/поле? Можно ли вызвать конструктор из другого конструктора?"
+        in_practice: Классы и объекты — основа всего Java-кода. Каждый сервис, контроллер, сущность — это класс с определёнными полями и методами.
+        min_grade: Intern
+        depends_on: [basics.syntax]
+        resources:
+          - title: "Java Class and Objects"
+            url: "https://www.programiz.com/java-programming/class-objects"
+            type: article
+          - title: "Java Classes and Objects"
+            url: "https://jenkov.com/tutorials/java/classes.html"
+            type: article
+      - id: access-specifiers
+        title: Модификаторы доступа
+        description: public, private, protected, default (package-private)
+        interview: "Какой модификатор доступа используется по умолчанию? Чем protected отличается от package-private? Виден ли protected из другого пакета?"
+        in_practice: Правильные модификаторы доступа определяют API класса и защищают внутреннее состояние. Без них невозможно писать поддерживаемый код.
+        min_grade: Intern
+        depends_on: [classes-objects]
+        resources:
+          - title: "Java Access Modifiers"
+            url: "https://jenkov.com/tutorials/java/access-modifiers.html"
+            type: article
+      - id: encapsulation
+        title: Инкапсуляция
+        description: Геттеры/сеттеры, information hiding, immutable objects
+        interview: "Зачем нужны геттеры/сеттеры, если можно сделать поле public? Как создать неизменяемый (immutable) объект в Java? Чем record помогает?"
+        in_practice: Инкапсуляция защищает инварианты объектов. Без неё любой кусок кода может сломать состояние объекта, что делает отладку кошмаром.
+        min_grade: Intern
+        depends_on: [access-specifiers]
+        resources:
+          - title: "Java - Encapsulation"
+            url: "https://www.tutorialspoint.com/java/java_encapsulation.htm"
+            type: article
+      - id: inheritance
+        title: Наследование
+        description: extends, super, иерархии классов, проблема хрупкого базового класса
+        interview: "Почему в Java нет множественного наследования классов? Что такое проблема diamond? Когда лучше использовать композицию вместо наследования?"
+        in_practice: Наследование используется в фреймворках (extends HttpServlet, extends JpaRepository), но в бизнес-логике чаще предпочитают композицию.
+        min_grade: Intern
+        depends_on: [classes-objects]
+        resources:
+          - title: "Java Inheritance"
+            url: "https://jenkov.com/tutorials/java/inheritance.html"
+            type: article
+          - title: "Inheritance in Java with Example"
+            url: "https://www.digitalocean.com/community/tutorials/inheritance-java-example"
+            type: article
+      - id: abstraction
+        title: Абстракция
+        description: Абстрактные классы, абстрактные методы, контракты
+        interview: "Чем абстрактный класс отличается от интерфейса? Когда выбрать абстрактный класс? Может ли абстрактный класс иметь конструктор?"
+        in_practice: Абстрактные классы задают шаблон поведения — например, базовый сервис с общей логикой валидации, которую наследники дополняют своей спецификой.
+        min_grade: Junior
+        depends_on: [inheritance]
+        resources:
+          - title: "Java Abstract Classes"
+            url: "https://jenkov.com/tutorials/java/abstract-classes.html"
+            type: article
+          - title: "Java Interfaces vs. Abstract Classes"
+            url: "https://jenkov.com/tutorials/java/interfaces-vs-abstract-classes.html"
+            type: article
+      - id: interfaces
+        title: Интерфейсы
+        description: Множественная реализация, default методы, static методы, маркерные интерфейсы
+        interview: "Зачем нужны default-методы в интерфейсах (Java 8+)? Что такое маркерный интерфейс (Serializable, Cloneable)? Конфликт default-методов из двух интерфейсов?"
+        in_practice: Интерфейсы — основа слабой связанности. В Spring почти всё построено на интерфейсах (Repository, Service), что позволяет легко подменять реализации.
+        min_grade: Junior
+        depends_on: [abstraction]
+        resources:
+          - title: "Interfaces in Java"
+            url: "https://jenkov.com/tutorials/java/interfaces.html"
+            type: article
+          - title: "A Guide to Java Interfaces"
+            url: "https://www.baeldung.com/java-interfaces"
+            type: article
+      - id: overloading-overriding
+        title: Перегрузка и переопределение
+        description: "Method overloading vs overriding, @Override, covariant return types"
+        interview: "Чем перегрузка отличается от переопределения? Можно ли переопределить static метод? Что такое covariant return type?"
+        in_practice: Перегрузка удобна для API с разным набором параметров, переопределение — для полиморфного поведения (например, разные стратегии расчёта).
+        min_grade: Junior
+        depends_on: [inheritance]
+      - id: static-dynamic-binding
+        title: Статическое и динамическое связывание
+        description: Compile-time vs runtime polymorphism, virtual method invocation
+        interview: "Какие методы связываются на этапе компиляции, а какие — в runtime? Почему static-методы не участвуют в полиморфизме?"
+        in_practice: Понимание связывания объясняет, почему вызов метода через родительский тип выполняет код потомка — ключ к работе с полиморфизмом в Spring.
+        min_grade: Junior
+        depends_on: [overloading-overriding]
+      - id: enums
+        title: Enum
+        description: Перечисления, методы в enum, конструкторы, EnumSet/EnumMap
+        interview: "Можно ли добавлять методы и поля в enum? Как enum реализует паттерн Singleton? Чем EnumSet эффективнее HashSet для enum?"
+        in_practice: Enum используется для статусов (OrderStatus, Role), типов операций — везде, где набор значений фиксирован и известен на этапе компиляции.
+        min_grade: Junior
+        depends_on: [classes-objects]
+        resources:
+          - title: "Java Enums"
+            url: "https://jenkov.com/tutorials/java/enums.html"
+            type: article
+          - title: "Java Enums"
+            url: "https://www.programiz.com/java-programming/enums"
+            type: article
+      - id: records
+        title: Records
+        description: Record-классы (Java 16+), компактные конструкторы, паттерн DTO
+        interview: "Чем record отличается от обычного класса? Можно ли наследовать record? Как record связан с иммутабельностью и equals/hashCode?"
+        in_practice: Records заменяют boilerplate DTO-классы — идеальны для передачи данных между слоями приложения, ответов API и событий.
+        min_grade: Junior
+        depends_on: [classes-objects]
+      - id: nested-classes
+        title: Вложенные классы
+        description: Static nested, inner, local, anonymous classes
+        interview: "Чем static nested class отличается от inner class? Почему inner class хранит ссылку на внешний объект? Когда используются anonymous classes?"
+        in_practice: Static nested классы удобны для Builder-паттерна и внутренних хелперов. Anonymous classes до Java 8 заменяли лямбды в обработчиках событий.
+        min_grade: Junior
+        depends_on: [classes-objects]
+        resources:
+          - title: "Java Nested Classes"
+            url: "https://jenkov.com/tutorials/java/nested-classes.html"
+            type: article
+          - title: "Guide to Nested Classes in Java"
+            url: "https://www.baeldung.com/java-nested-classes"
+            type: article
+      - id: packages
+        title: Пакеты и модули
+        description: Организация кода, import, JPMS (Java Platform Module System)
+        interview: "Как пакеты влияют на видимость классов? Что такое module-info.java и зачем нужна модульная система (JPMS)?"
+        in_practice: Правильная структура пакетов определяет архитектуру проекта. В микросервисах JPMS помогает контролировать зависимости между модулями.
+        min_grade: Junior
+        depends_on: [access-specifiers]
+        resources:
+          - title: "Packages in Java"
+            url: "https://docs.oracle.com/javase/8/docs/api/java/lang/Package.html"
+            type: article
+      - id: object-lifecycle
+        title: Жизненный цикл объекта
+        description: Создание, использование, GC eligibility, finalize, phantom references
+        interview: "Когда объект становится eligible для сборки мусора? Почему finalize() deprecated? Чем WeakReference отличается от PhantomReference?"
+        in_practice: Понимание жизненного цикла помогает находить утечки памяти — например, когда коллекция бесконечно растёт из-за забытых ссылок на объекты.
+        min_grade: Junior+
+        depends_on: [classes-objects]
+      - id: annotations
+        title: Аннотации
+        description: "Встроенные аннотации, создание собственных, @Retention, @Target, meta-annotations"
+        interview: "Чем RUNTIME retention отличается от SOURCE и CLASS? Как написать собственную аннотацию с валидацией? Как аннотации обрабатываются через рефлексию?"
+        in_practice: Spring целиком построен на аннотациях (@Service, @Transactional, @Valid). Создание собственных аннотаций нужно для кастомной валидации и аспектов.
+        min_grade: Junior+
+        depends_on: [classes-objects]
+        resources:
+          - title: "Java Annotations Tutorial"
+            url: "https://jenkov.com/tutorials/java/annotations.html"
+            type: article
+
+  - id: exceptions
+    title: Обработка исключений
+    skills:
+      - id: exception-handling
+        title: Исключения
+        description: >
+          Иерархия (Throwable, Error, Exception), checked/unchecked,
+          try-catch-finally, try-with-resources, multi-catch, custom exceptions
+        interview: "Чем checked исключения отличаются от unchecked? Когда создавать собственные исключения? Почему не стоит ловить Throwable или Error?"
+        in_practice: Правильная обработка исключений определяет, увидит ли пользователь понятную ошибку или stacktrace. В REST API исключения маппятся на HTTP-статусы.
+        min_grade: Intern
+        depends_on: [oop.classes-objects]
+
+  - id: collections
+    title: Collections Framework
+    skills:
+      - id: list
+        title: List (ArrayList, LinkedList)
+        description: ArrayList vs LinkedList, внутреннее устройство, когда что использовать
+        interview: "Как ArrayList расширяется при добавлении элементов? Когда LinkedList лучше ArrayList? Какова сложность get(i) и add() для каждого?"
+        in_practice: ArrayList — дефолтная коллекция для 95% задач. Понимание внутреннего устройства помогает выбрать правильную структуру при работе с большими объёмами данных.
+        min_grade: Junior
+        depends_on: [oop.classes-objects]
+      - id: set
+        title: Set (HashSet, TreeSet)
+        description: HashSet, LinkedHashSet, TreeSet, контракт equals/hashCode
+        interview: "Что произойдёт, если переопределить equals, но не hashCode? Как HashSet определяет уникальность? Чем TreeSet отличается от HashSet?"
+        in_practice: Set используется для дедупликации данных, проверки уникальности. Нарушение контракта equals/hashCode — частый источник трудноуловимых багов.
+        min_grade: Junior
+        depends_on: [list]
+        resources:
+          - title: "Java Set"
+            url: "https://jenkov.com/tutorials/java-collections/set.html"
+            type: article
+          - title: "Java Set Interface and Implementation"
+            url: "https://www.digitalocean.com/community/tutorials/java-set"
+            type: article
+      - id: map
+        title: Map (HashMap, TreeMap)
+        description: HashMap (бакеты, хеш-коллизии, resize), TreeMap, LinkedHashMap, ConcurrentHashMap
+        interview: "Как работает HashMap внутри (бакеты, дерево при коллизиях с Java 8)? Когда происходит resize? Почему начальная ёмкость и load factor важны?"
+        in_practice: HashMap — самая используемая структура данных в бэкенде. Кеши, маппинг сущностей, группировка результатов — без Map не обходится ни один сервис.
+        min_grade: Junior
+        depends_on: [set]
+        resources:
+          - title: "Generic Map in Java"
+            url: "https://jenkov.com/tutorials/java-generics/generic-map.html"
+            type: article
+          - title: "Java Map"
+            url: "https://jenkov.com/tutorials/java-collections/map.html"
+            type: article
+          - title: "Java ConcurrentMap"
+            url: "https://jenkov.com/tutorials/java-util-concurrent/concurrentmap.html"
+            type: article
+          - title: "Java SortedMap"
+            url: "https://jenkov.com/tutorials/java-collections/sortedmap.html"
+            type: article
+      - id: queue-stack
+        title: Queue, Deque, Stack
+        description: ArrayDeque, PriorityQueue, Queue vs Deque, Stack (legacy) vs ArrayDeque
+        interview: "Почему Stack считается устаревшим и чем его заменить? Как PriorityQueue упорядочивает элементы? Чем offer/poll отличается от add/remove?"
+        in_practice: Очереди используются для задач обработки (BFS, планировщики), PriorityQueue — для приоритизации задач. ArrayDeque эффективнее Stack и LinkedList.
+        min_grade: Junior
+        depends_on: [list]
+        resources:
+          - title: "Java Queue"
+            url: "https://jenkov.com/tutorials/java-collections/queue.html"
+            type: article
+          - title: "Java Deque Tutorial"
+            url: "https://jenkov.com/tutorials/java-collections/deque.html"
+            type: article
+          - title: "Java Deque"
+            url: "https://www.programiz.com/java-programming/deque"
+            type: article
+          - title: "Java Stack Tutorial"
+            url: "https://jenkov.com/tutorials/java-collections/stack.html"
+            type: article
+          - title: "Guide to Java Stack"
+            url: "https://www.baeldung.com/java-stack"
+            type: article
+      - id: iterator
+        title: Iterator и Iterable
+        description: Iterator pattern, for-each, fail-fast vs fail-safe, ListIterator
+        interview: "Что такое ConcurrentModificationException и когда она возникает? Чем fail-fast итератор отличается от fail-safe? Как безопасно удалять элементы при итерации?"
+        in_practice: Итераторы — основа for-each цикла. Понимание fail-fast поведения предотвращает баги при модификации коллекции во время обхода.
+        min_grade: Junior
+        depends_on: [list]
+        resources:
+          - title: "Java Iterator Tutorial"
+            url: "https://jenkov.com/tutorials/java-collections/iterator.html"
+            type: article
+          - title: "Java Iterable Tutorial"
+            url: "https://jenkov.com/tutorials/java-collections/iterable.html"
+            type: article
       - id: generics
         title: Generics
-        description: Параметризованные типы, wildcards, type erasure, bounded types
+        description: >
+          Параметризованные типы, wildcards (? extends, ? super),
+          type erasure, bounded types, PECS
+        interview: "Что такое type erasure и какие ограничения из-за него возникают? Объясните PECS (Producer Extends, Consumer Super). Можно ли создать массив generic-типа?"
+        in_practice: Generics обеспечивают типобезопасность коллекций и API. Без них невозможно писать переиспользуемые сервисы и утилиты с проверкой типов на этапе компиляции.
         min_grade: Junior
-        depends_on: [collections]
-      - id: stream-api
-        title: Stream API
-        description: Функциональные операции, ленивые вычисления, Collectors, parallelStream
+        depends_on: [list]
+      - id: optionals
+        title: Optional
+        description: Optional.of/ofNullable/empty, map/flatMap/orElse, антипаттерны, когда использовать
+        interview: "Когда стоит использовать Optional, а когда нет? Почему Optional не стоит использовать как параметр метода или поле класса? Чем orElse отличается от orElseGet?"
+        in_practice: Optional явно показывает, что значение может отсутствовать — это контракт метода. Заменяет null-проверки и снижает количество NullPointerException.
         min_grade: Junior+
-        depends_on: [collections, functional.lambda]
-      - id: memory-model
-        title: Java Memory Model
-        description: Heap/Stack, happens-before, volatile семантика, escape analysis
-        min_grade: Middle
-        depends_on: [concurrency.concurrency-basics]
-      - id: class-loading
-        title: Загрузка классов
-        description: ClassLoader, жизненный цикл класса, динамическая загрузка
-        min_grade: Middle+
-        depends_on: [memory-model]
+        depends_on: [generics]
+        resources:
+          - title: "Guide To Optionals"
+            url: "https://www.baeldung.com/java-optional"
+            type: article
+          - title: "Java Optional"
+            url: "https://dzone.com/articles/optional-in-java"
+            type: article
 
   - id: functional
     title: Функциональное программирование
     skills:
       - id: lambda
-        title: Lambda и Functional Interfaces
-        description: Lambda-выражения, Function, Predicate, Consumer, Supplier, method references
+        title: Lambda-выражения
+        description: Синтаксис, захват переменных, method references, effectively final
+        interview: "Что значит effectively final? Почему лямбда не может изменять локальную переменную? Чем method reference отличается от лямбды?"
+        in_practice: Лямбды используются повсеместно — в Stream API, Spring callbacks, CompletableFuture. Без них современный Java-код невозможно ни читать, ни писать.
         min_grade: Junior
-        depends_on: [java-core.oop]
-      - id: optionals
-        title: Optional
-        description: Работа с Optional, антипаттерны, map/flatMap/orElse
+        depends_on: [oop.interfaces]
+        resources:
+          - title: "Java Lambda Expressions"
+            url: "https://jenkov.com/tutorials/java/lambda-expressions.html"
+            type: article
+      - id: functional-interfaces
+        title: Functional Interfaces
+        description: "Function, Predicate, Consumer, Supplier, BiFunction, UnaryOperator, @FunctionalInterface"
+        interview: "Назовите основные функциональные интерфейсы из java.util.function. Чем Function отличается от UnaryOperator? Зачем нужна аннотация @FunctionalInterface?"
+        in_practice: Функциональные интерфейсы — строительные блоки для Stream API, валидаторов и стратегий. Predicate часто используется для фильтрации в Spring Specifications.
         min_grade: Junior+
         depends_on: [lambda]
+        resources:
+          - title: "Java Functional Interfaces"
+            url: "https://jenkov.com/tutorials/java-functional-programming/functional-interfaces.html"
+            type: article
+          - title: "Java Functional Interfaces"
+            url: "https://www.baeldung.com/java-8-functional-interfaces"
+            type: article
+      - id: stream-api
+        title: Stream API
+        description: >
+          Создание стримов, промежуточные и терминальные операции,
+          Collectors, parallelStream, ленивые вычисления
+        interview: "Чем промежуточные операции отличаются от терминальных? Когда parallelStream вредит, а не помогает? Как работает ленивость в стримах?"
+        in_practice: Stream API заменяет циклы для обработки коллекций — фильтрация, маппинг, группировка данных. Используется практически в каждом сервисе.
+        min_grade: Junior+
+        depends_on: [functional-interfaces, collections.generics]
+      - id: functional-composition
+        title: Композиция функций
+        description: andThen, compose, chaining, Optional как монада
+        interview: "Чем andThen отличается от compose? Как построить цепочку обработки данных через композицию? В каком смысле Optional — монада?"
+        in_practice: Композиция позволяет строить конвейеры обработки данных — например, цепочки валидаций или трансформаций DTO без вложенных if-else.
+        min_grade: Middle-
+        depends_on: [functional-interfaces]
+      - id: higher-order
+        title: Функции высшего порядка
+        description: Передача функций как аргументов, возврат функций, паттерн Strategy через лямбды
+        interview: "Приведите пример функции высшего порядка в стандартной библиотеке Java. Как реализовать паттерн Strategy через лямбды вместо классов?"
+        in_practice: Функции высшего порядка делают код гибким — например, передача стратегии сортировки или фильтрации как параметра без создания отдельных классов.
+        min_grade: Middle-
+        depends_on: [functional-composition]
 
   - id: concurrency
     title: Многопоточность
     skills:
-      - id: concurrency-basics
+      - id: threads
         title: Threads и синхронизация
         description: >
-          Thread, Runnable, synchronized, volatile, wait/notify,
-          deadlock, livelock, race condition
+          Thread, Runnable, Callable, synchronized, volatile,
+          wait/notify, deadlock, livelock, race condition
+        interview: "Чем Runnable отличается от Callable? Как возникает deadlock и как его предотвратить? Что гарантирует volatile и чего не гарантирует?"
+        in_practice: Веб-серверы обрабатывают запросы в потоках. Понимание многопоточности критично для избежания race condition при работе с общими ресурсами.
         min_grade: Junior+
-        depends_on: [java-core.collections]
+        depends_on: [oop.classes-objects]
+        resources:
+          - title: "Threads in Java"
+            url: "https://jenkov.com/tutorials/java-concurrency/index.html"
+            type: article
       - id: juc
         title: java.util.concurrent
         description: >
           ExecutorService, Future, CompletableFuture, CountDownLatch,
-          CyclicBarrier, Semaphore, ReentrantLock
+          CyclicBarrier, Semaphore, ReentrantLock, ReadWriteLock
+        interview: "Чем CompletableFuture лучше Future? Как работает пул потоков в ExecutorService? Когда использовать ReentrantLock вместо synchronized?"
+        in_practice: ExecutorService и CompletableFuture используются для параллельных вызовов внешних API, асинхронной обработки задач и неблокирующих операций.
         min_grade: Middle-
-        depends_on: [concurrency-basics]
+        depends_on: [threads]
+        resources:
+          - title: "Java Concurrency and Multithreading Tutorial"
+            url: "https://jenkov.com/tutorials/java-concurrency/index.html"
+            type: article
+          - title: "Java Concurrency in Practice"
+            url: "https://www.baeldung.com/java-concurrency"
+            type: article
       - id: concurrent-collections
         title: Потокобезопасные коллекции
         description: ConcurrentHashMap, CopyOnWriteArrayList, BlockingQueue, ConcurrentLinkedQueue
+        interview: "Как ConcurrentHashMap обеспечивает потокобезопасность без блокировки всей карты? Когда CopyOnWriteArrayList лучше synchronized list?"
+        in_practice: Потокобезопасные коллекции нужны для кешей, очередей задач и счётчиков в многопоточных сервисах — без них данные могут быть повреждены.
         min_grade: Middle-
-        depends_on: [concurrency-basics, java-core.collections]
+        depends_on: [threads, collections.map]
+      - id: memory-model
+        title: Java Memory Model
+        description: Heap/Stack, happens-before, volatile семантика, escape analysis, word tearing
+        interview: "Что такое happens-before и какие гарантии она даёт? Чем heap отличается от stack? Что такое escape analysis и как JVM его использует для оптимизации?"
+        in_practice: Понимание JMM объясняет, почему код работает корректно на одном ядре, но ломается на многоядерном сервере. Критично для отладки production-багов.
+        min_grade: Middle
+        depends_on: [juc]
+        resources:
+          - title: "Java Memory Model"
+            url: "https://jenkov.com/tutorials/java-concurrency/java-memory-model.html"
+            type: article
       - id: virtual-threads
         title: Virtual Threads (Project Loom)
-        description: Виртуальные потоки, structured concurrency, отличия от platform threads
+        description: Виртуальные потоки, structured concurrency, отличия от platform threads, carrier threads
+        interview: "Чем виртуальные потоки отличаются от platform threads? Когда виртуальные потоки не дают преимуществ? Что такое pinning и как его избежать?"
+        in_practice: Виртуальные потоки (Java 21) позволяют обрабатывать тысячи одновременных I/O-запросов без пула потоков — упрощают код микросервисов с внешними вызовами.
         min_grade: Middle+
         depends_on: [juc]
+        resources:
+          - title: "Java 21 Virtual Threads: Dude, Where's My Lock?"
+            url: "https://netflixtechblog.com/java-21-virtual-threads-dude-wheres-my-lock-3052540e231d"
+            type: article
+          - title: "Virtual Thread vs Thread in Java"
+            url: "https://www.baeldung.com/java-virtual-thread-vs-thread"
+            type: article
+          - title: "The Ultimate Guide to Java Virtual Threads"
+            url: "https://rockthejvm.com/articles/the-ultimate-guide-to-java-virtual-threads"
+            type: article
 
   - id: gc
     title: Garbage Collection
     skills:
       - id: gc-basics
         title: Основы GC
-        description: Поколения объектов, Young/Old Gen, GC roots, алгоритмы сборки
+        description: Поколения объектов, Young/Old Gen, GC roots, алгоритмы (Mark-Sweep, Mark-Compact, Copying)
+        interview: "Какие объекты являются GC roots? Чем Young Gen отличается от Old Gen? Опишите алгоритм Mark-and-Sweep. Что такое Stop-the-World пауза?"
+        in_practice: Понимание GC помогает диагностировать проблемы с производительностью — длинные паузы GC могут вызывать таймауты запросов в production.
         min_grade: Junior+
-        depends_on: [java-core.memory-model]
+        depends_on: [concurrency.memory-model]
       - id: gc-tuning
         title: Тюнинг GC
         description: >
-          G1, ZGC, Shenandoah. JVM-флаги, анализ GC-логов,
-          выбор сборщика под задачу
+          G1, ZGC, Shenandoah. JVM-флаги (-Xmx, -XX:+UseG1GC),
+          анализ GC-логов, выбор сборщика под задачу, profiling
+        interview: "Чем G1 отличается от ZGC и Shenandoah? Как выбрать размер heap (-Xmx/-Xms)? Как читать GC-логи и какие метрики отслеживать?"
+        in_practice: Тюнинг GC нужен при высоких нагрузках — неправильная конфигурация приводит к OOM или длинным паузам. Выбор сборщика зависит от требований к латентности.
         min_grade: Middle+
         depends_on: [gc-basics]
 
@@ -124,71 +534,331 @@ categories:
         title: Spring Core (IoC, DI)
         description: >
           Inversion of Control, Dependency Injection, ApplicationContext,
-          жизненный цикл бинов, конфигурация (аннотации, Java Config)
+          жизненный цикл бинов, @Component, @Autowired, @Qualifier, Java Config
+        interview: "Какие scope бинов существуют в Spring? Чем constructor injection лучше field injection? Как Spring разрешает циклические зависимости?"
+        in_practice: Spring Core — фундамент всех Spring-приложений. IoC-контейнер управляет зависимостями и жизненным циклом всех компонентов приложения.
         min_grade: Junior
-        depends_on: [java-core.oop]
+        depends_on: [oop.annotations]
       - id: spring-boot
         title: Spring Boot
         description: >
           Автоконфигурация, стартеры, application.properties/yaml,
-          профили, actuator
+          профили, actuator, embedded server
+        interview: "Как работает автоконфигурация (@EnableAutoConfiguration)? Как переопределить бин из стартера? Зачем нужны профили и как они активируются?"
+        in_practice: Spring Boot — стандарт для Java-микросервисов. Автоконфигурация и стартеры позволяют поднять production-ready сервис за минуты.
         min_grade: Junior
         depends_on: [spring-core]
       - id: spring-web
         title: REST-контроллеры
         description: >
-          @RestController, @RequestMapping, валидация, обработка ошибок,
-          ResponseEntity, content negotiation
+          @RestController, @RequestMapping, @PathVariable, @RequestBody,
+          валидация (@Valid), обработка ошибок, ResponseEntity
+        interview: "Чем @Controller отличается от @RestController? Как реализовать глобальную обработку ошибок через @ControllerAdvice? Как работает валидация через @Valid?"
+        in_practice: REST-контроллеры — точка входа для клиентов. Каждый API-эндпоинт начинается с контроллера, который принимает запрос, валидирует и делегирует сервису.
         min_grade: Junior
         depends_on: [spring-boot]
       - id: spring-data-jpa
         title: Spring Data JPA
         description: >
-          Repository, Query Methods, @Query, Specifications,
-          Projections, Pagination
+          Repository, Query Methods, @Query (JPQL/native),
+          Specifications, Projections, Pagination, Auditing
+        interview: "Как Spring Data генерирует реализацию репозитория по интерфейсу? Чем JPQL отличается от native query? Как работает пагинация и Specifications?"
+        in_practice: Spring Data JPA убирает boilerplate доступа к БД. Query Methods и Specifications покрывают 90% CRUD-операций без написания SQL.
         min_grade: Junior+
         depends_on: [spring-boot, common/databases.sql-basics]
+        resources:
+          - title: "Spring Data JPA"
+            url: "https://spring.io/projects/spring-data-jpa"
+            type: official
+          - title: "Introduction to Spring Data JPA"
+            url: "https://www.baeldung.com/the-persistence-layer-with-spring-data-jpa"
+            type: article
+          - title: "Explore top posts about Spring Framework"
+            url: "https://app.daily.dev/tags/spring?ref=roadmapsh"
+            type: feed
       - id: spring-security
         title: Spring Security
         description: >
-          Аутентификация, авторизация, фильтры, OAuth2/JWT,
-          CORS, CSRF
+          Аутентификация, авторизация, Security Filter Chain,
+          OAuth2/JWT, CORS, CSRF, method security
+        interview: "Как устроена Security Filter Chain? Чем аутентификация отличается от авторизации? Как реализовать JWT-аутентификацию в Spring Security?"
+        in_practice: Spring Security защищает API от несанкционированного доступа. Без него невозможно реализовать регистрацию, логин, разграничение прав в приложении.
         min_grade: Middle-
-        depends_on: [spring-boot]
+        depends_on: [spring-web]
       - id: spring-testing
         title: Тестирование Spring
         description: >
-          @SpringBootTest, @MockBean, @DataJpaTest, TestContainers,
-          MockMvc, слайсы
+          @SpringBootTest, @MockBean, @DataJpaTest, @WebMvcTest,
+          TestContainers, MockMvc, test slices
+        interview: "Чем @WebMvcTest отличается от @SpringBootTest? Зачем нужны test slices и как они ускоряют тесты? Как использовать TestContainers для интеграционных тестов?"
+        in_practice: Тестирование Spring-приложений — обязательная часть CI/CD. Test slices позволяют тестировать слои изолированно, а TestContainers — с реальной БД.
         min_grade: Middle-
         depends_on: [spring-boot, testing.unit-testing]
+        resources:
+          - title: "What is Software Testing?"
+            url: "https://www.guru99.com/software-testing-introduction-importance.html"
+            type: article
+          - title: "Testing Pyramid"
+            url: "https://www.browserstack.com/guide/testing-pyramid-for-test-automation"
+            type: article
+          - title: "Explore top posts about Java"
+            url: "https://app.daily.dev/tags/java?ref=roadmapsh"
+            type: feed
 
   - id: orm
-    title: ORM
+    title: ORM и persistence
     skills:
+      - id: jdbc
+        title: JDBC
+        description: Connection, Statement, PreparedStatement, ResultSet, connection pooling (HikariCP)
+        interview: "Зачем использовать PreparedStatement вместо Statement? Как connection pool повышает производительность? Что такое SQL injection и как PreparedStatement от неё защищает?"
+        in_practice: JDBC — низкоуровневый доступ к БД, на котором построены все ORM. Понимание JDBC помогает отлаживать проблемы с подключениями и производительностью запросов.
+        min_grade: Junior
+        depends_on: [basics.io-operations, common/databases.sql-basics]
+        resources:
+          - title: "IBM: What is JDBC"
+            url: "https://www.ibm.com/docs/en/informix-servers/12.10?topic=started-what-is-jdbc"
+            type: article
+          - title: "Explore top posts about Java"
+            url: "https://app.daily.dev/tags/java?ref=roadmapsh"
+            type: feed
       - id: hibernate
         title: Hibernate / JPA
         description: >
-          Entity mapping, отношения, fetch strategies, N+1 problem,
-          кеши первого и второго уровня, dirty checking
+          Entity mapping, отношения (@OneToMany, @ManyToMany), fetch strategies (LAZY/EAGER),
+          N+1 problem, кеши первого и второго уровня, dirty checking, Criteria API
+        interview: "Как решить проблему N+1 запросов? Чем LAZY отличается от EAGER и когда что использовать? Как работает кеш первого и второго уровня?"
+        in_practice: Hibernate маппит таблицы на объекты и управляет их персистенцией. Неправильная конфигурация fetch-стратегий — главная причина тормозов в Java-приложениях.
         min_grade: Middle-
         depends_on: [spring.spring-data-jpa, common/databases.transactions]
+        resources:
+          - title: "Hibernate"
+            url: "https://hibernate.org/"
+            type: official
+          - title: "Second-level caching explained"
+            url: "https://hazelcast.com/glossary/hibernate-second-level-cache/"
+            type: article
 
   - id: testing
     title: Тестирование
     skills:
       - id: unit-testing
-        title: Unit-тесты
-        description: JUnit 5, параметризованные тесты, assertions, жизненный цикл
+        title: JUnit 5
+        description: >
+          @Test, @BeforeEach, @AfterEach, @Nested, @ParameterizedTest,
+          assertions, assumptions, жизненный цикл
+        interview: "Чем @BeforeEach отличается от @BeforeAll? Как работает @ParameterizedTest с разными источниками данных? Какой жизненный цикл тестового экземпляра по умолчанию?"
+        in_practice: Юнит-тесты — основа качества кода. Без них рефакторинг превращается в лотерею, а баги обнаруживаются только в production.
         min_grade: Junior
         depends_on: []
+        resources:
+          - title: "JUnit"
+            url: "https://junit.org/junit5"
+            type: official
+          - title: "JUnit Documentation"
+            url: "https://junit.org/junit5/docs/current/user-guide/"
+            type: official
+          - title: "JUnit tutorial"
+            url: "https://www.guru99.com/junit-tutorial.html"
+            type: article
+          - title: "Basic JUnit tutorial"
+            url: "https://www.baeldung.com/junit-5"
+            type: article
+          - title: "What is Software Testing?"
+            url: "https://www.guru99.com/software-testing-introduction-importance.html"
+            type: article
       - id: mocking
-        title: Моки и стабы
-        description: Mockito, verify, argument captors, spy, when/thenReturn
+        title: Mockito
+        description: "@Mock, @InjectMocks, when/thenReturn, verify, argument captors, spy, doAnswer"
+        interview: "Чем mock отличается от spy? Когда использовать ArgumentCaptor? Как тестировать void-методы с помощью doAnswer?"
+        in_practice: Mockito позволяет тестировать сервис изолированно, подменяя зависимости (БД, внешние API). Без моков юнит-тесты превращаются в интеграционные.
         min_grade: Junior+
         depends_on: [unit-testing]
       - id: integration-testing
         title: Интеграционные тесты
-        description: TestContainers, @SpringBootTest, тестирование с реальной БД
+        description: TestContainers, @SpringBootTest, WireMock, тестирование с реальной БД
+        interview: "Чем интеграционные тесты отличаются от юнит-тестов? Как TestContainers поднимает реальную БД для тестов? Как WireMock помогает тестировать HTTP-клиенты?"
+        in_practice: Интеграционные тесты проверяют взаимодействие компонентов — запросы к БД, вызовы API, транзакции. Ловят баги, которые юнит-тесты пропускают.
         min_grade: Middle-
         depends_on: [mocking, spring.spring-testing]
+      - id: rest-assured
+        title: REST Assured
+        description: E2E тестирование API, given/when/then, валидация JSON, аутентификация
+        interview: "Как REST Assured отличается от MockMvc? Как валидировать структуру JSON-ответа? Как тестировать эндпоинты с аутентификацией?"
+        in_practice: REST Assured позволяет писать читаемые E2E-тесты API в стиле BDD. Используется для проверки контрактов между микросервисами.
+        min_grade: Middle-
+        depends_on: [integration-testing]
+        resources:
+          - title: "Rest-assured"
+            url: "https://rest-assured.io/"
+            type: official
+          - title: "Rest-assured Documentation"
+            url: "https://github.com/rest-assured/rest-assured/wiki"
+            type: opensource
+          - title: "A Guide to REST-assured"
+            url: "https://www.baeldung.com/rest-assured-tutorial"
+            type: article
+          - title: "Explore top posts about REST API"
+            url: "https://app.daily.dev/tags/rest-api?ref=roadmapsh"
+            type: feed
+      - id: performance-testing
+        title: JMeter
+        description: Нагрузочное тестирование, сценарии, assertions, распределённый запуск
+        interview: "Как составить сценарий нагрузочного теста? Какие метрики важны (throughput, latency, error rate)? Как отличить проблему в коде от проблемы в инфраструктуре?"
+        in_practice: Нагрузочное тестирование выявляет bottleneck до выхода в production. Без него неизвестно, выдержит ли сервис реальную нагрузку.
+        min_grade: Middle
+        depends_on: [integration-testing]
+        resources:
+          - title: "Apache JMeter Website"
+            url: "https://jmeter.apache.org/"
+            type: article
+          - title: "Explore top posts about Testing"
+            url: "https://app.daily.dev/tags/testing?ref=roadmapsh"
+            type: feed
+
+  - id: build
+    title: Сборка проекта
+    skills:
+      - id: maven
+        title: Maven
+        description: pom.xml, жизненный цикл, зависимости, плагины, profiles, multi-module
+        interview: "Опишите фазы жизненного цикла Maven (compile, test, package, install, deploy). Как разрешаются конфликты версий зависимостей? Что такое BOM?"
+        in_practice: Maven — стандартная система сборки для Java. Управление зависимостями, сборка артефактов и CI/CD-пайплайны завязаны на Maven.
+        min_grade: Junior
+        depends_on: [basics.syntax]
+        resources:
+          - title: "Getting started"
+            url: "https://maven.apache.org/guides/getting-started/"
+            type: article
+          - title: "Building Spring Projects with Maven"
+            url: "https://www.baeldung.com/spring-with-maven"
+            type: article
+          - title: "Explore top posts about Maven"
+            url: "https://app.daily.dev/tags/maven?ref=roadmapsh"
+            type: feed
+      - id: gradle
+        title: Gradle
+        description: build.gradle(.kts), tasks, зависимости, плагины, incremental builds
+        interview: "Чем Gradle отличается от Maven? Как работают incremental builds? Чем implementation отличается от api при объявлении зависимостей?"
+        in_practice: Gradle быстрее Maven за счёт инкрементальной сборки и кеширования. Используется в Android и всё чаще в серверных Spring Boot проектах.
+        min_grade: Junior+
+        depends_on: [maven]
+        resources:
+          - title: "Gradle"
+            url: "https://gradle.org/"
+            type: official
+          - title: "Building Spring Boot Projects with Gradle"
+            url: "https://www.baeldung.com/spring-boot-gradle-plugin"
+            type: article
+          - title: "Explore top posts about Gradle"
+            url: "https://app.daily.dev/tags/gradle?ref=roadmapsh"
+            type: feed
+
+  - id: logging
+    title: Логирование
+    skills:
+      - id: slf4j
+        title: SLF4J + Logback
+        description: >
+          SLF4J facade, Logback конфигурация, уровни логирования,
+          MDC, structured logging, Log4j2 как альтернатива
+        interview: "Зачем SLF4J, если есть Logback напрямую? Какие уровни логирования существуют и когда какой использовать? Что такое MDC и как он помогает в микросервисах?"
+        in_practice: Логирование — главный инструмент отладки в production. MDC позволяет привязать traceId к запросу и отследить его путь через все микросервисы.
+        min_grade: Junior
+        depends_on: [spring.spring-boot]
+        resources:
+          - title: "Official Website"
+            url: "https://www.slf4j.org/"
+            type: article
+
+  - id: security
+    title: Безопасность
+    skills:
+      - id: cryptography
+        title: Криптография
+        description: Хеширование (SHA, BCrypt), симметричное/асимметричное шифрование, TLS, JWT
+        interview: "Чем хеширование отличается от шифрования? Почему BCrypt лучше MD5/SHA для паролей? Как устроен JWT и какие у него уязвимости?"
+        in_practice: Хранение паролей, подписание токенов, HTTPS — криптография повсюду. Ошибки в ней приводят к утечкам данных и взлому аккаунтов.
+        min_grade: Middle
+        depends_on: [spring.spring-security]
+        resources:
+          - title: "Java Cryptography Tutorial"
+            url: "https://jenkov.com/tutorials/java-cryptography/index.html"
+            type: article
+
+  - id: design-patterns
+    title: Паттерны проектирования
+    skills:
+      - id: di-pattern
+        title: Dependency Injection
+        description: Принцип DI, constructor injection, IoC-контейнер, DIP из SOLID
+        interview: "Чем DI отличается от Service Locator? Почему constructor injection предпочтительнее? Как DIP (Dependency Inversion Principle) связан с DI?"
+        in_practice: DI делает код тестируемым и расширяемым. Без DI сервисы жёстко связаны, и замена реализации (например, для тестов) требует переписывания кода.
+        min_grade: Junior+
+        depends_on: [oop.interfaces, spring.spring-core]
+        resources:
+          - title: "Dependency Injection Tutorial"
+            url: "https://jenkov.com/tutorials/dependency-injection/index.html"
+            type: article
+          - title: "Java Dependency Injection Design Pattern Example Tutorial"
+            url: "https://www.digitalocean.com/community/tutorials/java-dependency-injection-design-pattern-example-tutorial"
+            type: article
+      - id: creational
+        title: Порождающие паттерны
+        description: Singleton, Factory Method, Abstract Factory, Builder, Prototype
+        interview: "Как реализовать потокобезопасный Singleton? Чем Factory Method отличается от Abstract Factory? Когда Builder предпочтительнее конструктора с параметрами?"
+        in_practice: Builder используется повсюду (Lombok @Builder, HttpRequest.newBuilder). Factory — для создания объектов по условию (парсеры, коннекторы).
+        min_grade: Middle-
+        depends_on: [di-pattern]
+      - id: structural
+        title: Структурные паттерны
+        description: Adapter, Decorator, Proxy, Facade, Composite, Bridge
+        interview: "Как Spring использует Proxy (динамические прокси и CGLIB)? Чем Decorator отличается от Proxy? Приведите пример Adapter в стандартной библиотеке Java."
+        in_practice: "Spring AOP, @Transactional, @Cacheable работают через Proxy. Decorator используется в I/O (BufferedReader оборачивает Reader). Facade упрощает API модулей."
+        min_grade: Middle-
+        depends_on: [di-pattern]
+      - id: behavioral
+        title: Поведенческие паттерны
+        description: Strategy, Observer, Template Method, Chain of Responsibility, Command, State
+        interview: "Как Strategy реализуется через лямбды? Где в Spring используется Chain of Responsibility (Filter Chain)? Чем Observer отличается от событийной модели Spring?"
+        in_practice: Strategy заменяет switch-case на полиморфизм, Template Method задаёт алгоритм с переопределяемыми шагами, Observer реализует событийную архитектуру.
+        min_grade: Middle
+        depends_on: [creational, structural]
+
+  - id: networking
+    title: Сетевое программирование
+    skills:
+      - id: http
+        title: HTTP / REST
+        description: HTTP-методы, статусы, заголовки, REST-принципы, HATEOAS, версионирование API
+        interview: "Чем PUT отличается от PATCH? Какие статус-коды соответствуют клиентским и серверным ошибкам? Что такое идемпотентность HTTP-методов?"
+        in_practice: HTTP — протокол взаимодействия между клиентом и сервером. Правильное проектирование REST API определяет удобство интеграции для фронтенда и партнёров.
+        min_grade: Junior
+        depends_on: [basics.io-operations]
+        resources:
+          - title: "Sockets"
+            url: "https://docs.oracle.com/javase/tutorial/networking/sockets/index.html"
+            type: article
+          - title: "Java Networking"
+            url: "https://www.tutorialspoint.com/java/java_networking.htm"
+            type: article
+          - title: "Explore top posts about Networking"
+            url: "https://app.daily.dev/tags/networking?ref=roadmapsh"
+            type: feed
+      - id: networking-java
+        title: Java Networking
+        description: Socket, ServerSocket, HttpClient (Java 11+), WebSocket, SSE
+        interview: "Как работает HttpClient из Java 11? Чем WebSocket отличается от SSE? Когда нужен низкоуровневый Socket вместо HTTP-клиента?"
+        in_practice: HttpClient используется для вызова внешних API, WebSocket — для real-time коммуникации (чаты, уведомления), SSE — для стриминга событий клиенту.
+        min_grade: Middle
+        depends_on: [http, concurrency.threads]
+        resources:
+          - title: "Sockets"
+            url: "https://docs.oracle.com/javase/tutorial/networking/sockets/index.html"
+            type: article
+          - title: "Java Networking"
+            url: "https://www.tutorialspoint.com/java/java_networking.htm"
+            type: article
+          - title: "Explore top posts about Networking"
+            url: "https://app.daily.dev/tags/networking?ref=roadmapsh"
+            type: feed

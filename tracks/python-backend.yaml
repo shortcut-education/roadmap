@@ -13,95 +13,487 @@ includes:
   - common/system-design
 
 categories:
-  - id: python-core
-    title: Python Core
+  - id: basics
+    title: Основы языка
     skills:
-      - id: basics
-        title: Основы языка
-        description: Типы данных, операторы, управляющие конструкции, функции, модули
+      - id: syntax
+        title: Базовый синтаксис
+        description: Переменные, типы данных, операторы, приведение типов, ввод/вывод
+        interview: Разница между mutable и immutable типами, что такое duck typing, как работает is vs ==.
+        in_practice: Фундамент ежедневной работы — без этого невозможно писать и читать Python-код.
         min_grade: Intern
         depends_on: []
-      - id: oop
-        title: ООП в Python
-        description: >
-          Классы, наследование, множественное наследование, MRO,
-          dunder-методы, property, descriptors
+        resources:
+          - title: "Python Basics"
+            url: "https://www.tutorialspoint.com/python/python_basic_syntax.htm"
+            type: article
+          - title: "Learn X in Y Minutes / Python"
+            url: "https://learnxinyminutes.com/docs/python/"
+            type: article
+      - id: conditionals
+        title: Условия и циклы
+        description: if/elif/else, for, while, break/continue, comprehensions
+        interview: "Чем отличается for от while, как работает else в циклах, что делает walrus operator (:=)."
+        in_practice: Любая бизнес-логика — это условия и итерации по данным, comprehensions ускоряют написание типовых трансформаций.
         min_grade: Intern
-        depends_on: [basics]
-      - id: data-structures
-        title: Структуры данных Python
-        description: >
-          Внутреннее устройство list, dict, set, tuple.
-          collections (defaultdict, Counter, OrderedDict, deque)
+        depends_on: [syntax]
+        resources:
+          - title: "Conditional Statements in Python"
+            url: "https://realpython.com/python-conditional-statements/"
+            type: article
+          - title: "Python Conditional Statements"
+            url: "https://www.guru99.com/if-loop-python-conditional-structures.html"
+            type: article
+          - title: "Python Switch Statement 101: Match-case and alternatives"
+            url: "https://roadmap.sh/python/switch"
+            type: article
+          - title: "How to Use a Match Statement in Python"
+            url: "https://learnpython.com/blog/python-match-case-statement/"
+            type: article
+          - title: "Python \"while\" Loops (Indefinite Iteration)"
+            url: "https://realpython.com/python-while-loop/"
+            type: article
+      - id: strings
+        title: Работа со строками
+        description: f-strings, методы строк, форматирование, кодировки, регулярные выражения
+        interview: Разница между str и bytes, как работает кодировка UTF-8, что такое интернирование строк.
+        in_practice: Формирование ответов API, парсинг входных данных, логирование — строки встречаются в каждом модуле.
+        min_grade: Intern
+        depends_on: [syntax]
+      - id: functions
+        title: Функции
+        description: "def, *args/**kwargs, lambda, замыкания, встроенные функции, scope (LEGB)"
+        interview: "Как работает правило LEGB, в чём подвох мутабельного аргумента по умолчанию (def f(a=[]))."
+        in_practice: Декомпозиция кода на переиспользуемые блоки, передача callback-ов, написание утилит и хелперов.
+        min_grade: Intern
+        depends_on: [conditionals]
+      - id: file-handling
+        title: Работа с файлами
+        description: open/close, with statement, чтение/запись, pathlib, os модуль
+        interview: Зачем нужен with при работе с файлами, чем pathlib лучше os.path, как читать большой файл построчно.
+        in_practice: Чтение конфигов, запись логов, обработка загруженных файлов, работа с CSV/JSON-экспортами.
         min_grade: Junior
-        depends_on: [basics]
-      - id: iterators-generators
-        title: Итераторы и генераторы
-        description: >
-          iter/next протокол, yield, yield from, генераторные выражения,
-          itertools
+        depends_on: [functions]
+        resources:
+          - title: "Pyhton File open"
+            url: "https://www.w3schools.com/python/python_file_handling.asp"
+            type: article
+          - title: "Working With Files in Python"
+            url: "https://realpython.com/working-with-files-in-python/"
+            type: article
+          - title: "Python JSON"
+            url: "https://www.w3schools.com/python/python_json.asp"
+            type: article
+          - title: "Working With JSON Data in Python"
+            url: "https://realpython.com/python-json/"
+            type: article
+      - id: modules
+        title: Модули и пакеты
+        description: import, __init__.py, relative imports, __name__ == __main__, sys.path
+        interview: Как Python ищет модули (sys.path), что происходит при циклическом импорте, зачем нужен __init__.py.
+        in_practice: Организация кода в проекте — правильная структура пакетов критична для поддерживаемости большого приложения.
         min_grade: Junior
-        depends_on: [data-structures]
+        depends_on: [functions]
+        resources:
+          - title: "Python Modules"
+            url: "https://docs.python.org/3/tutorial/modules.html"
+            type: official
+          - title: "Modules in Python"
+            url: "https://www.programiz.com/python-programming/modules"
+            type: article
+      - id: regex
+        title: Регулярные выражения
+        description: re модуль, Pattern, Match, группы, lookahead/lookbehind, re.compile
+        interview: "Разница между match, search и findall; зачем компилировать паттерн через re.compile; жадные vs ленивые квантификаторы."
+        in_practice: Валидация форматов (email, телефон), парсинг логов и текстовых данных, извлечение структуры из неструктурированного текста.
+        min_grade: Junior+
+        depends_on: [strings]
+        resources:
+          - title: "Regular Expressions in Python"
+            url: "https://docs.python.org/3/library/re.html"
+            type: official
+          - title: "Python Regular Expressions"
+            url: "https://developers.google.com/edu/python/regular-expressions"
+            type: article
+          - title: "Python - Regular Expressions"
+            url: "https://www.tutorialspoint.com/python/python_reg_expressions.htm"
+            type: article
+
+  - id: data-structures
+    title: Структуры данных
+    skills:
+      - id: lists
+        title: Списки
+        description: list, внутреннее устройство (dynamic array), list comprehensions, срезы
+        interview: "Сложность операций append, insert(0), in для списка; как устроен dynamic array внутри; чем list отличается от array."
+        in_practice: Основная рабочая коллекция — хранение результатов запросов, формирование ответов, batch-обработка данных.
+        min_grade: Intern
+        depends_on: [basics.syntax]
+        resources:
+          - title: "Python Official Documentation on Listsc"
+            url: "https://docs.python.org/3/tutorial/introduction.html#lists"
+            type: official
+          - title: "Tuples vs. Lists vs. Sets in Python"
+            url: "https://jerrynsh.com/tuples-vs-lists-vs-sets-in-python/"
+            type: article
+          - title: "Python for Beginners: Lists"
+            url: "https://thenewstack.io/python-for-beginners-lists/"
+            type: article
+          - title: "Python for Beginners: When and How to Use Tuples"
+            url: "https://thenewstack.io/python-for-beginners-when-and-how-to-use-tuples/"
+            type: article
+      - id: tuples
+        title: Кортежи
+        description: tuple, именованные кортежи (namedtuple), immutability, packing/unpacking
+        interview: Почему tuple можно использовать как ключ dict, а list нет; в чём разница tuple и namedtuple.
+        in_practice: Возврат нескольких значений из функции, использование как неизменяемых записей, ключей для кэширования.
+        min_grade: Intern
+        depends_on: [lists]
+        resources:
+          - title: "Tuples Documentation"
+            url: "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences"
+            type: official
+          - title: "When and How to Use Tuples"
+            url: "https://thenewstack.io/python-for-beginners-when-and-how-to-use-tuples/"
+            type: article
+          - title: "Python's tuple Data Type: A Deep Dive With Examples"
+            url: "https://realpython.com/python-tuple/#getting-started-with-pythons-tuple-data-type"
+            type: article
+      - id: dicts
+        title: Словари
+        description: dict, внутреннее устройство (hash table), dict comprehensions, defaultdict, OrderedDict
+        interview: "Как устроена хэш-таблица в dict, что будет при коллизии хэшей, почему dict упорядочен с Python 3.7."
+        in_practice: Маппинг данных, конфиги, JSON-ответы, кэширование — словарь используется практически в каждом модуле бэкенда.
+        min_grade: Junior
+        depends_on: [lists]
+        resources:
+          - title: "Dictionaries in Python"
+            url: "https://docs.python.org/3/tutorial/datastructures.html#dictionaries"
+            type: official
+          - title: "Dictionaries in Python"
+            url: "https://realpython.com/python-dicts/"
+            type: article
+          - title: "Hashmaps in Python: Master Implementation and Use Cases"
+            url: "https://roadmap.sh/python/hashmap"
+            type: article
+      - id: sets
+        title: Множества
+        description: set, frozenset, операции (union, intersection, difference), set comprehensions
+        interview: Сложность операции in для set vs list, когда использовать frozenset, как set определяет уникальность элементов.
+        in_practice: Быстрая проверка принадлежности, удаление дубликатов, вычисление пересечений прав доступа или тегов.
+        min_grade: Junior
+        depends_on: [lists]
+        resources:
+          - title: "Python Official Documentation on Sets"
+            url: "https://docs.python.org/3/tutorial/datastructures.html#sets"
+            type: official
+          - title: "An In-Depth Guide to Working with Python Sets"
+            url: "https://learnpython.com/blog/python-sets/"
+            type: article
+      - id: collections
+        title: Модуль collections
+        description: Counter, deque, ChainMap, defaultdict, OrderedDict
+        interview: "Когда использовать deque вместо list, как работает Counter.most_common(), чем defaultdict лучше обычного dict.get()."
+        in_practice: Подсчёт частот событий (Counter), реализация очередей (deque), удобная группировка данных (defaultdict(list)).
+        min_grade: Junior+
+        depends_on: [dicts, sets]
+
+  - id: oop
+    title: Объектно-ориентированное программирование
+    skills:
+      - id: classes
+        title: Классы и объекты
+        description: class, __init__, self, атрибуты класса/экземпляра, __str__/__repr__
+        interview: "Разница между атрибутом класса и экземпляра, зачем нужен self, чем __str__ отличается от __repr__."
+        in_practice: Моделирование сущностей (User, Payment), создание сервисов, инкапсуляция логики в объекты.
+        min_grade: Intern
+        depends_on: [basics.functions]
+        resources:
+          - title: "Classes in Python"
+            url: "https://docs.python.org/3/tutorial/classes.html"
+            type: official
+      - id: inheritance
+        title: Наследование
+        description: Одиночное и множественное наследование, MRO (C3 linearization), super()
+        interview: "Как работает MRO при множественном наследовании (diamond problem), что делает super() и как он определяет следующий класс."
+        in_practice: Расширение базовых классов фреймворков (Django View, Model), создание иерархий сервисов с общей логикой.
+        min_grade: Junior
+        depends_on: [classes]
+        resources:
+          - title: "Python Official Documentation on Inheritance"
+            url: "https://docs.python.org/3/tutorial/classes.html#inheritance"
+            type: official
+      - id: encapsulation
+        title: Инкапсуляция
+        description: Публичные/приватные атрибуты, name mangling, property, геттеры/сеттеры
+        interview: "Чем _ отличается от __ в именах атрибутов, как работает name mangling, зачем использовать @property вместо прямого доступа."
+        in_practice: Защита внутреннего состояния объектов, валидация при записи через property, контроль API класса.
+        min_grade: Junior
+        depends_on: [classes]
+        resources:
+          - title: "Encapsulation in Python: All You Need to Know"
+            url: "https://roadmap.sh/python/encapsulation"
+            type: article
+          - title: "Encapsulation in Python: A Comprehensive Guide"
+            url: "https://www.datacamp.com/tutorial/encapsulation-in-python-object-oriented-programming"
+            type: article
+          - title: "Encapsulation"
+            url: "https://programming-25.mooc.fi/part-9/3-encapsulation"
+            type: article
+      - id: dunder-methods
+        title: Dunder-методы
+        description: "__len__, __getitem__, __eq__, __hash__, __enter__/__exit__, __call__, протоколы"
+        interview: "Связь между __eq__ и __hash__, зачем нужен __call__, как реализовать итерируемый объект через __iter__/__next__."
+        in_practice: Создание объектов с интуитивным интерфейсом — сравнение, итерация, использование в with-блоках, вызов как функции.
+        min_grade: Junior+
+        depends_on: [inheritance]
+      - id: abc
+        title: Абстрактные классы
+        description: abc модуль, ABC, abstractmethod, Protocol (structural subtyping)
+        interview: "Чем ABC отличается от Protocol, можно ли создать экземпляр абстрактного класса, зачем нужен structural subtyping."
+        in_practice: Определение контрактов для сервисов и репозиториев, подмена реализаций в тестах, построение плагинной архитектуры.
+        min_grade: Junior+
+        depends_on: [inheritance]
+
+  - id: advanced
+    title: Продвинутый Python
+    skills:
       - id: decorators
         title: Декораторы
         description: >
           Функции-декораторы, декораторы классов, functools.wraps,
-          параметризованные декораторы
+          параметризованные декораторы, стекирование
+        interview: "Зачем нужен functools.wraps, как написать декоратор с параметрами, в каком порядке выполняются стекированные декораторы."
+        in_practice: Логирование, проверка прав доступа, кэширование, retry-логика — декораторы убирают повторяющийся boilerplate-код.
         min_grade: Junior+
-        depends_on: [oop]
+        depends_on: [oop.dunder-methods]
+        resources:
+          - title: "Learn Decorators in Python"
+            url: "https://pythonbasics.org/decorators/"
+            type: article
+          - title: "Python Decorators"
+            url: "https://www.datacamp.com/tutorial/decorators-python"
+            type: article
+      - id: iterators
+        title: Итераторы и генераторы
+        description: >
+          iter/next протокол, yield, yield from, генераторные выражения,
+          itertools, бесконечные последовательности
+        interview: "Чем генератор отличается от списка, когда использовать yield from, как работает ленивая загрузка через генераторы."
+        in_practice: Потоковая обработка больших файлов и API-ответов без загрузки всего в память, построение пайплайнов обработки данных.
+        min_grade: Junior+
+        depends_on: [data-structures.collections]
+        resources:
+          - title: "Python Official Documentation on Iterators"
+            url: "https://docs.python.org/3/tutorial/classes.html#iterators"
+            type: official
+          - title: "Python Iterators"
+            url: "https://www.programiz.com/python-programming/iterator"
+            type: article
+          - title: "Iterators and Iterables in Python"
+            url: "https://realpython.com/python-iterators-iterables/"
+            type: article
+      - id: context-managers
+        title: Контекстные менеджеры
+        description: with statement, __enter__/__exit__, contextlib, @contextmanager
+        interview: "Что происходит при исключении внутри with-блока, как написать свой контекстный менеджер через класс и через @contextmanager."
+        in_practice: Управление ресурсами — транзакции БД, сетевые соединения, временные файлы, блокировки.
+        min_grade: Junior+
+        depends_on: [decorators]
       - id: type-hints
         title: Type Hints и Typing
         description: >
-          Аннотации типов, typing модуль, Protocol, TypeVar,
-          Generic, mypy/pyright
+          Аннотации типов, typing модуль (Optional, Union, List, Dict),
+          Protocol, TypeVar, Generic, Literal
+        interview: "Чем Optional[str] отличается от str | None, как работают TypeVar и Generic, влияют ли аннотации на производительность."
+        in_practice: Документирование контрактов функций, автокомплит в IDE, раннее обнаружение ошибок через mypy/pyright.
         min_grade: Junior+
-        depends_on: [oop]
+        depends_on: [oop.abc]
       - id: memory-model
         title: Управление памятью
         description: >
-          Reference counting, GC (cyclic), аллокатор Python,
-          pymalloc, __slots__, weakref
+          Reference counting, cyclic GC, pymalloc, __slots__,
+          weakref, sys.getsizeof, objgraph, memory profiling
+        interview: "Как работает reference counting и зачем нужен cyclic GC, что даёт __slots__, как найти утечку памяти в production."
+        in_practice: Оптимизация сервисов с высокой нагрузкой, профилирование memory leaks, уменьшение потребления памяти в долгоживущих процессах.
         min_grade: Middle
-        depends_on: [data-structures]
+        depends_on: [data-structures.dicts]
       - id: metaclasses
         title: Метаклассы и дескрипторы
         description: >
-          type, __new__, __init_subclass__, __set_name__,
-          descriptor protocol (__get__/__set__/__delete__)
+          type(), __new__, __init_subclass__, __set_name__,
+          descriptor protocol (__get__/__set__/__delete__), dataclasses internals
+        interview: "Чем __new__ отличается от __init__, как работает descriptor protocol, когда метаклассы оправданы вместо декораторов."
+        in_practice: Понимание внутренностей Django ORM (Field — дескриптор, Model — метакласс), создание DSL и фреймворковых абстракций.
         min_grade: Middle+
         depends_on: [memory-model]
 
-  - id: async
-    title: Асинхронность
+  - id: typing-tools
+    title: Статическая типизация
+    skills:
+      - id: pydantic
+        title: Pydantic
+        description: BaseModel, валидация данных, сериализация, Field, validator, Settings
+        interview: "Чем Pydantic v2 отличается от v1, как работает валидация через model_validator, разница между BaseModel и dataclass."
+        in_practice: Валидация входных данных API, описание схем запросов/ответов, загрузка и проверка конфигурации приложения.
+        min_grade: Junior+
+        depends_on: [advanced.type-hints]
+        resources:
+          - title: "Pydantic Documentation"
+            url: "https://docs.pydantic.dev/latest/"
+            type: official
+      - id: mypy
+        title: mypy / pyright
+        description: Статическая проверка типов, strict mode, плагины, стратегия внедрения
+        interview: "Чем отличается strict mode от обычного, как типизировать декораторы и callback-и, что такое type narrowing."
+        in_practice: Ловит баги до запуска кода — неправильные типы аргументов, забытые Optional-проверки, несовместимые интерфейсы.
+        min_grade: Middle-
+        depends_on: [advanced.type-hints]
+        resources:
+          - title: "mypy documentation"
+            url: "https://mypy-lang.org/"
+            type: official
+          - title: "python/mypy"
+            url: "https://github.com/python/mypy"
+            type: opensource
+          - title: "Pyright Documentation"
+            url: "https://microsoft.github.io/pyright/"
+            type: official
+
+  - id: concurrency
+    title: Конкурентность и асинхронность
     skills:
       - id: gil
         title: GIL
         description: >
-          Что такое GIL, почему существует, влияние на многопоточность,
-          multiprocessing vs threading
+          Что такое GIL, почему существует, влияние на CPU-bound задачи,
+          как обходить (multiprocessing, C extensions)
+        interview: "Почему GIL не мешает I/O-bound задачам, как обойти GIL для CPU-bound вычислений, что изменилось в Python 3.13 (free-threaded)."
+        in_practice: Понимание GIL определяет выбор между threading, multiprocessing и asyncio при проектировании нагруженных сервисов.
         min_grade: Junior+
-        depends_on: [python-core.data-structures]
+        depends_on: [oop.classes]
+        resources:
+          - title: "What is GIL?"
+            url: "https://realpython.com/python-gil/"
+            type: article
       - id: threading
-        title: Threading и Multiprocessing
-        description: >
-          threading модуль, Lock, RLock, Semaphore, Queue.
-          multiprocessing, Pool, shared memory
+        title: Threading
+        description: threading модуль, Lock, RLock, Semaphore, Event, Queue, daemon threads
+        interview: "Чем Lock отличается от RLock, что такое race condition и как его предотвратить, когда threading лучше asyncio."
+        in_practice: Параллельная отправка HTTP-запросов, фоновые задачи в приложении, работа с пулом потоков через ThreadPoolExecutor.
         min_grade: Junior+
         depends_on: [gil]
+        resources:
+          - title: "Python Threading Library"
+            url: "https://docs.python.org/3/library/threading.html"
+            type: official
+          - title: "Python Multithreading: The Most Practical Intro"
+            url: "https://roadmap.sh/python/multithreading"
+            type: article
+          - title: "Introduction to Threading in Python"
+            url: "https://realpython.com/intro-to-python-threading/"
+            type: article
+      - id: multiprocessing
+        title: Multiprocessing
+        description: Process, Pool, shared memory, Manager, pipe, очереди между процессами
+        interview: "Как передаются данные между процессами (pickle), чем shared memory отличается от Manager, подводные камни fork vs spawn."
+        in_practice: CPU-bound вычисления (обработка изображений, ML-инференс), параллельная обработка батчей данных в воркерах.
+        min_grade: Middle-
+        depends_on: [threading]
+        resources:
+          - title: "Python Documentation"
+            url: "https://docs.python.org/3/library/multiprocessing.html"
+            type: official
+          - title: "Multiprocessing in Python with Example"
+            url: "https://www.digitalocean.com/community/tutorials/python-multiprocessing-example"
+            type: article
+          - title: "Multiprocessing in Python"
+            url: "https://realpython.com/python-multiprocessing/"
+            type: article
       - id: asyncio-basics
         title: asyncio основы
         description: >
-          async/await, coroutines, tasks, Future,
-          event loop, gather, wait
+          async/await, coroutines, asyncio.run, tasks, gather,
+          event loop, Future, создание async-сервера
+        interview: "Чем coroutine отличается от обычной функции, как работает event loop, что будет если забыть await."
+        in_practice: Асинхронные веб-серверы (FastAPI, aiohttp), Telegram-боты на aiogram, одновременная обработка множества I/O-операций.
         min_grade: Middle-
         depends_on: [gil]
       - id: asyncio-advanced
         title: asyncio продвинутый
         description: >
-          Semaphore, Lock, Queue в asyncio. aiohttp, httpx.
-          Structured concurrency (TaskGroup)
+          TaskGroup (structured concurrency), Semaphore, Lock, Queue в asyncio,
+          aiohttp, httpx, asyncpg, uvloop
+        interview: "Чем TaskGroup лучше gather, как ограничить concurrency через Semaphore, что такое structured concurrency и зачем оно нужно."
+        in_practice: Ограничение параллельных запросов к внешним API, высоконагруженные async-воркеры, микросервисная коммуникация.
         min_grade: Middle
         depends_on: [asyncio-basics]
+
+  - id: packaging
+    title: Управление зависимостями
+    skills:
+      - id: pip-venv
+        title: pip и virtualenv
+        description: pip install, requirements.txt, virtualenv, venv, pyenv
+        interview: "Зачем нужен virtualenv, чем venv отличается от virtualenv, как pyenv управляет версиями Python."
+        in_practice: Изоляция зависимостей проектов друг от друга, воспроизводимость окружения на разных машинах и в CI.
+        min_grade: Intern
+        depends_on: [basics.modules]
+        resources:
+          - title: "pip Documentation"
+            url: "https://pip.pypa.io/en/stable/installation/"
+            type: official
+          - title: "Using Pythons pip to Manage Your Projects Dependencies"
+            url: "https://realpython.com/what-is-pip/"
+            type: article
+          - title: "Explore top posts about PIP"
+            url: "https://app.daily.dev/tags/pip?ref=roadmapsh"
+            type: feed
+          - title: "Virtual Environments"
+            url: "https://virtualenv.pypa.io/en/latest/"
+            type: official
+          - title: "PyPI Website"
+            url: "https://pypi.org/"
+            type: official
+      - id: poetry
+        title: Poetry / uv
+        description: pyproject.toml, lock-файлы, dependency resolution, публикация пакетов, pdm
+        interview: "Зачем нужен lock-файл, чем pyproject.toml лучше setup.py, как Poetry решает конфликты зависимостей."
+        in_practice: Детерминированные сборки в CI/CD, удобное управление зависимостями в команде, публикация внутренних библиотек.
+        min_grade: Junior
+        depends_on: [pip-venv]
+        resources:
+          - title: "Poetry Docs"
+            url: "https://python-poetry.org/docs/"
+            type: official
+          - title: "astral-sh/uv"
+            url: "https://github.com/astral-sh/uv"
+            type: opensource
+          - title: "@UV for Python"
+            url: "https://www.youtube.com/watch?v=qh98qOND6MI&t"
+            type: article
+
+  - id: code-quality
+    title: Качество кода
+    skills:
+      - id: linting
+        title: Линтинг и форматирование
+        description: ruff, black, isort, flake8, pylint, pre-commit hooks
+        interview: "Чем ruff лучше flake8+isort+black, как настроить pre-commit hooks, разница между линтером и форматтером."
+        in_practice: Единый стиль кода в команде, автоматическое форматирование при коммите, раннее обнаружение типовых ошибок.
+        min_grade: Junior
+        depends_on: [basics.modules]
+        resources:
+          - title: "Ruff documentation"
+            url: "https://docs.astral.sh/ruff/"
+            type: official
+      - id: documentation
+        title: Документация
+        description: docstrings (Google/NumPy style), Sphinx, autodoc, MkDocs, type stubs
+        interview: "Чем Google-style docstring отличается от NumPy-style, как автоматически генерировать документацию из кода."
+        in_practice: Документирование API для коллег, автогенерация справки для внутренних библиотек, поддержка onboarding новых разработчиков.
+        min_grade: Junior+
+        depends_on: [linting]
 
   - id: frameworks
     title: Web-фреймворки
@@ -110,57 +502,159 @@ categories:
         title: FastAPI
         description: >
           Роутинг, Pydantic модели, Depends (DI), middleware,
-          OpenAPI, background tasks
+          OpenAPI, background tasks, WebSocket
+        interview: "Как работает Depends (dependency injection), чем FastAPI отличается от Flask, как настроить middleware для аутентификации."
+        in_practice: Быстрое создание REST API с автодокументацией, микросервисы с асинхронной обработкой, интеграция с Pydantic для валидации.
         min_grade: Junior
-        depends_on: [python-core.type-hints]
+        depends_on: [typing-tools.pydantic]
+      - id: django
+        title: Django
+        description: >
+          ORM, views (CBV/FBV), templates, middleware, admin,
+          signals, management commands, forms, migrations
+        interview: "Чем CBV лучше FBV и наоборот, как работают миграции, жизненный цикл запроса через middleware."
+        in_practice: Полноценные веб-приложения с админкой из коробки, быстрый прототип с ORM и миграциями, CMS и внутренние инструменты.
+        min_grade: Junior+
+        depends_on: [oop.classes]
+        resources:
+          - title: "Visit the Dedicated Django Roadmap"
+            url: "https://roadmap.sh/django"
+            type: roadmap
+          - title: "Django Website"
+            url: "https://www.djangoproject.com/"
+            type: official
+          - title: "Getting Started"
+            url: "https://www.djangoproject.com/start/"
+            type: official
+          - title: "Is Django Synchronous or Asynchronous?"
+            url: "https://stackoverflow.com/questions/58548089/django-is-synchronous-or-asynchronous"
+            type: article
+          - title: "Explore top posts about Django"
+            url: "https://app.daily.dev/tags/django?ref=roadmapsh"
+            type: feed
+      - id: flask
+        title: Flask
+        description: >
+          Blueprints, Jinja2, extensions, application factory,
+          context (app/request), Flask-SQLAlchemy
+        interview: "Что такое application factory и зачем она нужна, как работает request context, чем Blueprint отличается от Django app."
+        in_practice: Легковесные API и микросервисы, прототипирование, проекты где не нужна тяжёлая инфраструктура Django.
+        min_grade: Junior
+        depends_on: [oop.classes]
+        resources:
+          - title: "Flask Website"
+            url: "https://flask.palletsprojects.com/"
+            type: official
+          - title: "Flask Tutorial"
+            url: "https://flask.palletsprojects.com/en/3.0.x/tutorial/"
+            type: official
+          - title: "Explore top posts about Flask"
+            url: "https://app.daily.dev/tags/flask?ref=roadmapsh"
+            type: feed
       - id: starlette
         title: Starlette / ASGI
         description: >
           ASGI-протокол, Starlette internals, middleware stack,
-          lifespan events, WebSocket
+          lifespan events, ASGI vs WSGI
+        interview: "Чем ASGI отличается от WSGI, как работает lifespan protocol, какие задачи решает middleware stack в Starlette."
+        in_practice: Понимание того, как FastAPI работает под капотом, настройка WebSocket и SSE, оптимизация middleware-цепочки.
         min_grade: Middle-
-        depends_on: [fastapi, async.asyncio-basics]
-      - id: django
-        title: Django
-        description: >
-          ORM, views, templates, middleware, admin,
-          signals, management commands
-        min_grade: Junior+
-        depends_on: [python-core.oop]
+        depends_on: [fastapi, concurrency.asyncio-basics]
       - id: celery
         title: Celery
         description: >
-          Tasks, workers, beat, результаты, retry, chains/groups/chords,
-          мониторинг (Flower)
+          Tasks, workers, beat (расписание), результаты, retry, chains/groups/chords,
+          мониторинг (Flower), brokers (Redis, RabbitMQ)
+        interview: "Как обеспечить идемпотентность задач, чем chain отличается от group, как настроить retry с exponential backoff."
+        in_practice: Отложенная отправка уведомлений, генерация отчётов в фоне, периодические задачи (очистка, синхронизация с внешними API).
         min_grade: Middle-
         depends_on: [fastapi]
 
   - id: orm
-    title: ORM
+    title: ORM и базы данных
     skills:
       - id: sqlalchemy
         title: SQLAlchemy
         description: >
-          Declarative mapping, session, query API, migrations (Alembic),
-          N+1, eager/lazy loading
+          Declarative mapping, Session, Query API, relationship(),
+          eager/lazy loading, N+1, Alembic миграции
+        interview: "Как решить проблему N+1 запросов, чем eager loading отличается от lazy, как работает Unit of Work в Session."
+        in_practice: Работа с БД в FastAPI/Flask-проектах, сложные запросы с join-ами, управление миграциями через Alembic.
         min_grade: Junior+
         depends_on: [common/databases.sql-basics]
+      - id: django-orm
+        title: Django ORM
+        description: >
+          QuerySet API, Manager, F/Q-объекты, select_related/prefetch_related,
+          аннотации, агрегации, сырые запросы
+        interview: "Чем select_related отличается от prefetch_related, как работают F и Q объекты, когда QuerySet выполняется (lazy evaluation)."
+        in_practice: Построение сложных выборок с аннотациями и агрегациями, оптимизация запросов для админки и API, написание кастомных Manager-ов.
+        min_grade: Junior+
+        depends_on: [frameworks.django, common/databases.sql-basics]
 
   - id: testing
     title: Тестирование
     skills:
-      - id: unit-testing
-        title: Unit-тесты
-        description: pytest, fixtures, parametrize, conftest, markers
+      - id: pytest
+        title: pytest
+        description: fixtures, parametrize, conftest, markers, плагины, assert rewriting
+        interview: "Как работает scope у fixture (function/class/module/session), зачем нужен conftest.py, как параметризовать тесты."
+        in_practice: Написание unit-тестов для сервисов и утилит, параметризация edge cases, настройка тестовой инфраструктуры через fixtures.
         min_grade: Junior
         depends_on: []
+        resources:
+          - title: "Pytest Docs"
+            url: "https://docs.pytest.org/"
+            type: official
+          - title: "Pytest Tutorial"
+            url: "https://www.tutorialspoint.com/pytest/index.htm"
+            type: article
+          - title: "Effective Python Testing With Pytest"
+            url: "https://realpython.com/pytest-python-testing/"
+            type: article
+          - title: "Explore top posts about Python"
+            url: "https://app.daily.dev/tags/python?ref=roadmapsh"
+            type: feed
       - id: mocking
         title: Моки и стабы
-        description: unittest.mock, patch, MagicMock, side_effect, pytest-mock
+        description: "unittest.mock, patch, MagicMock, side_effect, pytest-mock, monkeypatch"
+        interview: "Куда правильно направлять patch (where to patch), чем MagicMock отличается от Mock, когда использовать side_effect."
+        in_practice: Изоляция тестов от внешних зависимостей (API, БД, файловая система), проверка вызовов и аргументов при интеграции с внешними сервисами.
         min_grade: Junior+
-        depends_on: [unit-testing]
+        depends_on: [pytest]
       - id: integration-testing
         title: Интеграционные тесты
-        description: TestContainers, docker-compose, factory_boy, httpx.AsyncClient
+        description: TestContainers, docker-compose, factory_boy, httpx.AsyncClient, pytest-asyncio
+        interview: "Чем интеграционные тесты отличаются от unit, как поднять тестовую БД через TestContainers, зачем нужен factory_boy."
+        in_practice: Проверка реальных сценариев (API -> БД -> ответ), тестирование миграций, уверенность в работоспособности системы перед деплоем.
         min_grade: Middle-
         depends_on: [mocking]
+      - id: tox
+        title: tox / nox
+        description: Тестирование в нескольких средах, автоматизация CI, матрица Python-версий
+        interview: "Зачем тестировать на нескольких версиях Python, чем nox лучше tox, как интегрировать с GitHub Actions."
+        in_practice: Проверка совместимости библиотеки с разными версиями Python/Django, автоматизация линтинга и тестов в CI-пайплайне.
+        min_grade: Middle-
+        depends_on: [integration-testing]
+        resources:
+          - title: "Tox Documentation"
+            url: "https://tox.wiki/en/"
+            type: official
+
+  - id: security
+    title: Безопасность
+    skills:
+      - id: auth
+        title: Аутентификация и авторизация
+        description: JWT, OAuth2, session-based auth, CORS, CSRF, bcrypt/passlib
+        interview: "Чем JWT отличается от session-based auth, как работает OAuth2 flow, что такое CSRF-атака и как от неё защититься."
+        in_practice: Реализация логина/регистрации, интеграция с SSO-провайдерами (Google, GitHub), защита API-эндпоинтов.
+        min_grade: Middle-
+        depends_on: [frameworks.fastapi]
+      - id: cryptography
+        title: Криптография
+        description: hashlib, secrets, cryptography library, TLS/SSL, шифрование данных
+        interview: "Чем хэширование отличается от шифрования, почему нельзя использовать MD5 для паролей, как работает TLS handshake."
+        in_practice: Хэширование паролей (bcrypt/argon2), генерация токенов через secrets, шифрование чувствительных данных в БД.
+        min_grade: Middle
+        depends_on: [auth]
