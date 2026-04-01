@@ -47,6 +47,13 @@ categories:
         in_practice: Новые типы позволяют добавлять методы к базовым типам (например, к string или []byte) и делают сигнатуры функций более говорящими. Алиасы незаменимы при рефакторинге и переносе типов между пакетами.
         min_grade: Intern
         depends_on: [data-types]
+        resources:
+          - title: "Type declarations"
+            url: "https://go.dev/ref/spec#Type_declarations"
+            type: official
+          - title: "Golang Type Alias: Simplifying Code and Enhancing Readability"
+            url: "https://www.bytesizego.com/blog/golang-type-alias"
+            type: article
       - id: conditionals
         title: Условия
         description: if/else, switch (включая type switch), fallthrough
@@ -179,7 +186,8 @@ categories:
         description: Объявление, struct tags (JSON), embedding, анонимные структуры
         interview: Как работает embedding (встраивание) и чем оно отличается от наследования, какие struct tags бывают и как написать свой, что такое анонимная структура.
         in_practice: Структуры — основной способ моделирования данных в Go; struct tags управляют сериализацией в JSON, валидацией и маппингом полей из БД.
-        depends_on: [slices, basics.data-types]
+        min_grade: Junior
+        depends_on: [slices]
         resources:
           - title: "Structs"
             url: "https://go.dev/tour/moretypes/2"
@@ -201,7 +209,7 @@ categories:
       - id: pointer-basics
         title: Указатели
         description: "Оператор &/*, nil pointer, указатели на структуры, указатели и слайсы/карты"
-        interview: Когда передавать по указателю, а когда по значению, что произойдёт при разыменовании nil-указателя, почему слайсы и карты уже являются ссылочными типами, Почему для мелких структур (2-3 поля) передача по значению эффективнее, чем по указателю?
+        interview: Когда передавать по указателю, а когда по значению, что произойдёт при разыменовании nil-указателя, почему слайсы и карты уже являются ссылочными типами, почему для мелких структур (2-3 поля) передача по значению эффективнее, чем по указателю?
         in_practice: Указатели позволяют избежать копирования больших структур и изменять данные в вызываемых функциях — ключевой механизм для эффективной работы с памятью.
         min_grade: Junior
         depends_on: [composite-types.structs]
