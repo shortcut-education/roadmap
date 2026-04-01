@@ -169,11 +169,11 @@ categories:
             type: article
       - id: structs
         title: Структуры
-        description: Объявление, struct tags (JSON), embedding, анонимные структуры
-        interview: Как работает embedding (встраивание) и чем оно отличается от наследования, какие struct tags бывают и как написать свой, что такое анонимная структура.
+        description: Объявление, struct tags (JSON), embedding, анонимные структуры, алиасы и новые типы данных через struct
+        interview: Как работает embedding (встраивание) и чем оно отличается от наследования, какие struct tags бывают и как написать свой, что такое анонимная структура. Как определять новый тип данных, что такое алиасы и главное отличие между ними
         in_practice: Структуры — основной способ моделирования данных в Go; struct tags управляют сериализацией в JSON, валидацией и маппингом полей из БД.
         min_grade: Junior
-        depends_on: [slices]
+        depends_on: [slices, basics.data-types]
         resources:
           - title: "Structs"
             url: "https://go.dev/tour/moretypes/2"
@@ -195,10 +195,10 @@ categories:
       - id: pointer-basics
         title: Указатели
         description: "Оператор &/*, nil pointer, указатели на структуры, указатели и слайсы/карты"
-        interview: Когда передавать по указателю, а когда по значению, что произойдёт при разыменовании nil-указателя, почему слайсы и карты уже являются ссылочными типами.
+        interview: Когда передавать по указателю, а когда по значению, что произойдёт при разыменовании nil-указателя, почему слайсы и карты уже являются ссылочными типами. Почему огромные строки обязательно передавать по копии.
         in_practice: Указатели позволяют избежать копирования больших структур и изменять данные в вызываемых функциях — ключевой механизм для эффективной работы с памятью.
         min_grade: Junior
-        depends_on: [composite-types.structs]
+        depends_on: [composite-types.structs, composite.types.strings]
         resources:
           - title: "Pointers"
             url: "https://go.dev/tour/moretypes/1"
