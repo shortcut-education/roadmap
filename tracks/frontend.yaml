@@ -1,0 +1,980 @@
+id: frontend
+title: Frontend Developer
+description: Карта навыков frontend-разработчика
+icon: "🎨"
+grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
+
+includes:
+  - common/infra
+
+categories:
+  - id: internet
+    title: Интернет и веб
+    skills:
+      - id: how-internet-works
+        title: Как работает интернет
+        description: Клиент-серверная модель, IP, TCP/IP, порты, что происходит при вводе URL в браузере
+        interview: "Что происходит от момента ввода example.com до отрисовки страницы; чем TCP отличается от UDP; зачем нужны порты."
+        in_practice: Базовое понимание сети нужно для отладки запросов, настройки CORS, деплоя и работы с API.
+        min_grade: Intern
+        depends_on: []
+        resources:
+          - title: "How does the Internet Work? — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/How_does_the_Internet_work"
+            type: article
+          - title: "Как работает интернет — learn.javascript.ru раздел / Habr"
+            url: "https://habr.com/ru/articles/427721/"
+            type: article
+      - id: http
+        title: HTTP и HTTPS
+        description: Методы, статус-коды, заголовки, cookies, кэширование, HTTPS/TLS, HTTP/2 и HTTP/3
+        interview: "Какие методы идемпотентны; чем отличаются 301 и 302; что делает TLS handshake; зачем нужен заголовок Cache-Control."
+        in_practice: Каждый запрос к API — это HTTP. Понимание методов, кодов и заголовков критично для интеграции с бэкендом и отладки.
+        min_grade: Intern
+        depends_on: [how-internet-works]
+        resources:
+          - title: "HTTP — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/HTTP"
+            type: official
+          - title: "Full Stack HTTP — roadmap.sh"
+            url: "https://roadmap.sh/guides/http-caching"
+            type: roadmap
+          - title: "Протокол HTTP — doka.guide"
+            url: "https://doka.guide/tools/http-request/"
+            type: article
+      - id: dns
+        title: DNS
+        description: Как работает разрешение имён, типы записей (A, AAAA, CNAME, MX, TXT), TTL, resolver
+        interview: "Что происходит при DNS-запросе; чем A отличается от CNAME; зачем нужен TTL."
+        in_practice: Настройка доменов, поддоменов, переезд на новый хостинг, отладка «сайт не открывается».
+        min_grade: Junior
+        depends_on: [how-internet-works]
+        resources:
+          - title: "What is DNS? — Cloudflare Learning"
+            url: "https://www.cloudflare.com/learning/dns/what-is-dns/"
+            type: article
+      - id: domain-hosting
+        title: Домены и хостинг
+        description: Регистрация доменов, DNS-провайдеры, виды хостинга, статический хостинг (Netlify, Vercel, GitHub Pages), CDN
+        interview: "Чем статический хостинг отличается от серверного; что даёт CDN; как задеплоить SPA."
+        in_practice: Деплой фронтенд-приложений, выбор хостинга под SPA/SSR, раздача статики через CDN.
+        min_grade: Junior
+        depends_on: [dns]
+      - id: how-browsers-work
+        title: Как работают браузеры
+        description: >
+          Рендеринг-движок, парсинг HTML/CSS, DOM/CSSOM, render tree, layout,
+          paint, composite, критический путь рендеринга, event loop в браузере
+        interview: "Что такое reflow и repaint; как строится render tree; чем layout отличается от paint; как event loop работает в браузере."
+        in_practice: Понимание рендеринга — фундамент оптимизации производительности и отладки визуальных проблем.
+        min_grade: Junior+
+        depends_on: [http]
+        resources:
+          - title: "How browsers work — web.dev"
+            url: "https://web.dev/articles/howbrowserswork"
+            type: article
+          - title: "Как работают браузеры — doka.guide"
+            url: "https://doka.guide/js/how-browser-render-web-page/"
+            type: article
+
+  - id: html
+    title: HTML
+    skills:
+      - id: html-basics
+        title: Основы HTML
+        description: Структура документа, теги, атрибуты, вложенность, блочные и строчные элементы, метатеги
+        interview: "Чем блочный элемент отличается от строчного; зачем нужен DOCTYPE; что делают метатеги viewport и charset."
+        in_practice: HTML — скелет любой страницы. Без корректной разметки не работают стили, скрипты и доступность.
+        min_grade: Intern
+        depends_on: []
+        resources:
+          - title: "HTML — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/HTML"
+            type: official
+          - title: "Учебник HTML — HTML Academy"
+            url: "https://htmlacademy.ru/tutorial/html"
+            type: article
+      - id: semantic-html
+        title: Семантическая вёрстка
+        description: Семантические теги (header, nav, main, article, section, aside, footer), их роль для SEO и доступности
+        interview: "Зачем нужна семантика вместо div-супа; чем article отличается от section; как семантика влияет на скринридеры."
+        in_practice: Семантика улучшает SEO, доступность и читаемость кода — стандарт качественной вёрстки.
+        min_grade: Junior
+        depends_on: [html-basics]
+        resources:
+          - title: "HTML Semantic Elements — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Glossary/Semantics"
+            type: official
+      - id: forms-validation
+        title: Формы и валидация
+        description: Элементы форм, типы input, атрибуты валидации, Constraint Validation API, отправка данных
+        interview: "Какие есть способы валидации на клиенте; чем novalidate полезен; как работает Constraint Validation API."
+        in_practice: "Формы — основной канал ввода данных: регистрация, оплата, поиск. Валидация снижает количество ошибок."
+        min_grade: Junior
+        depends_on: [html-basics]
+      - id: accessibility
+        title: Доступность (a11y)
+        description: ARIA-роли и атрибуты, семантика, навигация с клавиатуры, контраст, скринридеры, WCAG
+        interview: "Что такое ARIA и когда её применять; как обеспечить навигацию с клавиатуры; что проверяет WCAG."
+        in_practice: Доступность — требование закона в ряде стран и признак зрелого продукта; расширяет аудиторию.
+        min_grade: Junior+
+        depends_on: [semantic-html]
+        resources:
+          - title: "Accessibility — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/Accessibility"
+            type: official
+          - title: "Доступность интерфейсов — doka.guide"
+            url: "https://doka.guide/a11y/"
+            type: article
+      - id: seo-basics
+        title: Основы SEO
+        description: Метатеги, семантика, sitemap, robots.txt, Open Graph, структурированные данные (schema.org), скорость загрузки
+        interview: "Как семантика влияет на SEO; зачем нужны Open Graph-теги; как скорость влияет на ранжирование."
+        in_practice: SEO влияет на органический трафик; фронтендер отвечает за техническую часть — разметку, метатеги, производительность.
+        min_grade: Junior+
+        depends_on: [semantic-html]
+
+  - id: css
+    title: CSS
+    skills:
+      - id: css-basics
+        title: Основы CSS
+        description: Селекторы, специфичность, каскад, наследование, единицы измерения (px, em, rem, %, vw/vh), цвета
+        interview: "Как считается специфичность селектора; чем rem отличается от em; что такое каскад."
+        in_practice: CSS определяет внешний вид всего интерфейса — основа ежедневной работы фронтендера.
+        min_grade: Intern
+        depends_on: [html.html-basics]
+        resources:
+          - title: "CSS — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/CSS"
+            type: official
+          - title: "Учебник CSS — HTML Academy"
+            url: "https://htmlacademy.ru/tutorial/css"
+            type: article
+      - id: box-model
+        title: Блочная модель
+        description: content, padding, border, margin, box-sizing, схлопывание отступов
+        interview: "Что делает box-sizing: border-box; что такое схлопывание margin; как считается итоговая ширина элемента."
+        in_practice: Блочная модель определяет размеры и отступы всех элементов — источник большинства «поехавших» макетов.
+        min_grade: Intern
+        depends_on: [css-basics]
+      - id: flexbox
+        title: Flexbox
+        description: flex-контейнер и элементы, main/cross axis, justify-content, align-items, flex-grow/shrink/basis, wrap
+        interview: "Чем main axis отличается от cross axis; что делает flex: 1; как выровнять элемент по центру через flexbox."
+        in_practice: "Flexbox — основной инструмент одномерных раскладок: навбары, карточки, выравнивание элементов."
+        min_grade: Junior
+        depends_on: [box-model]
+        resources:
+          - title: "A Complete Guide to Flexbox — CSS-Tricks"
+            url: "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+            type: article
+          - title: "Flexbox — doka.guide"
+            url: "https://doka.guide/css/flexbox-guide/"
+            type: article
+      - id: grid
+        title: CSS Grid
+        description: grid-контейнер, строки/колонки, grid-template, fr, auto-fill/auto-fit, grid-area, выравнивание
+        interview: "Когда Grid лучше Flexbox; что делает minmax(); чем fr отличается от %; как работает auto-fill."
+        in_practice: "Grid — инструмент двумерных раскладок: сложные сетки, дашборды, галереи."
+        min_grade: Junior
+        depends_on: [flexbox]
+        resources:
+          - title: "A Complete Guide to Grid — CSS-Tricks"
+            url: "https://css-tricks.com/snippets/css/complete-guide-grid/"
+            type: article
+          - title: "CSS Grid — doka.guide"
+            url: "https://doka.guide/css/grids/"
+            type: article
+      - id: responsive
+        title: Адаптивная вёрстка
+        description: Media queries, mobile-first, гибкие единицы, responsive images (srcset), container queries
+        interview: "Что такое mobile-first; чем container queries отличаются от media queries; как отдавать разные картинки под экраны."
+        in_practice: Адаптив обязателен — большая часть трафика мобильная; одна вёрстка должна работать на всех экранах.
+        min_grade: Junior+
+        depends_on: [grid]
+      - id: positioning
+        title: Позиционирование
+        description: static, relative, absolute, fixed, sticky, z-index, stacking context
+        interview: "Чем absolute отличается от fixed; как работает sticky; что создаёт stacking context; почему z-index не всегда работает."
+        in_practice: Позиционирование нужно для модалок, тултипов, выпадающих меню, липких шапок.
+        min_grade: Junior+
+        depends_on: [box-model]
+      - id: animations
+        title: Анимации и переходы
+        description: transition, animation, @keyframes, transform, will-change, производительность анимаций
+        interview: "Почему transform и opacity дешевле для анимации; что делает will-change; чем transition отличается от animation."
+        in_practice: Анимации улучшают UX и обратную связь интерфейса; важно не ронять производительность.
+        min_grade: Middle-
+        depends_on: [positioning]
+
+  - id: css-tools
+    title: Написание CSS
+    skills:
+      - id: sass
+        title: Sass / SCSS
+        description: Переменные, вложенность, миксины, функции, partials, @use/@forward
+        interview: "Что даёт Sass поверх CSS; чем миксин отличается от placeholder; зачем нужны partials."
+        in_practice: "Препроцессоры упрощают поддержку больших стилей: переиспользование, темизация, модульность."
+        min_grade: Junior
+        depends_on: [css.css-basics]
+        resources:
+          - title: "Sass Documentation"
+            url: "https://sass-lang.com/documentation/"
+            type: official
+      - id: postcss
+        title: PostCSS и Autoprefixer
+        description: PostCSS-плагины, Autoprefixer, современные CSS-фичи через транспиляцию, интеграция со сборкой
+        interview: "Зачем нужен Autoprefixer; чем PostCSS отличается от препроцессора; как встроить PostCSS в сборку."
+        in_practice: PostCSS добавляет вендорные префиксы и полифилы автоматически — кроссбраузерность без ручной работы.
+        min_grade: Middle-
+        depends_on: [sass]
+      - id: bem
+        title: Методология BEM
+        description: Block, Element, Modifier, соглашения именования, изоляция стилей, масштабируемость
+        interview: "Что решает BEM; как именовать модификатор; чем BEM помогает в больших проектах."
+        in_practice: BEM даёт предсказуемые имена классов и изоляцию — стандарт в командной вёрстке без CSS-in-JS.
+        min_grade: Junior
+        depends_on: [css.css-basics]
+        resources:
+          - title: "Методология BEM"
+            url: "https://ru.bem.info/methodology/"
+            type: official
+      - id: tailwind
+        title: Tailwind CSS
+        description: Utility-first подход, конфигурация, кастомизация темы, JIT, @apply, плагины
+        interview: "В чём идея utility-first; плюсы и минусы Tailwind против BEM; что делает JIT-компилятор."
+        in_practice: Tailwind ускоряет вёрстку без переключения контекста между HTML и CSS; популярен в React-экосистеме.
+        min_grade: Junior+
+        depends_on: [css.responsive]
+        resources:
+          - title: "Tailwind CSS Documentation"
+            url: "https://tailwindcss.com/docs"
+            type: official
+      - id: css-modules
+        title: CSS Modules
+        description: Локальная область видимости классов, composes, интеграция со сборщиками, хэширование имён
+        interview: "Как CSS Modules изолируют стили; чем отличаются от глобального CSS; что делает composes."
+        in_practice: CSS Modules убирают конфликты имён классов в компонентных приложениях без рантайм-оверхеда.
+        min_grade: Junior+
+        depends_on: [css.css-basics]
+      - id: css-in-js
+        title: CSS-in-JS
+        description: styled-components, Emotion, динамические стили, темизация, критика и производительность, zero-runtime (Linaria, vanilla-extract)
+        interview: "Плюсы и минусы CSS-in-JS; чем zero-runtime решения лучше; как работает темизация в styled-components."
+        in_practice: CSS-in-JS связывает стили с компонентами и позволяет динамические стили от пропсов; распространён в React.
+        min_grade: Middle-
+        depends_on: [css-modules]
+
+  - id: javascript
+    title: JavaScript
+    skills:
+      - id: js-syntax
+        title: Основы синтаксиса
+        description: >
+          Переменные (let/const/var), типы данных, операторы, приведение типов,
+          функции, области видимости, hoisting, замыкания
+        interview: "Чем let отличается от var; что такое hoisting; как работает замыкание; чем == отличается от ===."
+        in_practice: "Синтаксис — фундамент любой логики на фронте: обработчики, трансформации данных, интеграция с API."
+        min_grade: Intern
+        depends_on: [html.html-basics]
+        resources:
+          - title: "JavaScript — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+            type: official
+          - title: "Современный учебник JavaScript — learn.javascript.ru"
+            url: "https://learn.javascript.ru/"
+            type: article
+      - id: dom
+        title: DOM
+        description: Дерево DOM, поиск элементов, изменение, создание/удаление узлов, атрибуты, классы, стили
+        interview: "Чем querySelector отличается от getElementById; как эффективно вставлять много узлов; что такое DocumentFragment."
+        in_practice: Манипуляция DOM — основа интерактивности до фреймворков и под капотом каждого из них.
+        min_grade: Intern
+        depends_on: [js-syntax]
+        resources:
+          - title: "Document Object Model (DOM) — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
+            type: official
+          - title: "Документ и объекты страницы — learn.javascript.ru"
+            url: "https://learn.javascript.ru/document"
+            type: article
+      - id: events
+        title: События
+        description: Обработчики, всплытие и погружение, делегирование, event.target/currentTarget, preventDefault, custom events
+        interview: "Как работает всплытие; что такое делегирование событий и зачем оно нужно; чем target отличается от currentTarget."
+        in_practice: "События — основа интерактивности: клики, ввод, скролл. Делегирование экономит память на списках."
+        min_grade: Junior
+        depends_on: [dom]
+      - id: fetch-ajax
+        title: Fetch и работа с сетью
+        description: Fetch API, промисы запросов, заголовки, JSON, обработка ошибок, AbortController, XMLHttpRequest (legacy)
+        interview: "Почему fetch не реджектит на 404; как отменить запрос; чем fetch лучше XMLHttpRequest."
+        in_practice: Любое взаимодействие с бэкендом идёт через сетевые запросы — загрузка данных, отправка форм, поллинг.
+        min_grade: Junior
+        depends_on: [async-await]
+        resources:
+          - title: "Fetch API — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
+            type: official
+      - id: es6-plus
+        title: Современный JavaScript (ES6+)
+        description: >
+          Стрелочные функции, деструктуризация, spread/rest, шаблонные строки,
+          опциональная цепочка, nullish coalescing, итераторы, Map/Set, Symbol
+        interview: "Чем стрелочная функция отличается по this; как работает деструктуризация с дефолтами; что делает ?. и ??."
+        in_practice: Современный синтаксис — стандарт кодовых баз; фреймворки и линтеры предполагают знание ES6+.
+        min_grade: Junior
+        depends_on: [js-syntax]
+      - id: async-await
+        title: Асинхронность
+        description: Callbacks, промисы, async/await, event loop, микро- и макрозадачи, Promise.all/race/allSettled
+        interview: "Как работает event loop; чем микрозадача отличается от макрозадачи; в каком порядке выполнятся then и setTimeout."
+        in_practice: "Асинхронность повсюду: запросы, таймеры, анимации. Понимание event loop критично для отладки гонок."
+        min_grade: Junior+
+        depends_on: [es6-plus]
+        resources:
+          - title: "Промисы, async/await — learn.javascript.ru"
+            url: "https://learn.javascript.ru/async"
+            type: article
+          - title: "Concurrency model and Event Loop — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop"
+            type: official
+      - id: js-modules
+        title: Модули
+        description: ES Modules (import/export), CommonJS, динамический import(), tree-shaking, области видимости модулей
+        interview: "Чем ES Modules отличаются от CommonJS; как работает динамический import; что такое tree-shaking."
+        in_practice: Модульность — основа структуры кода и оптимизации бандла через tree-shaking.
+        min_grade: Junior+
+        depends_on: [es6-plus]
+
+  - id: typescript
+    title: TypeScript
+    skills:
+      - id: ts-basics
+        title: Основы TypeScript
+        description: Аннотации типов, вывод типов (inference), primitives (string/number/boolean), зачем нужна статическая типизация
+        interview: "Что даёт TypeScript поверх JS; как работает вывод типов; нужно ли аннотировать всё явно."
+        in_practice: TypeScript ловит ошибки до рантайма и улучшает автокомплит — стандарт в современных фронтенд-проектах.
+        min_grade: Junior
+        depends_on: [javascript.js-syntax]
+        resources:
+          - title: "TypeScript Handbook"
+            url: "https://www.typescriptlang.org/docs/handbook/intro.html"
+            type: official
+          - title: "TypeScript Roadmap"
+            url: "https://roadmap.sh/typescript"
+            type: roadmap
+          - title: "TypeScript — doka.guide"
+            url: "https://doka.guide/js/typescript-intro/"
+            type: article
+      - id: ts-types
+        title: Базовые типы
+        description: any/unknown/never/void, массивы, tuples, enums, object types, литеральные типы
+        interview: "Чем unknown отличается от any; когда возникает never; чем enum отличается от union литералов."
+        in_practice: Правильные базовые типы — фундамент типобезопасности; any обесценивает всю систему типов.
+        min_grade: Junior
+        depends_on: [ts-basics]
+      - id: ts-system
+        title: Система типов
+        description: union и intersection типы, type aliases vs interfaces, литеральные типы, структурная типизация
+        interview: "Чем type отличается от interface; что такое структурная типизация; когда использовать union, а когда intersection."
+        in_practice: Комбинирование типов позволяет точно описывать контракты данных и API-ответы.
+        min_grade: Junior+
+        depends_on: [ts-types]
+      - id: ts-narrowing
+        title: Сужение типов и type guards
+        description: typeof/instanceof/in, discriminated unions, пользовательские type guards, assertion functions, control flow analysis
+        interview: "Как TS сужает тип в ветке if; что такое discriminated union; как написать пользовательский type guard."
+        in_practice: Сужение типов делает работу с union безопасной — обработка разных вариантов ответа API без any.
+        min_grade: Junior+
+        depends_on: [ts-system]
+      - id: ts-functions
+        title: Типизация функций
+        description: Типы параметров и возврата, опциональные и default параметры, перегрузки, this-типы, типы колбэков
+        interview: "Как типизировать функцию высшего порядка; зачем нужны перегрузки; как типизировать this."
+        in_practice: Функции — основной строительный блок; корректные сигнатуры дают безопасность и автокомплит на вызовах.
+        min_grade: Junior+
+        depends_on: [ts-types]
+      - id: ts-generics
+        title: Дженерики
+        description: Дженерик-функции, constraints (extends), дженерик-классы и интерфейсы, дефолтные типы-параметры
+        interview: "Зачем нужны дженерики; как ограничить дженерик через extends; приведите пример дженерик-функции."
+        in_practice: "Дженерики позволяют писать переиспользуемый типобезопасный код: хелперы, хуки, компоненты, API-клиенты."
+        min_grade: Middle-
+        depends_on: [ts-system]
+      - id: ts-advanced
+        title: Продвинутые типы
+        description: >
+          Mapped types, conditional types, utility types (Partial/Pick/Omit/Record/Required),
+          keyof/typeof, template literal types, infer
+        interview: "Как работает Partial под капотом; что делает keyof; как устроен conditional type с infer."
+        in_practice: Продвинутые типы описывают сложные трансформации данных и дают типобезопасность там, где обычных типов мало.
+        min_grade: Middle
+        depends_on: [ts-generics]
+      - id: ts-config
+        title: tsconfig и компилятор
+        description: tsconfig.json, strict mode, ключевые опции компилятора, target/module, ts-node, tsc
+        interview: "Что включает strict mode; чем target отличается от module; зачем нужен noUncheckedIndexedAccess."
+        in_practice: Правильный tsconfig задаёт уровень строгости всего проекта; strict ловит больше ошибок.
+        min_grade: Junior+
+        depends_on: [ts-basics]
+      - id: ts-ecosystem
+        title: Экосистема и интеграция
+        description: Declaration files (.d.ts), @types/DefinitelyTyped, типизация React (props, hooks), интеграция со сборкой и линтингом
+        interview: "Зачем нужны .d.ts файлы; как подключить типы для нетипизированной библиотеки; как типизировать React-компонент."
+        in_practice: Реальные проекты используют TS в связке с React и сборщиками; знание экосистемы обязательно для работы.
+        min_grade: Middle-
+        depends_on: [ts-config]
+
+  - id: package-managers
+    title: Пакетные менеджеры
+    skills:
+      - id: npm
+        title: npm
+        description: package.json, dependencies vs devDependencies, scripts, npx, package-lock.json, npm registry
+        interview: "Чем dependencies отличается от devDependencies; зачем нужен lock-файл; что делает npx."
+        in_practice: npm управляет зависимостями и скриптами проекта — базовый ежедневный инструмент фронтендера.
+        min_grade: Junior
+        depends_on: [javascript.js-modules]
+        resources:
+          - title: "npm Documentation"
+            url: "https://docs.npmjs.com/"
+            type: official
+      - id: yarn-pnpm
+        title: Yarn и pnpm
+        description: Отличия от npm, workspaces, symlink-подход pnpm, скорость, монорепозитории
+        interview: "Чем pnpm экономит место на диске; что дают workspaces; чем Yarn отличается от npm."
+        in_practice: pnpm/Yarn ускоряют установку и упрощают монорепозитории — частый выбор в командных проектах.
+        min_grade: Junior
+        depends_on: [npm]
+      - id: semver
+        title: Семантическое версионирование
+        description: MAJOR.MINOR.PATCH, диапазоны (^, ~), lock-файлы, обновление зависимостей, breaking changes
+        interview: "Что означает ^1.2.3; чем ~ отличается от ^; когда повышают MAJOR."
+        in_practice: Понимание semver предотвращает неожиданные breaking changes при обновлении зависимостей.
+        min_grade: Junior
+        depends_on: [npm]
+
+  - id: react
+    title: React
+    skills:
+      - id: jsx-components
+        title: JSX и компоненты
+        description: JSX-синтаксис, функциональные компоненты, композиция, фрагменты, условный рендеринг, списки и key
+        interview: "Во что компилируется JSX; зачем нужен key в списках; чем компонент отличается от элемента."
+        in_practice: Компоненты — базовая единица React; композиция определяет всю архитектуру UI.
+        min_grade: Junior
+        depends_on: [javascript.es6-plus]
+        resources:
+          - title: "React Documentation (react.dev)"
+            url: "https://react.dev/learn"
+            type: official
+          - title: "React Roadmap"
+            url: "https://roadmap.sh/react"
+            type: roadmap
+      - id: props-state
+        title: Пропсы и состояние
+        description: props, однонаправленный поток данных, useState, иммутабельность, подъём состояния (lifting state up)
+        interview: "Почему нельзя мутировать state напрямую; что такое подъём состояния; чем props отличается от state."
+        in_practice: Управление состоянием и передача данных через пропсы — основа любого React-приложения.
+        min_grade: Junior
+        depends_on: [jsx-components]
+      - id: hooks
+        title: Хуки
+        description: >
+          useState, useEffect, useRef, useMemo, useCallback, useReducer,
+          правила хуков, зависимости эффектов, кастомные хуки
+        interview: "Как работает массив зависимостей useEffect; когда нужен useMemo/useCallback; правила хуков и почему их нельзя нарушать."
+        in_practice: "Хуки — основной API современного React: состояние, побочные эффекты, оптимизация, переиспользование логики."
+        min_grade: Junior+
+        depends_on: [props-state]
+        resources:
+          - title: "React Hooks Reference"
+            url: "https://react.dev/reference/react/hooks"
+            type: official
+      - id: context
+        title: Context API
+        description: createContext, Provider, useContext, когда использовать вместо пропсов, ограничения и ре-рендеры
+        interview: "Какую проблему решает Context; почему Context может вызывать лишние ре-рендеры; когда лучше внешний стор."
+        in_practice: "Context передаёт данные без prop drilling: тема, локаль, авторизованный пользователь."
+        min_grade: Junior+
+        depends_on: [hooks]
+      - id: react-router
+        title: Маршрутизация
+        description: React Router, декларативные маршруты, вложенные роуты, параметры, программная навигация, lazy-маршруты
+        interview: "Как устроены вложенные маршруты; чем useNavigate отличается от Link; как сделать защищённый роут."
+        in_practice: Маршрутизация превращает SPA в многостраничное приложение с адресуемыми экранами.
+        min_grade: Junior+
+        depends_on: [hooks]
+      - id: data-fetching
+        title: Загрузка данных
+        description: Запросы в эффектах, состояния loading/error, отмена, кэширование, паттерны data fetching, интеграция с TanStack Query
+        interview: "Какие проблемы у fetch в useEffect; зачем нужна библиотека для запросов; как обрабатывать race conditions."
+        in_practice: Почти каждое приложение загружает данные с сервера; правильные паттерны убирают гонки и лишние запросы.
+        min_grade: Middle-
+        depends_on: [hooks, javascript.fetch-ajax]
+      - id: suspense
+        title: Suspense и Concurrent React
+        description: Suspense, lazy, transitions (useTransition/useDeferredValue), streaming, Error Boundaries
+        interview: "Что делает Suspense; зачем нужен useTransition; как работает Error Boundary."
+        in_practice: Suspense и concurrent-возможности улучшают UX при загрузке и тяжёлых обновлениях без блокировки интерфейса.
+        min_grade: Middle
+        depends_on: [data-fetching]
+      - id: react-patterns
+        title: Паттерны и архитектура
+        description: >
+          Компонентная архитектура, композиция vs наследование, container/presentational,
+          compound components, render props, HOC, разделение ответственности
+        interview: "Чем композиция лучше наследования в React; что такое compound components; когда оправдан HOC."
+        in_practice: Паттерны определяют поддерживаемость крупного приложения — переиспользование, тестируемость, чистые границы.
+        min_grade: Middle
+        depends_on: [context]
+
+  - id: state-management
+    title: Управление состоянием
+    skills:
+      - id: redux-toolkit
+        title: Redux Toolkit
+        description: Store, reducers, actions, slices, RTK Query, middleware, immer, DevTools
+        interview: "Какую проблему решает Redux; что даёт Redux Toolkit поверх Redux; как работает immer в slice."
+        in_practice: Redux Toolkit — стандарт для сложного глобального состояния в крупных приложениях с предсказуемыми обновлениями.
+        min_grade: Middle-
+        depends_on: [react.hooks]
+        resources:
+          - title: "Redux Toolkit Documentation"
+            url: "https://redux-toolkit.js.org/"
+            type: official
+      - id: zustand
+        title: Zustand
+        description: Минималистичный стор, хуки-селекторы, middleware, отсутствие boilerplate, сравнение с Redux
+        interview: "Чем Zustand проще Redux; как избежать лишних ре-рендеров через селекторы; когда Zustand достаточно."
+        in_practice: Zustand даёт глобальное состояние с минимумом кода — популярный выбор для средних приложений.
+        min_grade: Junior+
+        depends_on: [react.hooks]
+      - id: mobx
+        title: MobX
+        description: Observable state, реактивность, computed, actions, реактивный подход vs immutable
+        interview: "Чем реактивный подход MobX отличается от Redux; что такое computed; как MobX отслеживает зависимости."
+        in_practice: MobX подходит проектам с реактивной моделью данных и меньшим количеством boilerplate, чем Redux.
+        min_grade: Middle-
+        depends_on: [react.hooks]
+      - id: tanstack-query
+        title: TanStack Query
+        description: Серверное состояние, кэш, инвалидация, фоновое обновление, мутации, оптимистичные обновления
+        interview: "Чем серверное состояние отличается от клиентского; как работает инвалидация кэша; что даёт оптимистичное обновление."
+        in_practice: TanStack Query решает загрузку и кэширование серверных данных — снимает большую часть ручной работы с запросами.
+        min_grade: Middle-
+        depends_on: [react.data-fetching]
+        resources:
+          - title: "TanStack Query Documentation"
+            url: "https://tanstack.com/query/latest"
+            type: official
+
+  - id: other-frameworks
+    title: Другие фреймворки
+    skills:
+      - id: vue
+        title: Vue
+        description: Реактивность, Composition API, SFC (Single File Components), директивы, Vue Router, Pinia, экосистема
+        interview: "Чем Composition API отличается от Options API; как устроена реактивность Vue; чем Vue отличается от React."
+        in_practice: Vue популярен в рунете и подходит для быстрого старта; знание расширяет доступный рынок вакансий.
+        min_grade: Middle-
+        depends_on: [javascript.es6-plus]
+        resources:
+          - title: "Vue.js Documentation"
+            url: "https://vuejs.org/guide/introduction.html"
+            type: official
+          - title: "Vue Roadmap"
+            url: "https://roadmap.sh/vue"
+            type: roadmap
+      - id: angular
+        title: Angular
+        description: Компоненты и модули, DI, RxJS, шаблоны, сервисы, CLI, TypeScript-first подход, signals
+        interview: "Что такое DI в Angular; зачем нужен RxJS; чем Angular отличается от React по архитектуре."
+        in_practice: Angular распространён в enterprise-проектах; полноценный фреймворк «из коробки» со строгой структурой.
+        min_grade: Middle
+        depends_on: [typescript.ts-basics]
+        resources:
+          - title: "Angular Documentation"
+            url: "https://angular.dev/"
+            type: official
+      - id: svelte
+        title: Svelte
+        description: Компиляция вместо рантайма, реактивность на уровне синтаксиса, stores, SvelteKit
+        interview: "Почему у Svelte нет виртуального DOM; как работает реактивность через присваивание; что даёт компиляция."
+        in_practice: Svelte даёт маленький бандл и простой синтаксис; растущая ниша для новых проектов.
+        min_grade: Middle
+        depends_on: [javascript.es6-plus]
+      - id: solid
+        title: Solid
+        description: Fine-grained реактивность, сигналы, JSX без виртуального DOM, схожесть API с React
+        interview: "Чем fine-grained реактивность Solid отличается от React; почему компоненты Solid выполняются один раз."
+        in_practice: Solid сочетает React-подобный API с высокой производительностью; полезен как расширение кругозора реактивности.
+        min_grade: Middle
+        depends_on: [react.hooks]
+
+  - id: build-tools
+    title: Сборка и инструменты
+    skills:
+      - id: vite
+        title: Vite
+        description: Dev-сервер на нативных ESM, HMR, сборка через Rollup, конфигурация, плагины
+        interview: "Почему Vite быстрее webpack на dev; чем dev-режим отличается от prod-сборки; как работает HMR."
+        in_practice: "Vite — современный стандарт сборки: мгновенный старт и HMR; выбор по умолчанию для новых проектов."
+        min_grade: Junior+
+        depends_on: [javascript.js-modules]
+        resources:
+          - title: "Vite Documentation"
+            url: "https://vitejs.dev/"
+            type: official
+      - id: webpack
+        title: webpack
+        description: Entry/output, loaders, plugins, code splitting, конфигурация, tree-shaking, ключевое legacy
+        interview: "Чем loader отличается от plugin; как настроить code splitting; что делает webpack на этапе сборки."
+        in_practice: webpack всё ещё встречается в legacy-проектах; понимание его конфигурации нужно для их поддержки.
+        min_grade: Middle-
+        depends_on: [vite]
+      - id: esbuild-rollup
+        title: esbuild и Rollup
+        description: esbuild (скорость на Go), Rollup (сборка библиотек), различия, когда что использовать
+        interview: "Почему esbuild быстрый; когда выбирать Rollup вместо webpack; чем сборка библиотеки отличается от приложения."
+        in_practice: esbuild/Rollup используются под капотом инструментов и для сборки библиотек; полезно понимать различия.
+        min_grade: Middle
+        depends_on: [vite]
+      - id: eslint
+        title: ESLint
+        description: Линтинг, правила, конфигурации (flat config), плагины, интеграция с TypeScript и Prettier
+        interview: "Чем линтер отличается от форматтера; как настроить правила под проект; зачем нужен eslint-config."
+        in_practice: ESLint ловит ошибки и enforce-ит единый стиль в команде — обязательная часть качественного проекта.
+        min_grade: Junior
+        depends_on: [javascript.js-modules]
+        resources:
+          - title: "ESLint Documentation"
+            url: "https://eslint.org/docs/latest/"
+            type: official
+      - id: prettier
+        title: Prettier
+        description: Автоформатирование, конфигурация, интеграция с ESLint и редактором, pre-commit hooks
+        interview: "Чем Prettier отличается от ESLint; как их совместить без конфликтов; зачем нужен pre-commit."
+        in_practice: Prettier убирает споры о форматировании и делает диффы чистыми — стандарт командной работы.
+        min_grade: Junior
+        depends_on: [eslint]
+
+  - id: testing
+    title: Тестирование
+    skills:
+      - id: jest-vitest
+        title: Jest / Vitest
+        description: Unit-тесты, describe/it, matchers, моки, coverage, Vitest для Vite-проектов
+        interview: "Чем Vitest отличается от Jest; как замокать модуль; что показывает coverage и почему 100% не самоцель."
+        in_practice: Unit-тесты проверяют логику компонентов и утилит — база для уверенного рефакторинга.
+        min_grade: Junior+
+        depends_on: [javascript.js-modules]
+        resources:
+          - title: "Vitest Documentation"
+            url: "https://vitest.dev/"
+            type: official
+      - id: testing-library
+        title: Testing Library
+        description: Тестирование компонентов от лица пользователя, queries, user-event, philosophy «test behavior not implementation»
+        interview: "Почему Testing Library не даёт тестировать детали реализации; чем getByRole лучше getByTestId; что такое user-event."
+        in_practice: Testing Library проверяет поведение UI так, как его видит пользователь — устойчивые к рефакторингу тесты.
+        min_grade: Middle-
+        depends_on: [jest-vitest, react.hooks]
+        resources:
+          - title: "Testing Library Documentation"
+            url: "https://testing-library.com/"
+            type: official
+      - id: e2e
+        title: E2E-тесты
+        description: Playwright и Cypress, сквозные сценарии, селекторы, ожидания, фикстуры, CI-интеграция
+        interview: "Чем e2e отличается от unit; как бороться с флаки-тестами; чем Playwright отличается от Cypress."
+        in_practice: E2E проверяют реальные пользовательские сценарии целиком — уверенность перед релизом.
+        min_grade: Middle-
+        depends_on: [testing-library]
+
+  - id: ssr
+    title: SSR и метафреймворки
+    skills:
+      - id: nextjs
+        title: Next.js
+        description: SSR/SSG/ISR, App Router, серверные и клиентские компоненты, роутинг, API routes, кэширование
+        interview: "Чем SSR отличается от SSG и ISR; что такое серверные компоненты; как работает гидратация в Next."
+        in_practice: "Next.js — доминирующий метафреймворк React: SEO, производительность, серверный рендеринг из коробки."
+        min_grade: Middle
+        depends_on: [react.react-patterns]
+        resources:
+          - title: "Next.js Documentation"
+            url: "https://nextjs.org/docs"
+            type: official
+          - title: "Next.js Roadmap"
+            url: "https://roadmap.sh/react/nextjs"
+            type: roadmap
+      - id: nuxt
+        title: Nuxt
+        description: SSR-метафреймворк для Vue, файловый роутинг, автоимпорты, модули, рендер-режимы
+        interview: "Что даёт Nuxt поверх Vue; чем универсальный рендеринг отличается от SPA; как устроен файловый роутинг."
+        in_practice: Nuxt — аналог Next.js для Vue; нужен на Vue-проектах с требованиями к SEO и SSR.
+        min_grade: Middle
+        depends_on: [other-frameworks.vue]
+      - id: astro-remix
+        title: Astro и Remix
+        description: Astro (islands architecture, контентные сайты), Remix (web-стандарты, вложенные роуты, loaders/actions)
+        interview: "Что такое islands architecture в Astro; чем подход Remix к данным отличается от Next; когда выбрать Astro."
+        in_practice: Astro хорош для контентных сайтов с минимумом JS; Remix — для приложений на веб-стандартах.
+        min_grade: Middle+
+        depends_on: [nextjs]
+      - id: hydration
+        title: Гидратация и рендер-стратегии
+        description: >
+          Гидратация, partial/progressive hydration, islands, streaming SSR,
+          RSC (React Server Components), trade-offs стратегий рендеринга
+        interview: "Что такое гидратация и её стоимость; чем streaming SSR лучше обычного; что решают серверные компоненты."
+        in_practice: Понимание рендер-стратегий определяет выбор архитектуры под SEO, TTI и объём JS на клиенте.
+        min_grade: Middle+
+        depends_on: [nextjs, performance.core-web-vitals]
+
+  - id: web-security
+    title: Веб-безопасность
+    skills:
+      - id: cors
+        title: CORS
+        description: Same-origin policy, CORS-заголовки, preflight-запросы, credentials, типичные ошибки
+        interview: "Что такое same-origin policy; когда браузер шлёт preflight; как настроить CORS с куками."
+        in_practice: CORS — источник частых ошибок при интеграции фронта с API; понимание экономит часы отладки.
+        min_grade: Middle-
+        depends_on: [internet.http]
+        resources:
+          - title: "CORS — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+            type: official
+      - id: xss
+        title: XSS
+        description: Reflected/Stored/DOM-based XSS, экранирование, dangerouslySetInnerHTML, Trusted Types, санитизация
+        interview: "Какие бывают виды XSS; почему опасен dangerouslySetInnerHTML; как санитизировать пользовательский HTML."
+        in_practice: XSS — одна из самых частых уязвимостей фронта; защита обязательна при выводе пользовательских данных.
+        min_grade: Middle-
+        depends_on: [javascript.dom]
+      - id: csrf
+        title: CSRF
+        description: Суть атаки, CSRF-токены, SameSite cookies, double submit, защита форм и запросов
+        interview: "Как работает CSRF-атака; чем SameSite=Lax защищает; зачем нужен CSRF-токен при наличии SameSite."
+        in_practice: Защита от CSRF нужна для аутентифицированных запросов, меняющих состояние.
+        min_grade: Middle
+        depends_on: [internet.http]
+      - id: csp
+        title: Content Security Policy
+        description: CSP-заголовки, директивы (script-src, style-src), nonce/hash, report-only режим
+        interview: "Что даёт CSP против XSS; чем nonce лучше unsafe-inline; как внедрять CSP постепенно."
+        in_practice: CSP — сильный второй рубеж против XSS и инъекций; важен для продакшн-безопасности.
+        min_grade: Middle
+        depends_on: [xss]
+      - id: https-owasp
+        title: HTTPS и OWASP
+        description: TLS, HSTS, mixed content, OWASP Top 10 для фронтенда, безопасное хранение токенов
+        interview: "Что такое HSTS; чем опасен mixed content; где безопаснее хранить JWT — localStorage или cookie."
+        in_practice: Знание OWASP Top 10 и корректная работа с HTTPS/токенами — базовая гигиена безопасного фронтенда.
+        min_grade: Middle+
+        depends_on: [csp]
+        resources:
+          - title: "OWASP Top Ten"
+            url: "https://owasp.org/www-project-top-ten/"
+            type: official
+
+  - id: auth
+    title: Аутентификация
+    skills:
+      - id: session-cookies
+        title: Сессии и cookies
+        description: Session-based auth, cookies (HttpOnly, Secure, SameSite), хранение сессии, срок жизни
+        interview: "Чем HttpOnly-cookie безопаснее localStorage; что делает флаг Secure; как устроена session-based авторизация."
+        in_practice: Куки-сессии — классический и безопасный способ авторизации; фронтендер должен понимать флаги cookies.
+        min_grade: Middle-
+        depends_on: [internet.http]
+      - id: jwt
+        title: JWT
+        description: Структура токена (header/payload/signature), access/refresh, хранение, обновление, отзыв
+        interview: "Из чего состоит JWT; чем access отличается от refresh; где хранить токен и как обновлять."
+        in_practice: JWT — распространённый способ авторизации в SPA; правильное хранение и обновление критично для безопасности.
+        min_grade: Middle-
+        depends_on: [session-cookies]
+      - id: oauth2
+        title: OAuth 2.0 и OIDC
+        description: Authorization Code Flow, PKCE, OpenID Connect, scopes, интеграция с провайдерами
+        interview: "Как работает Authorization Code Flow; зачем нужен PKCE в SPA; чем OIDC отличается от OAuth."
+        in_practice: OAuth/OIDC используются для входа через Google/GitHub/корпоративные SSO — стандарт делегированной авторизации.
+        min_grade: Middle
+        depends_on: [jwt]
+      - id: sso-frontend
+        title: SSO на фронтенде
+        description: Single Sign-On, silent refresh, session management, интеграция с identity-провайдерами
+        interview: "Как реализовать silent refresh; что такое SSO и его плюсы; как синхронизировать выход между вкладками."
+        in_practice: SSO нужен в корпоративных и мультипродуктовых системах для единого входа между приложениями.
+        min_grade: Middle
+        depends_on: [oauth2]
+
+  - id: web-apis
+    title: Web APIs и компоненты
+    skills:
+      - id: web-storage
+        title: Web Storage
+        description: localStorage, sessionStorage, cookies, IndexedDB, ограничения и безопасность хранения
+        interview: "Чем localStorage отличается от sessionStorage; когда нужен IndexedDB; почему нельзя хранить токены в localStorage."
+        in_practice: Клиентское хранилище нужно для кэша, настроек, офлайна; выбор хранилища влияет на UX и безопасность.
+        min_grade: Junior+
+        depends_on: [javascript.js-syntax]
+        resources:
+          - title: "Web Storage API — MDN"
+            url: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API"
+            type: official
+      - id: web-components
+        title: Web Components
+        description: Custom Elements, жизненный цикл, HTML templates, слоты, использование вне фреймворков
+        interview: "Что входит в стандарт Web Components; чем custom element отличается от React-компонента; где применимы."
+        in_practice: Web Components дают переиспользуемые UI-элементы без привязки к фреймворку — дизайн-системы, виджеты.
+        min_grade: Middle-
+        depends_on: [javascript.dom]
+      - id: shadow-dom
+        title: Shadow DOM
+        description: Инкапсуляция стилей и разметки, shadow root, слоты, влияние на CSS
+        interview: "Как Shadow DOM изолирует стили; что такое shadow root; как стилизовать содержимое извне."
+        in_practice: Shadow DOM изолирует внутренности компонента от глобальных стилей — надёжные встраиваемые виджеты.
+        min_grade: Middle
+        depends_on: [web-components]
+      - id: service-workers
+        title: Service Workers
+        description: Регистрация, жизненный цикл, перехват запросов, кэш-стратегии, фоновая синхронизация, push
+        interview: "Что умеет Service Worker; какие бывают стратегии кэширования; чем отличается от Web Worker."
+        in_practice: Service Workers дают офлайн-режим, кэширование и push-уведомления — основа PWA.
+        min_grade: Middle
+        depends_on: [web-storage, javascript.async-await]
+      - id: pwa
+        title: Progressive Web Apps
+        description: Manifest, установка, офлайн, push-уведомления, app-like опыт, критерии установки
+        interview: "Что делает сайт устанавливаемым как PWA; за что отвечает manifest; как обеспечить офлайн."
+        in_practice: PWA приближают веб к нативным приложениям — установка, офлайн, уведомления без магазинов приложений.
+        min_grade: Middle+
+        depends_on: [service-workers]
+        resources:
+          - title: "Progressive web apps — web.dev"
+            url: "https://web.dev/explore/progressive-web-apps"
+            type: article
+      - id: websockets
+        title: WebSockets и real-time
+        description: WebSocket API, реальное время, отличие от HTTP-поллинга, Server-Sent Events, reconnection
+        interview: "Чем WebSocket отличается от HTTP; когда выбрать SSE вместо WebSocket; как обрабатывать переподключение."
+        in_practice: Real-time нужен для чатов, нотификаций, live-обновлений; WebSocket — основной транспорт двусторонней связи.
+        min_grade: Middle
+        depends_on: [javascript.async-await]
+
+  - id: graphql
+    title: GraphQL
+    skills:
+      - id: graphql-basics
+        title: Основы GraphQL
+        description: Схема, queries, mutations, subscriptions, типы, отличие от REST, over/under-fetching
+        interview: "Какую проблему REST решает GraphQL; что такое over-fetching; чем query отличается от mutation."
+        in_practice: GraphQL позволяет запрашивать ровно нужные данные одним запросом — удобно для сложных UI.
+        min_grade: Middle
+        depends_on: [javascript.fetch-ajax]
+        resources:
+          - title: "Introduction to GraphQL"
+            url: "https://graphql.org/learn/"
+            type: official
+          - title: "GraphQL Roadmap"
+            url: "https://roadmap.sh/graphql"
+            type: roadmap
+      - id: apollo
+        title: Apollo Client
+        description: Клиент, кэш (normalized cache), хуки (useQuery/useMutation), политики кэша, оптимистичные обновления
+        interview: "Как устроен нормализованный кэш Apollo; чем useQuery удобнее ручного fetch; как работает оптимистичный апдейт."
+        in_practice: Apollo Client — самый распространённый способ работать с GraphQL в React с кэшем и хуками из коробки.
+        min_grade: Middle
+        depends_on: [graphql-basics, react.data-fetching]
+      - id: relay
+        title: Relay
+        description: Компилятор, фрагменты, colocation данных, пагинация (connections), строгие требования к схеме
+        interview: "Чем Relay отличается от Apollo; что даёт colocation фрагментов; как Relay обрабатывает пагинацию."
+        in_practice: Relay оптимизирован под крупные приложения со строгой типизацией данных; ниша, но важен для масштаба.
+        min_grade: Middle+
+        depends_on: [apollo]
+
+  - id: performance
+    title: Производительность
+    skills:
+      - id: core-web-vitals
+        title: Core Web Vitals
+        description: LCP, INP, CLS, метрики загрузки и отзывчивости, поле vs лаборатория, влияние на SEO
+        interview: "Что измеряют LCP, INP и CLS; чем полевые данные отличаются от лабораторных; как улучшить CLS."
+        in_practice: Core Web Vitals напрямую влияют на UX и ранжирование в поиске — ключевые метрики продакшна.
+        min_grade: Middle-
+        depends_on: [internet.how-browsers-work]
+        resources:
+          - title: "Web Vitals — web.dev"
+            url: "https://web.dev/articles/vitals"
+            type: article
+      - id: lighthouse
+        title: Lighthouse и профилирование
+        description: Lighthouse, DevTools Performance, аудит, waterfall, поиск узких мест, RUM
+        interview: "Что показывает вкладка Performance в DevTools; чем RUM отличается от синтетики; как читать waterfall."
+        in_practice: Профилирование находит реальные узкие места вместо догадок — основа осознанной оптимизации.
+        min_grade: Middle-
+        depends_on: [core-web-vitals]
+      - id: code-splitting
+        title: Code splitting
+        description: Динамические импорты, разбиение бандла по маршрутам, ленивая загрузка компонентов, chunk-стратегии
+        interview: "Как работает code splitting; чем route-based splitting лучше; как измерить эффект на размер бандла."
+        in_practice: Разбиение кода снижает начальный вес приложения и ускоряет первую загрузку.
+        min_grade: Middle-
+        depends_on: [javascript.js-modules]
+      - id: lazy-loading
+        title: Ленивая загрузка ресурсов
+        description: loading=lazy для изображений, ленивые компоненты, prefetch/preload, приоритеты ресурсов
+        interview: "Как лениво грузить изображения нативно; чем preload отличается от prefetch; когда вредна ленивая загрузка."
+        in_practice: Ленивая загрузка откладывает несрочные ресурсы, ускоряя видимую часть страницы.
+        min_grade: Middle-
+        depends_on: [code-splitting]
+      - id: caching-cdn
+        title: Кэширование и CDN
+        description: HTTP-кэш, immutable-ассеты и хэши в именах, CDN, стратегии инвалидации, service worker cache
+        interview: "Как работает кэш через Cache-Control; зачем хэши в именах файлов; как инвалидировать кэш при релизе."
+        in_practice: Кэширование и CDN резко ускоряют повторные загрузки и снижают нагрузку — стандарт продакшн-раздачи.
+        min_grade: Middle
+        depends_on: [internet.http, code-splitting]
+
+  - id: cross-platform
+    title: Кроссплатформенная разработка
+    skills:
+      - id: react-native
+        title: React Native
+        description: Мобильные приложения на React, нативные компоненты, навигация, доступ к устройству, Expo
+        interview: "Как React Native рендерит нативные компоненты; чем отличается от React для веба; что даёт Expo."
+        in_practice: React Native позволяет переиспользовать навыки React для iOS/Android — быстрый вход в мобильную разработку.
+        min_grade: Middle
+        depends_on: [react.react-patterns]
+        resources:
+          - title: "React Native Documentation"
+            url: "https://reactnative.dev/"
+            type: official
+      - id: electron
+        title: Electron
+        description: Десктоп-приложения на веб-технологиях, main/renderer процессы, IPC, доступ к ОС, вес приложения
+        interview: "Как устроены main и renderer процессы; чем Electron платит за кроссплатформенность; как работает IPC."
+        in_practice: Electron даёт десктоп-приложения на знакомом стеке (VS Code, Slack); подходит для внутренних инструментов.
+        min_grade: Middle+
+        depends_on: [react.react-patterns]
+      - id: tauri
+        title: Tauri
+        description: Лёгкая альтернатива Electron на Rust, системный webview, малый размер, безопасность
+        interview: "Чем Tauri легче Electron; почему используется системный webview; какие компромиссы у подхода."
+        in_practice: Tauri даёт десктоп-приложения с малым размером и низким потреблением памяти — современная альтернатива Electron.
+        min_grade: Senior
+        depends_on: [electron]
+      - id: ionic
+        title: Ionic
+        description: Гибридные мобильные приложения, web-компоненты, Capacitor, доступ к нативным API
+        interview: "Чем гибридное приложение отличается от нативного; что даёт Capacitor; когда Ionic оправдан."
+        in_practice: Ionic позволяет собрать мобильное приложение из веб-стека с доступом к нативным возможностям через Capacitor.
+        min_grade: Middle+
+        depends_on: [web-apis.web-components]
