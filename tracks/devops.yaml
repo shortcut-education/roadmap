@@ -1,0 +1,396 @@
+id: devops
+title: DevOps / SRE Engineer
+description: Карта навыков DevOps- и SRE-инженера
+icon: "🛠️"
+grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
+
+includes:
+  - common/cs-fundamentals
+  - common/databases
+  - common/system-design
+
+categories:
+  - id: linux
+    title: Linux
+    skills:
+      - id: linux-basics
+        title: Основы Linux
+        description: Файловая система, права и владельцы, пользователи и группы, пакетные менеджеры
+        interview: "Что означают права 750 на каталог? Чем отличается жёсткая ссылка от символической?"
+        in_practice: "Почти вся инфраструктура работает на Linux."
+        min_grade: Intern
+        depends_on: []
+      - id: ssh
+        title: SSH
+        description: Ключи, agent, конфиг клиента, туннели и jump-хосты, безопасная настройка сервера
+        interview: "Как зайти на сервер, доступный только через бастион? Почему вход по паролю лучше отключить?"
+        in_practice: "Основной способ доступа к серверам."
+        min_grade: Junior
+        depends_on: [linux-basics]
+      - id: linux-processes
+        title: Процессы и сервисы
+        description: Процессы и сигналы, systemd, journald, автозапуск сервисов
+        interview: "Чем SIGTERM отличается от SIGKILL? Как найти, почему сервис systemd не стартует?"
+        in_practice: "Управление сервисами и разбор их падений — ежедневная работа."
+        min_grade: Junior
+        depends_on: [linux-basics]
+      - id: linux-troubleshooting
+        title: Диагностика сервера
+        description: Заполненный диск (df и du, inodes, удалённые открытые файлы), память, слушающие порты
+        interview: "df показывает, что диск заполнен, а du — нет. В чём может быть дело?"
+        in_practice: "Первые минуты инцидента — это диагностика конкретной машины."
+        min_grade: Junior+
+        depends_on: [linux-processes]
+      - id: linux-performance
+        title: Производительность Linux
+        description: Load average, процессы в D-state, iostat и vmstat, CPU-bound и IO-bound нагрузка
+        interview: "Load average высокий, а CPU почти свободен. Что происходит?"
+        in_practice: "Нужно, чтобы найти узкое место, а не просто добавить ресурсов."
+        min_grade: Middle-
+        depends_on: [linux-troubleshooting]
+      - id: linux-isolation
+        title: Изоляция ресурсов
+        description: cgroups, namespaces, лимиты, sysctl
+        interview: "На каких механизмах ядра построены контейнеры?"
+        in_practice: "Объясняет поведение контейнеров при нехватке памяти и CPU."
+        min_grade: Middle
+        depends_on: [linux-performance]
+
+  - id: scripting
+    title: Скрипты и автоматизация
+    skills:
+      - id: bash
+        title: Bash
+        description: Переменные, условия, циклы, пайпы, коды возврата, set -euo pipefail, обработка текста (grep, sed, awk)
+        interview: "Зачем писать set -euo pipefail в начале скрипта?"
+        in_practice: "Мелкая автоматизация и обвязка в CI."
+        min_grade: Junior
+        depends_on: [linux.linux-basics]
+      - id: python-automation
+        title: Python для автоматизации
+        description: Работа с API, файлами и процессами, обработка ошибок, простые утилиты
+        interview: "Когда скрипт стоит переписать с Bash на Python?"
+        in_practice: "Сложная автоматизация и интеграции с API облаков."
+        min_grade: Junior+
+        depends_on: [bash]
+      - id: automation-practice
+        title: Поиск и автоматизация рутины
+        description: Как найти ручные операции, идемпотентность, оценка выгоды автоматизации
+        interview: "Какую ручную операцию вы автоматизировали и как измерили эффект?"
+        in_practice: "Главная ценность DevOps — убирать ручной труд."
+        min_grade: Middle-
+        depends_on: [python-automation]
+
+  - id: devops-networks
+    title: Сети
+    skills:
+      - id: tcp-ip
+        title: Модели OSI и TCP/IP
+        description: Уровни, TCP и UDP, порты, установка соединения
+        interview: "Чем TCP отличается от UDP? Что происходит при установке TCP-соединения?"
+        in_practice: "Без модели уровней сетевые проблемы не разобрать."
+        min_grade: Junior
+        depends_on: []
+      - id: dns-http-tls
+        title: DNS, HTTP и TLS
+        description: Резолвинг имён, путь HTTP-запроса, TLS handshake, сертификаты и центры сертификации
+        interview: "Что происходит, когда вы выполняете curl https://example.com? Чем опасен самоподписанный сертификат?"
+        in_practice: "Большая часть сетевых инцидентов — DNS и сертификаты."
+        min_grade: Junior
+        depends_on: [tcp-ip]
+      - id: network-troubleshooting
+        title: Диагностика сети
+        description: curl, dig, traceroute, ss, tcpdump, послойная диагностика ошибок соединения
+        interview: "Сервис не отвечает по сети. В каком порядке будете проверять?"
+        in_practice: "Быстро понять, на каком уровне сломалось, — половина решения."
+        min_grade: Junior+
+        depends_on: [dns-http-tls]
+      - id: proxies-balancers
+        title: Прокси и балансировщики
+        description: Обратный прокси, nginx, балансировка L4 и L7, таймауты
+        interview: "Чем балансировка L4 отличается от L7? Где возникает 502 и где 504?"
+        in_practice: "Через балансировщик проходит весь входящий трафик."
+        min_grade: Middle-
+        depends_on: [dns-http-tls]
+      - id: network-design
+        title: Проектирование сетей
+        description: VPC, подсети, маршрутизация, firewall и security groups, VPN
+        interview: "Как разделить сеть между публичными и приватными сервисами?"
+        in_practice: "Безопасность и доступность инфраструктуры начинаются с сети."
+        min_grade: Middle
+        depends_on: [proxies-balancers]
+
+  - id: containers
+    title: Контейнеры
+    skills:
+      - id: docker-fundamentals
+        title: Основы Docker
+        description: Образ и контейнер, Dockerfile, слои, контейнер против виртуальной машины
+        interview: "Чем образ отличается от контейнера? Чем контейнер отличается от виртуальной машины?"
+        in_practice: "Стандартная упаковка приложений."
+        min_grade: Junior
+        depends_on: [linux.linux-basics]
+        resources:
+          - title: "Документация Docker"
+            url: "https://docs.docker.com/"
+            type: docs
+      - id: docker-images
+        title: Сборка и оптимизация образов
+        description: Многоступенчатая сборка, кеш слоёв, размер образа, базовые образы
+        interview: "Как уменьшить образ Python-приложения с 1 ГБ? Почему порядок инструкций влияет на скорость сборки?"
+        in_practice: "Быстрые сборки и маленькие образы ускоряют CI и деплой."
+        min_grade: Junior+
+        depends_on: [docker-fundamentals]
+      - id: docker-runtime
+        title: Запуск контейнеров
+        description: PID 1 и сигналы, тома и хранение данных, сети, docker compose
+        interview: "Почему приложение в контейнере не завершается по docker stop? Где хранить данные БД в контейнере?"
+        in_practice: "Корректная остановка и сохранность данных."
+        min_grade: Junior+
+        depends_on: [docker-fundamentals, linux.linux-processes]
+
+  - id: kubernetes
+    title: Kubernetes
+    skills:
+      - id: k8s-objects
+        title: Объекты Kubernetes
+        description: Pod, Deployment, Service, ConfigMap, Secret, Ingress
+        interview: "Зачем нужен Deployment, если есть Pod? Чем ClusterIP отличается от NodePort?"
+        in_practice: "Базовый язык описания приложений в кластере."
+        min_grade: Junior+
+        depends_on: [containers.docker-fundamentals]
+        resources:
+          - title: "Документация Kubernetes"
+            url: "https://kubernetes.io/ru/docs/home/"
+            type: docs
+      - id: k8s-workloads
+        title: Пробы, ресурсы и выкатки
+        description: liveness, readiness и startup-пробы, requests и limits, rolling update
+        interview: "Чем readiness-проба отличается от liveness? Что будет, если не задать limits?"
+        in_practice: "От этого зависит, переживёт ли сервис выкатку и нагрузку."
+        min_grade: Middle-
+        depends_on: [k8s-objects]
+      - id: k8s-debugging
+        title: Отладка в Kubernetes
+        description: CrashLoopBackOff, Pending, ImagePullBackOff, сеть пода, kubectl debug
+        interview: "Под постоянно перезапускается. Как найти причину?"
+        in_practice: "Самая частая задача дежурного в кластере."
+        min_grade: Middle-
+        depends_on: [k8s-objects, devops-networks.network-troubleshooting]
+      - id: helm
+        title: Helm
+        description: Чарты, values, шаблоны, релизы и откаты
+        interview: "Как устроен чарт Helm и как откатить неудачный релиз?"
+        in_practice: "Стандарт упаковки приложений для Kubernetes."
+        min_grade: Middle-
+        depends_on: [k8s-objects]
+      - id: k8s-scaling
+        title: Масштабирование
+        description: HPA и VPA, Cluster Autoscaler, планирование подов, affinity и taints
+        interview: "Как настроить автомасштабирование по нагрузке и не уронить кластер?"
+        in_practice: "Экономия ресурсов и устойчивость к пикам."
+        min_grade: Middle
+        depends_on: [k8s-workloads]
+      - id: k8s-security
+        title: Безопасность кластера
+        description: RBAC, NetworkPolicy, Pod Security, сервисные аккаунты
+        interview: "Как ограничить, какие поды могут ходить в базу данных?"
+        in_practice: "Кластер без политик — общая сеть для всех сервисов."
+        min_grade: Middle
+        depends_on: [k8s-objects]
+      - id: service-mesh
+        title: Service mesh
+        description: Istio или Linkerd, sidecar и ambient, mTLS между сервисами, управление трафиком
+        interview: "Какие задачи решает service mesh и когда он не нужен?"
+        in_practice: "Шифрование и управление трафиком между множеством сервисов."
+        min_grade: Middle+
+        depends_on: [k8s-security, devops-networks.proxies-balancers]
+      - id: k8s-operations
+        title: Эксплуатация кластера
+        description: Обновления кластера, управляемый Kubernetes (GKE, EKS, Yandex Managed Kubernetes), бэкап etcd
+        interview: "Как обновить версию Kubernetes без простоя приложений?"
+        in_practice: "Ответственность за кластер целиком, а не за отдельные сервисы."
+        min_grade: Middle+
+        depends_on: [k8s-scaling, k8s-security]
+
+  - id: cicd
+    title: CI/CD
+    skills:
+      - id: devops-git
+        title: Git и командный процесс
+        description: Ветвление, merge и rebase, revert и reset, ревью изменений
+        interview: "Чем git revert отличается от git reset? Как откатить изменение, которое уже в main?"
+        in_practice: "Вся инфраструктура и код живут в Git."
+        min_grade: Intern
+        depends_on: []
+      - id: ci-pipelines
+        title: Пайплайны CI
+        description: Стадии сборки и тестов, GitLab CI или GitHub Actions, кеширование, раннеры
+        interview: "Спроектируйте пайплайн для сервиса: что запускать на каждый коммит, а что — перед релизом?"
+        in_practice: "Автоматическая проверка каждого изменения."
+        min_grade: Junior
+        depends_on: [devops-git]
+      - id: artifacts-releases
+        title: Артефакты и релизы
+        description: Неизменяемые артефакты, версионирование, реестры образов, продвижение между окружениями
+        interview: "Почему один и тот же образ должен ехать на стейджинг и прод, а не пересобираться?"
+        in_practice: "Гарантия, что на проде то же, что проверили."
+        min_grade: Junior+
+        depends_on: [ci-pipelines, containers.docker-images]
+      - id: deploy-strategies
+        title: Стратегии выкатки
+        description: Rolling, blue-green, canary, feature flags, быстрый откат
+        interview: "Как выкатить изменение так, чтобы при ошибке пострадала малая доля пользователей?"
+        in_practice: "Снижает риск каждого релиза."
+        min_grade: Middle-
+        depends_on: [artifacts-releases]
+      - id: gitops
+        title: GitOps
+        description: ArgoCD или Flux, синхронизация, дрейф конфигурации
+        interview: "Что такое GitOps и что делает ArgoCD при расхождении кластера с репозиторием?"
+        in_practice: "Состояние кластера описано в Git и воспроизводимо."
+        min_grade: Middle
+        depends_on: [deploy-strategies, kubernetes.helm]
+
+  - id: iac
+    title: Инфраструктура как код
+    skills:
+      - id: terraform-basics
+        title: Основы Terraform
+        description: Провайдеры, ресурсы, переменные, plan и apply
+        interview: "Что делает terraform plan и почему его стоит смотреть перед apply?"
+        in_practice: "Инфраструктура воспроизводима и проходит ревью как код."
+        min_grade: Junior+
+        depends_on: []
+        resources:
+          - title: "Документация Terraform"
+            url: "https://developer.hashicorp.com/terraform/docs"
+            type: docs
+      - id: terraform-state
+        title: State и блокировки
+        description: Удалённый state, блокировки, параллельные apply, дрейф и импорт
+        interview: "Что будет, если два инженера одновременно сделают apply? Как исправить дрейф?"
+        in_practice: "Ошибки со state ломают инфраструктуру целиком."
+        min_grade: Middle-
+        depends_on: [terraform-basics]
+      - id: terraform-modules
+        title: Модули и структура
+        description: Модули, версии провайдеров и модулей, окружения, Terragrunt или OpenTofu
+        interview: "Как организовать код Terraform для нескольких окружений?"
+        in_practice: "Масштабирование IaC на много команд и окружений."
+        min_grade: Middle
+        depends_on: [terraform-state]
+      - id: ansible
+        title: Ansible
+        description: Плейбуки, роли, инвентарь, идемпотентность
+        interview: "Что значит идемпотентность плейбука и как её проверить?"
+        in_practice: "Настройка серверов без ручных шагов."
+        min_grade: Junior+
+        depends_on: [scripting.bash]
+
+  - id: observability
+    title: Наблюдаемость
+    skills:
+      - id: metrics
+        title: Метрики
+        description: Prometheus, типы метрик, PromQL, Grafana, Zabbix
+        interview: "Чем counter отличается от gauge? Как посчитать долю ошибок за 5 минут?"
+        in_practice: "Без метрик о проблеме узнают от пользователей."
+        min_grade: Junior+
+        depends_on: []
+      - id: logging
+        title: Логи
+        description: Сбор и хранение логов, ELK или Loki, структурные логи
+        interview: "Как собрать логи со всех подов и найти ошибки одного запроса?"
+        in_practice: "Главный источник данных при разборе инцидентов."
+        min_grade: Junior+
+        depends_on: []
+      - id: alerting
+        title: Алертинг
+        description: Пороги и правила, борьба с шумом, runbook для каждого алерта
+        interview: "Какие алерты будите ночью, а какие — нет?"
+        in_practice: "Шумные алерты перестают читать."
+        min_grade: Middle-
+        depends_on: [metrics]
+      - id: slo
+        title: SLI, SLO и бюджет ошибок
+        description: Выбор SLI, целевые SLO, бюджет ошибок и решения на его основе
+        interview: "Как сформулировать SLO для API и что делать, когда бюджет ошибок исчерпан?"
+        in_practice: "Договорённость о надёжности, понятная бизнесу."
+        min_grade: Middle
+        depends_on: [alerting]
+      - id: tracing
+        title: Распределённая трассировка
+        description: OpenTelemetry, трейсы и спаны, связь с логами и метриками
+        interview: "Как найти, какой из пяти сервисов замедляет запрос?"
+        in_practice: "Нужна в микросервисной архитектуре."
+        min_grade: Middle
+        depends_on: [metrics, logging]
+
+  - id: devops-security
+    title: Безопасность
+    skills:
+      - id: secrets-management
+        title: Управление секретами
+        description: Хранилища секретов (Vault, облачные), секреты в Git (SOPS, Sealed Secrets), ротация, реакция на утечку
+        interview: "Где хранить пароль от базы для приложения в Kubernetes? Что делать, если секрет попал в Git?"
+        in_practice: "Утечка секретов — один из самых дорогих инцидентов."
+        min_grade: Junior+
+        depends_on: []
+      - id: least-privilege
+        title: Минимальные права
+        description: IAM, сервисные аккаунты, права в Linux и облаке
+        interview: "Как выдать CI-пайплайну доступ только к нужному бакету?"
+        in_practice: "Ограничивает ущерб при компрометации."
+        min_grade: Middle-
+        depends_on: [secrets-management]
+      - id: container-security
+        title: Безопасность контейнеров и поставки
+        description: Сканирование образов, непривилегированные контейнеры, подпись артефактов
+        interview: "Почему контейнер не должен работать от root? Как проверять образы на уязвимости в CI?"
+        in_practice: "Защищает от уязвимостей в зависимостях и базовых образах."
+        min_grade: Middle
+        depends_on: [containers.docker-images, least-privilege]
+
+  - id: reliability
+    title: Надёжность и инциденты
+    skills:
+      - id: incident-response
+        title: Работа с инцидентами
+        description: Роли в инциденте, коммуникация, действия, которые ухудшают ситуацию
+        interview: "Прод лежит. Какие первые три действия? Чего делать нельзя?"
+        in_practice: "От первых минут зависит длительность простоя."
+        min_grade: Middle-
+        depends_on: [linux.linux-troubleshooting]
+      - id: postmortems
+        title: Разбор инцидентов
+        description: Postmortem без поиска виноватых, корневые причины, задачи по итогам
+        interview: "Как провести разбор инцидента, чтобы он не повторился?"
+        in_practice: "Превращает инциденты в улучшения."
+        min_grade: Middle
+        depends_on: [incident-response]
+      - id: backups-dr
+        title: Бэкапы и восстановление
+        description: Стратегии бэкапов, проверка восстановления, RPO и RTO
+        interview: "Как убедиться, что бэкап действительно восстановится?"
+        in_practice: "Бэкап без проверенного восстановления не считается."
+        min_grade: Middle
+        depends_on: [linux.linux-basics]
+
+  - id: cloud-platform
+    title: Облако и платформа
+    skills:
+      - id: cloud-basics
+        title: Облачные сервисы
+        description: Вычисления, хранилища, управляемые БД и очереди, serverless, модель ответственности
+        interview: "Когда стоит взять управляемую БД вместо своей в Kubernetes?"
+        in_practice: "Большая часть инфраструктуры сейчас в облаке."
+        min_grade: Junior+
+        depends_on: []
+      - id: platform-engineering
+        title: Внутренняя платформа
+        description: Self-service для команд, шаблоны сервисов, стандарты, план миграции платформы
+        interview: "Как бы вы построили платформу, чтобы команды выкатывали сервисы без DevOps?"
+        in_practice: "Масштабирует DevOps-практики на всю компанию."
+        min_grade: Senior
+        depends_on: [cicd.gitops, kubernetes.k8s-operations, iac.terraform-modules]

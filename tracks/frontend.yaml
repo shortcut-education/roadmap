@@ -5,6 +5,7 @@ icon: "🎨"
 grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
 
 includes:
+  - common/cs-fundamentals
   - common/infra
 
 categories:

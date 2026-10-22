@@ -1,0 +1,486 @@
+id: dotnet-backend
+title: C# / .NET Backend Developer
+description: Карта навыков backend-разработчика на C# и .NET
+icon: "🟣"
+grades: [Intern, Junior, Junior+, Middle-, Middle, Middle+, Senior]
+
+includes:
+  - common/cs-fundamentals
+  - common/databases
+  - common/architecture
+  - common/messaging
+  - common/infra
+  - common/system-design
+
+categories:
+  - id: csharp-basics
+    title: Основы C#
+    skills:
+      - id: csharp-syntax
+        title: Синтаксис и типы C#
+        description: Переменные, встроенные типы, строки, операторы, var, константы, приведение типов
+        interview: "Чем string отличается от StringBuilder? Что делает var и когда тип выводится? Чем const отличается от readonly?"
+        in_practice: "Фундамент: без уверенного синтаксиса невозможно читать чужой код и проходить ревью."
+        min_grade: Intern
+        depends_on: []
+        resources:
+          - title: "Документация C# — Microsoft Learn"
+            url: "https://learn.microsoft.com/ru-ru/dotnet/csharp/"
+            type: docs
+      - id: csharp-oop
+        title: ООП в C#
+        description: Классы, интерфейсы, абстрактные классы, наследование, полиморфизм, модификаторы доступа
+        interview: "Чем абстрактный класс отличается от интерфейса после появления default interface methods? Что такое virtual/override/new?"
+        in_practice: "Почти весь прикладной код — это классы и интерфейсы; на них держится DI и тестируемость."
+        min_grade: Intern
+        depends_on: [csharp-syntax]
+      - id: dotnet-cli
+        title: dotnet CLI и NuGet
+        description: Создание и сборка проектов, решения, пакеты NuGet, версии SDK
+        interview: "Как подключить пакет к проекту и зафиксировать его версию? Чем отличаются SDK и runtime?"
+        in_practice: "Сборка, тесты и публикация в CI идут через dotnet CLI."
+        min_grade: Junior
+        depends_on: [csharp-syntax]
+      - id: value-reference-types
+        title: Значимые и ссылочные типы
+        description: struct и class, стек и куча, копирование при присваивании и передаче, boxing и unboxing
+        interview: "Где хранится struct, который является полем класса? Что такое boxing и почему он дорогой?"
+        in_practice: "Влияет на аллокации и на баги «изменил копию, а не оригинал»."
+        min_grade: Junior
+        depends_on: [csharp-syntax]
+      - id: exceptions-disposable
+        title: Исключения и освобождение ресурсов
+        description: try/catch/finally, иерархия исключений, свои исключения, IDisposable, using
+        interview: "Когда вызывается Dispose при using? Чем throw отличается от throw ex?"
+        in_practice: "Утечки соединений и файлов почти всегда — забытый using."
+        min_grade: Junior
+        depends_on: [csharp-oop]
+      - id: nullable
+        title: Nullable-типы и NRT
+        description: Nullable<T> для значимых типов, nullable reference types, операторы ?. ?? !
+        interview: "Как устроен Nullable<int> внутри? Что меняет включение NRT в проекте?"
+        in_practice: "NRT ловит NullReferenceException на этапе компиляции."
+        min_grade: Junior
+        depends_on: [value-reference-types]
+      - id: generics
+        title: Generics и ограничения
+        description: Обобщённые классы и методы, where-ограничения, default(T)
+        interview: "Зачем ограничения where T : class, new()? Чем generic-коллекция лучше ArrayList?"
+        in_practice: "Коллекции, репозитории, DI — всё на generics."
+        min_grade: Junior
+        depends_on: [csharp-oop]
+      - id: delegates-events
+        title: Делегаты, события и лямбды
+        description: Func/Action, события, лямбда-выражения, замыкания и захват переменных
+        interview: "Что захватывает лямбда в цикле for? Чем событие отличается от публичного делегата?"
+        in_practice: "LINQ, обработчики и колбэки построены на делегатах."
+        min_grade: Junior
+        depends_on: [csharp-oop]
+      - id: records
+        title: Records и равенство значений
+        description: record class и record struct, init, with, равенство по значению
+        interview: "Чем record отличается от class с переопределённым Equals? Что делает with?"
+        in_practice: "Удобны для DTO и неизменяемых моделей."
+        min_grade: Junior+
+        depends_on: [csharp-oop, value-reference-types]
+      - id: extension-methods
+        title: Extension-методы
+        description: Синтаксис, правила разрешения, конфликт с методами экземпляра
+        interview: "Какой метод вызовется, если у типа есть метод экземпляра с той же сигнатурой, что и extension?"
+        in_practice: "На extension-методах построены LINQ и регистрация сервисов в DI."
+        min_grade: Junior+
+        depends_on: [csharp-oop]
+      - id: generic-variance
+        title: Вариантность generics
+        description: Ковариантность и контравариантность, in/out, почему List<T> инвариантен
+        interview: "Почему IEnumerable<string> можно присвоить IEnumerable<object>, а List<string> в List<object> — нет?"
+        in_practice: "Нужна при проектировании обобщённых интерфейсов и библиотек."
+        min_grade: Middle-
+        depends_on: [generics]
+
+  - id: collections-linq
+    title: Коллекции и LINQ
+    skills:
+      - id: collections
+        title: Коллекции .NET
+        description: List, Dictionary, HashSet, Queue, Stack — когда что выбирать и сложность операций
+        interview: "Какая сложность поиска в List и в HashSet? Что происходит при добавлении в List, когда кончается ёмкость?"
+        in_practice: "Неверный выбор коллекции — частая причина медленного кода."
+        min_grade: Junior
+        depends_on: [csharp-basics.generics]
+      - id: dictionary-internals
+        title: Устройство Dictionary
+        description: Хеш-таблица, GetHashCode и Equals, коллизии, изменяемые ключи
+        interview: "Что будет, если изменить поле объекта-ключа после добавления в Dictionary?"
+        in_practice: "Нужно для правильных ключей и разбора странных промахов поиска."
+        min_grade: Junior+
+        depends_on: [collections]
+      - id: linq
+        title: LINQ
+        description: Основные операторы, отложенное выполнение, материализация
+        interview: "Когда выполняется запрос LINQ? Почему двойной перебор IEnumerable может выполнить запрос дважды?"
+        in_practice: "LINQ есть почти в каждом методе бизнес-логики."
+        min_grade: Junior
+        depends_on: [collections, csharp-basics.delegates-events]
+      - id: ienumerable-iqueryable
+        title: IEnumerable и IQueryable
+        description: Деревья выражений, трансляция в SQL, где выполняется фильтрация
+        interview: "Чем отличается Where на IQueryable и на IEnumerable при работе с EF Core?"
+        in_practice: "Ошибка здесь — выгрузка всей таблицы в память."
+        min_grade: Junior+
+        depends_on: [linq]
+      - id: linq-allocations
+        title: Аллокации LINQ
+        description: Скрытые аллокации замыканий и итераторов, когда LINQ стоит заменить циклом
+        interview: "Где LINQ аллоцирует память? Как найти горячий LINQ в профиле?"
+        in_practice: "Важно в высоконагруженных участках кода."
+        min_grade: Middle
+        depends_on: [linq, runtime-memory.gc]
+
+  - id: runtime-memory
+    title: Runtime и память
+    skills:
+      - id: clr
+        title: CLR и JIT
+        description: IL, JIT-компиляция, сборки, tiered compilation
+        interview: "Что происходит между dotnet build и выполнением метода?"
+        in_practice: "Помогает понимать прогрев приложения и поведение в профайлере."
+        min_grade: Junior+
+        depends_on: [csharp-basics.csharp-syntax]
+      - id: gc
+        title: Сборщик мусора
+        description: Поколения, LOH, финализаторы, корни GC, режимы workstation и server
+        interview: "Как устроены поколения GC? Почему большие объекты попадают в LOH и чем это плохо?"
+        in_practice: "Паузы GC и рост памяти — частые инциденты в .NET-сервисах."
+        min_grade: Junior+
+        depends_on: [csharp-basics.value-reference-types]
+        resources:
+          - title: "Основы сборки мусора — Microsoft Learn"
+            url: "https://learn.microsoft.com/ru-ru/dotnet/standard/garbage-collection/fundamentals"
+            type: docs
+      - id: span-memory
+        title: Span и Memory
+        description: Span<T>, Memory<T>, stackalloc, работа со строками без аллокаций, ограничения ref struct
+        interview: "Почему Span нельзя хранить в поле класса и использовать в async-методе?"
+        in_practice: "Снижает аллокации в парсинге и обработке буферов."
+        min_grade: Middle
+        depends_on: [gc]
+      - id: pooling
+        title: Пулы объектов
+        description: ArrayPool, ObjectPool, правила безопасного возврата в пул
+        interview: "Что будет, если продолжить использовать массив после возврата в ArrayPool?"
+        in_practice: "Используется в высоконагруженном коде и самом ASP.NET Core."
+        min_grade: Middle
+        depends_on: [gc]
+      - id: reflection
+        title: Reflection и source generators
+        description: Получение метаданных, динамический вызов, стоимость reflection, генерация кода при компиляции
+        interview: "Почему reflection медленный и чем его заменяют source generators?"
+        in_practice: "Сериализаторы, DI и ORM используют reflection или генерацию кода."
+        min_grade: Middle
+        depends_on: [clr]
+      - id: generics-in-clr
+        title: Generics внутри CLR
+        description: Специализация кода для значимых типов, общий код для ссылочных
+        interview: "Сколько версий машинного кода JIT создаст для List<int>, List<long> и List<string>?"
+        in_practice: "Объясняет отсутствие boxing в generic-коллекциях."
+        min_grade: Middle+
+        depends_on: [csharp-basics.generics, clr]
+      - id: memory-diagnostics
+        title: Диагностика памяти и производительности
+        description: dotnet-counters, dotnet-trace, дампы памяти, BenchmarkDotNet
+        interview: "Сервис постепенно съедает память. Как найти причину?"
+        in_practice: "Без диагностики утечки и деградации ищут наугад."
+        min_grade: Middle+
+        depends_on: [gc]
+
+  - id: async
+    title: Асинхронность
+    skills:
+      - id: tasks
+        title: Task и ThreadPool
+        description: Task и Task<T>, Task.Run, пул потоков, Task.WhenAll и WhenAny
+        interview: "Чем Task отличается от потока? Когда нужен Task.Run в веб-приложении?"
+        in_practice: "Вся работа с вводом-выводом в .NET построена на Task."
+        min_grade: Junior
+        depends_on: [csharp-basics.delegates-events]
+      - id: async-await
+        title: Механика async/await
+        description: Машина состояний, продолжения, что происходит на await
+        interview: "Во что компилятор превращает async-метод? Освобождается ли поток на await?"
+        in_practice: "Понимание механики нужно, чтобы не блокировать потоки и не терять исключения."
+        min_grade: Junior+
+        depends_on: [tasks]
+        resources:
+          - title: "Асинхронное программирование — Microsoft Learn"
+            url: "https://learn.microsoft.com/ru-ru/dotnet/csharp/asynchronous-programming/"
+            type: docs
+      - id: cancellation
+        title: Отмена операций
+        description: CancellationToken, CancellationTokenSource, таймауты, целостность при отмене
+        interview: "Как правильно прокинуть отмену запроса до запроса в БД? Что делать с частично выполненной операцией?"
+        in_practice: "Без отмены зависшие запросы держат ресурсы."
+        min_grade: Junior+
+        depends_on: [async-await]
+      - id: async-exceptions
+        title: Исключения в асинхронном коде
+        description: async void, исключения в WhenAll, необработанные исключения задач
+        interview: "Почему async void опасен? Какое исключение получит await Task.WhenAll при двух упавших задачах?"
+        in_practice: "Потерянные исключения — молча упавшие фоновые операции."
+        min_grade: Junior+
+        depends_on: [async-await, csharp-basics.exceptions-disposable]
+      - id: sync-context
+        title: SynchronizationContext и ConfigureAwait
+        description: Контекст синхронизации, ConfigureAwait(false), sync-over-async и дедлоки
+        interview: "Почему .Result в UI-приложении может зависнуть навсегда? Нужен ли ConfigureAwait(false) в ASP.NET Core?"
+        in_practice: "Классический источник дедлоков при смешении синхронного и асинхронного кода."
+        min_grade: Middle-
+        depends_on: [async-await]
+      - id: valuetask
+        title: ValueTask
+        description: Зачем нужен ValueTask, ограничения повторного await, IValueTaskSource
+        interview: "Когда ValueTask лучше Task? Почему его нельзя ожидать дважды?"
+        in_practice: "Снижает аллокации на горячих путях с синхронным завершением."
+        min_grade: Middle
+        depends_on: [async-await]
+      - id: async-throttling
+        title: Ограничение конкурентности
+        description: SemaphoreSlim, Parallel.ForEachAsync, ограничение параллельных запросов
+        interview: "Как отправить 10 000 HTTP-запросов, но не больше 20 одновременно?"
+        in_practice: "Защищает внешние сервисы и пул соединений от перегрузки."
+        min_grade: Middle-
+        depends_on: [async-await]
+      - id: channels-dataflow
+        title: Channels и конвейеры
+        description: System.Threading.Channels, TPL Dataflow, producer-consumer
+        interview: "Как построить конвейер обработки с ограниченной очередью между этапами?"
+        in_practice: "Фоновая обработка сообщений и стриминг данных внутри сервиса."
+        min_grade: Middle+
+        depends_on: [async-throttling]
+
+  - id: multithreading
+    title: Многопоточность
+    skills:
+      - id: threads-locks
+        title: Потоки и блокировки
+        description: Потоки, lock и Monitor, гонки данных
+        interview: "Что такое race condition? Что делает lock под капотом?"
+        in_practice: "Общие данные между потоками без синхронизации — плавающие баги в проде."
+        min_grade: Junior+
+        depends_on: [async.tasks]
+      - id: deadlocks
+        title: Взаимоблокировки
+        description: Причины deadlock, порядок захвата, таймауты, async-блокировки
+        interview: "Как возникает deadlock и как его предотвратить? Можно ли использовать lock внутри async-метода?"
+        in_practice: "Зависания сервиса под нагрузкой часто оказываются дедлоками."
+        min_grade: Middle-
+        depends_on: [threads-locks]
+      - id: concurrent-collections
+        title: Потокобезопасные коллекции
+        description: ConcurrentDictionary, ConcurrentQueue, их гарантии и подводные камни
+        interview: "Атомарен ли GetOrAdd с фабрикой? Когда ConcurrentDictionary не спасает?"
+        in_practice: "Кэши и счётчики в многопоточном коде."
+        min_grade: Middle-
+        depends_on: [threads-locks, collections-linq.dictionary-internals]
+      - id: interlocked-volatile
+        title: Interlocked, volatile и модель памяти
+        description: Атомарные операции, видимость изменений между потоками, барьеры памяти
+        interview: "Что гарантирует volatile и чего не гарантирует? Когда хватит Interlocked.Increment?"
+        in_practice: "Счётчики и флаги без тяжёлых блокировок."
+        min_grade: Middle
+        depends_on: [threads-locks]
+      - id: threadpool-starvation
+        title: Голодание пула потоков
+        description: Блокирующие вызовы в async-коде, рост задержек, диагностика
+        interview: "Почему сервис с sync-over-async деградирует под нагрузкой, хотя CPU свободен?"
+        in_practice: "Частая причина таймаутов в ASP.NET Core под нагрузкой."
+        min_grade: Middle
+        depends_on: [threads-locks, async.sync-context]
+      - id: lock-free
+        title: Lock-free и низкоуровневая синхронизация
+        description: CAS-циклы, SpinLock, ReaderWriterLockSlim, выбор примитива
+        interview: "Как реализовать потокобезопасный стек без lock?"
+        in_practice: "Нужно в инфраструктурном и высоконагруженном коде."
+        min_grade: Senior
+        depends_on: [interlocked-volatile]
+
+  - id: aspnet-core
+    title: ASP.NET Core
+    skills:
+      - id: aspnet-basics
+        title: Контроллеры и Minimal API
+        description: Маршрутизация, контроллеры, Minimal API, когда что выбирать
+        interview: "Чем Minimal API отличается от контроллеров? Как устроена маршрутизация?"
+        in_practice: "Основа любого веб-сервиса на .NET."
+        min_grade: Junior
+        depends_on: [csharp-basics.csharp-oop]
+        resources:
+          - title: "ASP.NET Core — Microsoft Learn"
+            url: "https://learn.microsoft.com/ru-ru/aspnet/core/"
+            type: docs
+      - id: middleware
+        title: Конвейер middleware
+        description: Порядок middleware, прямой и обратный проход, досрочное завершение
+        interview: "Почему UseAuthentication должен стоять до UseAuthorization? Что будет, если middleware не вызовет next?"
+        in_practice: "Логирование, авторизация, обработка ошибок — всё в конвейере."
+        min_grade: Junior
+        depends_on: [aspnet-basics]
+      - id: aspnet-di
+        title: Внедрение зависимостей и времена жизни
+        description: Transient, Scoped, Singleton, регистрация сервисов, IServiceProvider
+        interview: "Чем Scoped отличается от Transient в рамках одного запроса?"
+        in_practice: "Неверное время жизни — утечки состояния между запросами."
+        min_grade: Junior
+        depends_on: [aspnet-basics]
+      - id: captive-dependency
+        title: Captive dependency и scope
+        description: Scoped внутри Singleton, IServiceScopeFactory, scope в фоновых задачах
+        interview: "Что случится, если внедрить DbContext в Singleton? Как получить Scoped-сервис в BackgroundService?"
+        in_practice: "Классическая ошибка с DbContext в фоновых обработчиках."
+        min_grade: Middle-
+        depends_on: [aspnet-di]
+      - id: model-binding
+        title: Привязка параметров и валидация
+        description: Источники параметров, валидация моделей (DataAnnotations, FluentValidation), overposting
+        interview: "Откуда ASP.NET Core берёт значение параметра действия? Что такое overposting и как от него защититься?"
+        in_practice: "Ошибки в привязке — баги и дыры в безопасности API."
+        min_grade: Junior
+        depends_on: [aspnet-basics]
+      - id: api-results
+        title: Результаты API и OpenAPI
+        description: ActionResult, TypedResults, ProblemDetails, документация OpenAPI
+        interview: "Зачем возвращать TypedResults вместо IResult? Как вернуть ошибку в формате ProblemDetails?"
+        in_practice: "Предсказуемые ответы и документация нужны клиентам API."
+        min_grade: Junior+
+        depends_on: [aspnet-basics]
+      - id: aspnet-filters
+        title: Фильтры
+        description: Фильтры действий, исключений и авторизации, порядок выполнения, отличие от middleware
+        interview: "Когда задачу лучше решить фильтром, а когда — middleware?"
+        in_practice: "Сквозная логика на уровне контроллеров: валидация, аудит, обработка ошибок."
+        min_grade: Junior+
+        depends_on: [middleware]
+      - id: object-mapping
+        title: Маппинг объектов
+        description: Ручной маппинг, AutoMapper, Mapperly, проекции в DTO
+        interview: "Чем опасен AutoMapper на сложных моделях? Почему проекцию лучше делать в запросе к БД?"
+        in_practice: "Разделение доменных моделей и контрактов API."
+        min_grade: Junior+
+        depends_on: [aspnet-basics]
+      - id: aspnet-auth
+        title: Аутентификация и авторизация
+        description: JWT, cookie, схемы аутентификации, политики авторизации
+        interview: "Чем аутентификация отличается от авторизации? Как устроена проверка JWT?"
+        in_practice: "Есть в каждом внешнем API."
+        min_grade: Junior+
+        depends_on: [middleware]
+      - id: configuration-logging
+        title: Конфигурация и логирование
+        description: Источники конфигурации, Options pattern, ILogger, структурные логи (Serilog)
+        interview: "Как переопределить настройку из appsettings через переменную окружения? Чем IOptionsSnapshot отличается от IOptions?"
+        in_practice: "Конфигурация по окружениям и логи для разбора инцидентов."
+        min_grade: Junior+
+        depends_on: [aspnet-di]
+      - id: hosting
+        title: Хостинг и фоновые задачи
+        description: Kestrel, обратный прокси, health checks, BackgroundService, планировщики (Hangfire, Quartz), graceful shutdown
+        interview: "Зачем ставить обратный прокси перед Kestrel? Как корректно остановить фоновую задачу?"
+        in_practice: "От этого зависит поведение сервиса при деплое и под нагрузкой."
+        min_grade: Middle-
+        depends_on: [middleware]
+      - id: resilience
+        title: Устойчивость к сбоям
+        description: HttpClientFactory, ретраи, таймауты, circuit breaker
+        interview: "Почему нельзя создавать HttpClient на каждый запрос? Как настроить ретраи без лавины повторов?"
+        in_practice: "Защищает сервис от сбоев зависимостей."
+        min_grade: Middle
+        depends_on: [hosting]
+
+      - id: aspnet-caching
+        title: Кеширование в ASP.NET Core
+        description: IMemoryCache, IDistributedCache и Redis, HybridCache, защита от cache stampede
+        interview: "Что такое cache stampede и как его предотвратить? Когда нужен распределённый кеш вместо in-memory?"
+        in_practice: "Снижает нагрузку на БД и время ответа."
+        min_grade: Middle-
+        depends_on: [aspnet-di]
+      - id: realtime
+        title: SignalR и WebSockets
+        description: Двусторонняя связь с клиентом, хабы SignalR, масштабирование через backplane
+        interview: "Как масштабировать SignalR на несколько экземпляров сервиса?"
+        in_practice: "Чаты, уведомления и живые обновления в интерфейсе."
+        min_grade: Middle-
+        depends_on: [middleware]
+      - id: mediatr-cqrs
+        title: MediatR и CQRS
+        description: Разделение команд и запросов, обработчики, pipeline behaviors, когда это избыточно
+        interview: "Что даёт MediatR и когда он только усложняет код?"
+        in_practice: "Популярный способ организовать бизнес-логику в .NET-проектах."
+        min_grade: Middle-
+        depends_on: [aspnet-di]
+  - id: ef-core
+    title: Entity Framework Core
+    skills:
+      - id: dbcontext
+        title: DbContext
+        description: Жизненный цикл DbContext, регистрация в DI, потокобезопасность
+        interview: "Можно ли использовать один DbContext из нескольких потоков? Почему DbContext регистрируют как Scoped?"
+        in_practice: "Основной способ работы с БД в .NET."
+        min_grade: Junior
+        depends_on: [aspnet-core.aspnet-di]
+        resources:
+          - title: "Entity Framework Core — Microsoft Learn"
+            url: "https://learn.microsoft.com/ru-ru/ef/core/"
+            type: docs
+      - id: ef-migrations
+        title: Миграции
+        description: Создание и применение миграций, миграции в CI и на проде
+        interview: "Как применять миграции на проде без простоя?"
+        in_practice: "Изменения схемы — часть почти каждой задачи."
+        min_grade: Junior
+        depends_on: [dbcontext]
+      - id: change-tracker
+        title: Change Tracker
+        description: Отслеживание изменений, состояния сущностей, AsNoTracking
+        interview: "Что делает Change Tracker при SaveChanges? Когда нужен AsNoTracking?"
+        in_practice: "Влияет на производительность чтения и корректность обновлений."
+        min_grade: Junior+
+        depends_on: [dbcontext]
+      - id: ef-n-plus-one
+        title: N+1 и загрузка связей
+        description: Include, lazy loading, explicit loading, проекции в DTO
+        interview: "Как увидеть проблему N+1 в EF Core и чем её лечить?"
+        in_practice: "Самая частая причина медленных эндпоинтов."
+        min_grade: Junior+
+        depends_on: [change-tracker, collections-linq.ienumerable-iqueryable]
+      - id: cartesian-explosion
+        title: Декартов взрыв и split query
+        description: Размножение строк при нескольких Include, AsSplitQuery и его компромиссы
+        interview: "Почему запрос с двумя Include коллекций возвращает тысячи строк? Что даёт AsSplitQuery?"
+        in_practice: "Встречается при загрузке сложных агрегатов."
+        min_grade: Middle-
+        depends_on: [ef-n-plus-one]
+      - id: ef-performance
+        title: Производительность доступа к данным
+        description: Compiled queries, пул DbContext, сырой SQL и Dapper, пакетные операции
+        interview: "Когда стоит уйти с EF Core на Dapper или сырой SQL?"
+        in_practice: "Нужно на горячих путях с большим количеством запросов."
+        min_grade: Middle
+        depends_on: [cartesian-explosion]
+
+  - id: dotnet-testing
+    title: Тестирование
+    skills:
+      - id: dotnet-unit-tests
+        title: Модульные тесты
+        description: xUnit или NUnit, моки (Moq, NSubstitute), структура теста
+        interview: "Что стоит мокать, а что нет? Как протестировать класс с зависимостью от времени?"
+        in_practice: "Тесты — условие безопасных изменений."
+        min_grade: Junior
+        depends_on: [csharp-basics.csharp-oop]
+      - id: dotnet-integration-tests
+        title: Интеграционные тесты
+        description: WebApplicationFactory, Testcontainers, тестовая БД
+        interview: "Как поднять API и настоящую БД в тесте?"
+        in_practice: "Ловят ошибки конфигурации и запросов, которые не видят модульные тесты."
+        min_grade: Middle-
+        depends_on: [dotnet-unit-tests, aspnet-core.aspnet-basics]

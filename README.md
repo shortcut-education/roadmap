@@ -15,7 +15,11 @@ tracks/
 │   └── system-design.yaml     # CAP, балансировка, кеширование, проектирование
 ├── java-backend.yaml          # ☕ Java Backend Developer
 ├── go-backend.yaml            # 🐹 Go Backend Developer
-└── python-backend.yaml        # 🐍 Python Backend Developer
+├── python-backend.yaml        # 🐍 Python Backend Developer
+├── dotnet-backend.yaml        # 🟣 C# / .NET Backend Developer
+├── frontend.yaml              # Frontend Developer
+├── devops.yaml                # 🛠️ DevOps / SRE Engineer
+└── system-design.yaml         # System Design
 ```
 
 ## Формат YAML
