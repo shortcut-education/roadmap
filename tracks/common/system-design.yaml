@@ -11,7 +11,7 @@ skills:
     interview: "Объясните CAP-теорему. Почему нельзя обеспечить все три свойства одновременно? Приведите примеры CP и AP систем."
     in_practice: "CAP-теорема определяет фундаментальные ограничения распределённых систем. Понимание этих trade-offs необходимо при выборе архитектуры и базы данных."
     min_grade: Middle
-    depends_on: [common/databases.sharding-replication]
+    depends_on: [common/databases.nosql]
     resources:
       - title: "CAP FAQ"
         url: "https://github.com/henryr/cap-faq"

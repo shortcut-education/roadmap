@@ -262,7 +262,7 @@ categories:
         description: "Встроенные аннотации, создание собственных, @Retention, @Target, meta-annotations"
         interview: "Чем RUNTIME retention отличается от SOURCE и CLASS? Как написать собственную аннотацию с валидацией? Как аннотации обрабатываются через рефлексию?"
         in_practice: Spring целиком построен на аннотациях (@Service, @Transactional, @Valid). Создание собственных аннотаций нужно для кастомной валидации и аспектов.
-        min_grade: Junior+
+        min_grade: Junior
         depends_on: [classes-objects]
         resources:
           - title: "Java Annotations Tutorial"
@@ -516,7 +516,7 @@ categories:
         interview: "Какие объекты являются GC roots? Чем Young Gen отличается от Old Gen? Опишите алгоритм Mark-and-Sweep. Что такое Stop-the-World пауза?"
         in_practice: Понимание GC помогает диагностировать проблемы с производительностью — длинные паузы GC могут вызывать таймауты запросов в production.
         min_grade: Junior+
-        depends_on: [concurrency.memory-model]
+        depends_on: []
       - id: gc-tuning
         title: Тюнинг GC
         description: >
