@@ -225,7 +225,7 @@ categories:
         description: Stack vs heap, escape analysis, когда аллоцируется на heap, sync.Pool
         interview: Как определить, попадёт ли переменная на heap, что покажет go build -gcflags="-m", когда и зачем использовать sync.Pool.
         in_practice: Понимание escape analysis помогает писать код с минимальным давлением на GC, что критично для высоконагруженных сервисов с жёсткими требованиями по latency.
-        min_grade: Middle
+        min_grade: Middle-
         depends_on: [pointer-basics]
         resources:
           - title: "The Go Memory Model"

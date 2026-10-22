@@ -437,7 +437,7 @@ categories:
         description: pip install, requirements.txt, virtualenv, venv, pyenv
         interview: "Зачем нужен virtualenv, чем venv отличается от virtualenv, как pyenv управляет версиями Python."
         in_practice: Изоляция зависимостей проектов друг от друга, воспроизводимость окружения на разных машинах и в CI.
-        min_grade: Intern
+        min_grade: Junior
         depends_on: [basics.modules]
         resources:
           - title: "pip Documentation"
@@ -505,7 +505,7 @@ categories:
           OpenAPI, background tasks, WebSocket
         interview: "Как работает Depends (dependency injection), чем FastAPI отличается от Flask, как настроить middleware для аутентификации."
         in_practice: Быстрое создание REST API с автодокументацией, микросервисы с асинхронной обработкой, интеграция с Pydantic для валидации.
-        min_grade: Junior
+        min_grade: Junior+
         depends_on: [typing-tools.pydantic]
       - id: django
         title: Django
