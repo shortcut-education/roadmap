@@ -12,6 +12,24 @@ includes:
   - common/infra
   - common/system-design
 
+groups:
+  - id: language
+    title: "Язык и устройство программы"
+    categories: [basics, composite-types, pointers, methods-interfaces, error-handling, code-organization]
+    note: "Начни с небольшой программы на стандартной библиотеке. Удели внимание ошибкам и границам пакетов."
+  - id: runtime
+    title: "Конкурентность и память"
+    categories: [concurrency, gc]
+    note: "Сначала добейся корректной работы с горутинами. Затем измеряй нагрузку и ищи утечки."
+  - id: application
+    title: "Backend-приложение"
+    categories: [stdlib, frameworks, testing, build]
+    note: "Объедини темы в HTTP-сервисе: обработчики, тесты, логирование и воспроизводимая сборка."
+  - id: engineering
+    title: "Инженерная база"
+    categories: [cs-fundamentals, databases, architecture, messaging, infra, system-design]
+    note: "Связывай эти темы с задачами проекта: запросами к базе, обменом сообщениями и развёртыванием."
+
 categories:
   - id: basics
     title: Основы языка

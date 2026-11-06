@@ -8,6 +8,28 @@ includes:
   - common/cs-fundamentals
   - common/infra
 
+groups:
+  - id: web
+    title: "Основа веба и интерфейсов"
+    categories: [internet, html, css, css-tools]
+    note: "Собери адаптивную страницу без фреймворка. Проверь клавиатуру и разные размеры экрана."
+  - id: language
+    title: "Язык и инструменты"
+    categories: [javascript, typescript, package-managers]
+    note: "Добавь странице поведение на JavaScript, затем опиши данные типами и настрой сборку."
+  - id: application
+    title: "Приложение и его архитектура"
+    categories: [react, state-management, other-frameworks, build-tools, testing, ssr]
+    note: "Углубись в один фреймворк на цельном проекте. Остальные изучай для сравнения подходов."
+  - id: production
+    title: "Работа с реальным продуктом"
+    categories: [web-security, auth, web-apis, graphql, performance, cross-platform]
+    note: "Проверяй приложение на реальных устройствах: загрузку, доступ к API, ошибки и безопасность."
+  - id: engineering
+    title: "Инженерная база"
+    categories: [cs-fundamentals, infra]
+    note: "Разбирайся, как приложение устроено под капотом и как попадает к пользователю."
+
 categories:
   - id: internet
     title: Интернет и веб

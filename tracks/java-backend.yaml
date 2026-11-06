@@ -12,6 +12,24 @@ includes:
   - common/infra
   - common/system-design
 
+groups:
+  - id: language
+    title: "Язык и структуры данных"
+    categories: [basics, oop, exceptions, collections, functional]
+    note: "Закрепляй темы небольшими программами. После коллекций попробуй собрать приложение без фреймворков."
+  - id: runtime
+    title: "Параллельность и память"
+    categories: [concurrency, gc]
+    note: "Проверяй идеи короткими экспериментами: запускай потоки, наблюдай за памятью и сравнивай результаты."
+  - id: application
+    title: "Backend-приложение"
+    categories: [spring, orm, testing, build, logging, security, design-patterns, networking]
+    note: "Собери один сервис с API, базой данных и тестами. Добавляй темы в него по мере изучения."
+  - id: engineering
+    title: "Инженерная база"
+    categories: [cs-fundamentals, databases, architecture, messaging, infra, system-design]
+    note: "Связывай эти темы с задачами проекта: запросами к базе, обменом сообщениями и развёртыванием."
+
 categories:
   - id: basics
     title: Основы языка

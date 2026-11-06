@@ -4,6 +4,20 @@ description: Проектирование высоконагруженных р�
 icon: "🏗️"
 grades: [Junior+, Middle-, Middle, Middle+, Senior]
 
+groups:
+  - id: foundation
+    title: "Требования и ограничения"
+    categories: [fundamentals, tradeoffs, distributed-systems, networking]
+    note: "Начинай задачу с требований, нагрузки и ограничений. Фиксируй допущения до выбора технологий."
+  - id: data
+    title: "Данные и взаимодействие"
+    categories: [databases, caching, async, communication]
+    note: "Проследи путь запроса и данных. Объясняй, что произойдёт при задержке, повторе или отказе."
+  - id: architecture
+    title: "Архитектура и проверка решений"
+    categories: [architecture, monitoring, reliability, practice]
+    note: "Рисуй несколько вариантов и сравнивай компромиссы. Проверяй решение сценариями отказов."
+
 categories:
   - id: fundamentals
     title: Основы

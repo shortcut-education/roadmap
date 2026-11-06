@@ -12,6 +12,24 @@ includes:
   - common/infra
   - common/system-design
 
+groups:
+  - id: language
+    title: "C# и работа с данными"
+    categories: [csharp-basics, collections-linq]
+    note: "Закрепи язык небольшими консольными программами. Сравнивай способы обработки коллекций."
+  - id: runtime
+    title: "Runtime и параллельность"
+    categories: [runtime-memory, async, multithreading]
+    note: "Исследуй память и асинхронность на коротких примерах, прежде чем переносить их в большой сервис."
+  - id: application
+    title: "Backend-приложение"
+    categories: [aspnet-core, ef-core, dotnet-testing]
+    note: "Собери API на ASP.NET Core, подключи базу данных и проверь основные сценарии тестами."
+  - id: engineering
+    title: "Инженерная база"
+    categories: [cs-fundamentals, databases, architecture, messaging, infra, system-design]
+    note: "Связывай эти темы с задачами проекта: запросами к базе, обменом сообщениями и развёртыванием."
+
 categories:
   - id: csharp-basics
     title: Основы C#
