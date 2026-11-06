@@ -9,6 +9,24 @@ includes:
   - common/databases
   - common/system-design
 
+groups:
+  - id: foundation
+    title: "Система, скрипты и сети"
+    categories: [linux, scripting, devops-networks]
+    note: "Собери небольшую лабораторию и автоматизируй повторяющиеся действия. Сохраняй настройки в коде."
+  - id: delivery
+    title: "Доставка и инфраструктура"
+    categories: [containers, kubernetes, cicd, iac]
+    note: "Проведи один сервис от контейнера до развёртывания. Добавь проверку и понятный способ отката."
+  - id: operations
+    title: "Эксплуатация и надёжность"
+    categories: [observability, devops-security, reliability, cloud-platform]
+    note: "Устрой учебный сбой и проверь, помогут ли метрики, логи и инструкции восстановить сервис."
+  - id: engineering
+    title: "Инженерная база"
+    categories: [cs-fundamentals, databases, system-design]
+    note: "Связывай инфраструктурные решения с устройством приложения и требованиями к данным."
+
 categories:
   - id: linux
     title: Linux

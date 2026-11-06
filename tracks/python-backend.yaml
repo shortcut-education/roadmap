@@ -12,6 +12,24 @@ includes:
   - common/infra
   - common/system-design
 
+groups:
+  - id: language
+    title: "Язык и структуры данных"
+    categories: [basics, data-structures, oop, advanced, typing-tools]
+    note: "Пиши небольшие программы и проверяй, как ведут себя объекты. Типизацию добавляй к понятному коду."
+  - id: workflow
+    title: "Выполнение и качество кода"
+    categories: [concurrency, packaging, code-quality]
+    note: "Настрой окружение и проверки проекта. Сравни обычный и асинхронный код на одной задаче."
+  - id: application
+    title: "Backend-приложение"
+    categories: [frameworks, orm, testing, security]
+    note: "Выбери один фреймворк и собери сервис с базой данных, тестами и авторизацией."
+  - id: engineering
+    title: "Инженерная база"
+    categories: [cs-fundamentals, databases, architecture, messaging, infra, system-design]
+    note: "Связывай эти темы с задачами проекта: запросами к базе, обменом сообщениями и развёртыванием."
+
 categories:
   - id: basics
     title: Основы языка
